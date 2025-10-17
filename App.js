@@ -1,7 +1,7 @@
 // app.js
 import * as Auth from "./AuthModule.js";
 import * as EmployeeDb from "./EmployeeDbModule.js";
-import * as AddEmployee from "./AddEmployeeModule.js";
+import * as AddEmployee from "./addEmployeeModule.js";
 import * as EditEmployee from "./EditEmployeeModule.js";
 import * as DeleteEmployee from "./DeleteEmployeeModule.js";
 import * as SearchEmployee from "./SearchEmployeeModule.js";
@@ -14,6 +14,7 @@ import * as Performance from "./PerformanceModule.js";
 import * as Dashboard from "./DashboardModule.js";
 import * as SalaryAdjustment from "./salaryAdjustmentModule.js";
 import * as LeavePolicy from "./leavePolicyModule.js";
+import * as SalaryAdjustmentDb from "./SalaryAdjustmentDbModule.js";
 
 const appContainer = document.getElementById("app");
 const authSection = document.getElementById("auth-section");
@@ -34,6 +35,7 @@ Position.init();
 Attendance.init();
 Leave.init();
 Performance.init();
+SalaryAdjustmentDb.init();
 
 // Routing map
 const routes = {

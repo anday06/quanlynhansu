@@ -5,84 +5,88 @@ import * as Position from "./PositionModule.js";
 
 export function render(container) {
   container.innerHTML = `
-    <div class="page-header">
-      <h1><i class="fas fa-user-plus"></i> Thêm Nhân Viên</h1>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <h3><i class="fas fa-user"></i> Thông Tin Nhân Viên</h3>
+    <div class="module-container">
+      <div class="module-header">
+        <h1><i class="fas fa-user-plus"></i> Thêm Nhân Viên</h1>
       </div>
-      <form id="add-employee-form">
-        <div class="form-row">
-          <div class="form-col">
-            <div class="form-group">
-              <label for="name">Họ và Tên</label>
-              <input type="text" id="name" class="form-control" placeholder="Nhập họ và tên" required>
-            </div>
-          </div>
-          <div class="form-col">
-            <div class="form-group">
-              <label for="departmentId">Phòng Ban</label>
-              <select id="departmentId" class="form-control" required>
-                <option value="">Chọn phòng ban</option>
-                ${Department.getAllDepartments()
-                  .map((d) => `<option value="${d.id}">${d.name}</option>`)
-                  .join("")}
-              </select>
-            </div>
-          </div>
+      
+      <div class="module-card">
+        <div class="module-card-header">
+          <h2><i class="fas fa-user"></i> Thông Tin Nhân Viên</h2>
         </div>
-        
-        <div class="form-row">
-          <div class="form-col">
-            <div class="form-group">
-              <label for="positionId">Chức Vụ</label>
-              <select id="positionId" class="form-control" required>
-                <option value="">Chọn chức vụ</option>
-                ${Position.getAllPositions()
-                  .map((p) => `<option value="${p.id}">${p.title}</option>`)
-                  .join("")}
-              </select>
+        <div class="module-card-body">
+          <form id="add-employee-form" class="module-form">
+            <div class="module-form-row">
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="name">Họ và Tên</label>
+                  <input type="text" id="name" class="module-form-control" placeholder="Nhập họ và tên" required>
+                </div>
+              </div>
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="departmentId">Phòng Ban</label>
+                  <select id="departmentId" class="module-form-control" required>
+                    <option value="">Chọn phòng ban</option>
+                    ${Department.getAllDepartments()
+                      .map((d) => `<option value="${d.id}">${d.name}</option>`)
+                      .join("")}
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="form-col">
-            <div class="form-group">
-              <label for="salary">Mức Lương Cơ Bản</label>
-              <input type="number" id="salary" class="form-control" placeholder="Nhập mức lương" required min="0">
+            
+            <div class="module-form-row">
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="positionId">Chức Vụ</label>
+                  <select id="positionId" class="module-form-control" required>
+                    <option value="">Chọn chức vụ</option>
+                    ${Position.getAllPositions()
+                      .map((p) => `<option value="${p.id}">${p.title}</option>`)
+                      .join("")}
+                  </select>
+                </div>
+              </div>
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="salary">Mức Lương Cơ Bản</label>
+                  <input type="number" id="salary" class="module-form-control" placeholder="Nhập mức lương" required min="0">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-col">
-            <div class="form-group">
-              <label for="hireDate">Ngày Bắt Đầu Làm Việc</label>
-              <input type="date" id="hireDate" class="form-control" required>
+            
+            <div class="module-form-row">
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="hireDate">Ngày Bắt Đầu Làm Việc</label>
+                  <input type="date" id="hireDate" class="module-form-control" required>
+                </div>
+              </div>
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" class="module-form-control" placeholder="Nhập email">
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="form-col">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" class="form-control" placeholder="Nhập email">
+            
+            <div class="module-form-group">
+              <label for="address">Địa Chỉ</label>
+              <textarea id="address" class="module-form-control" rows="3" placeholder="Nhập địa chỉ"></textarea>
             </div>
-          </div>
+            
+            <div class="module-btn-group">
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Thêm Nhân Viên
+              </button>
+              <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-undo"></i> Nhập Lại
+              </button>
+            </div>
+          </form>
         </div>
-        
-        <div class="form-group">
-          <label for="address">Địa Chỉ</label>
-          <textarea id="address" class="form-control" rows="3" placeholder="Nhập địa chỉ"></textarea>
-        </div>
-        
-        <div class="btn-group">
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-save"></i> Thêm Nhân Viên
-          </button>
-          <button type="reset" class="btn btn-secondary">
-            <i class="fas fa-undo"></i> Nhập Lại
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   `;
 
@@ -125,12 +129,14 @@ function validateEmployee(emp) {
 function showAlert(message, type) {
   // Create alert element
   const alert = document.createElement("div");
-  alert.className = `alert alert-${type}`;
+  alert.className = `module-alert module-alert-${type}`;
   alert.innerHTML = `
     <i class="fas fa-${
       type === "success" ? "check-circle" : "exclamation-circle"
     }"></i>
-    <div>${message}</div>
+    <div class="module-alert-content">
+      <p>${message}</p>
+    </div>
   `;
 
   // Insert alert before the form
@@ -139,6 +145,8 @@ function showAlert(message, type) {
 
   // Remove alert after 3 seconds
   setTimeout(() => {
-    alert.remove();
+    if (alert.parentNode) {
+      alert.remove();
+    }
   }, 3000);
 }

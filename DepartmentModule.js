@@ -40,76 +40,80 @@ function saveDepartments(depts) {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="page-header">
-      <h1><i class="fas fa-sitemap"></i> Quản Lý Phòng Ban</h1>
-      <div class="page-header-actions">
-        <button id="add-department-btn" class="btn btn-success">
-          <i class="fas fa-plus"></i> Thêm Phòng Ban
-        </button>
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <h3><i class="fas fa-list"></i> Danh Sách Phòng Ban</h3>
-      </div>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tên Phòng Ban</th>
-              <th>Số Nhân Viên</th>
-              <th>Thao Tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${getAllDepartments()
-              .map(
-                (d) => `
-                <tr>
-                  <td>${d.id}</td>
-                  <td>${d.name}</td>
-                  <td>0</td>
-                  <td class="table-actions">
-                    <button data-id="${d.id}" class="btn btn-sm btn-warning edit-btn">
-                      <i class="fas fa-edit"></i> Sửa
-                    </button>
-                    <button data-id="${d.id}" class="btn btn-sm btn-danger delete-btn">
-                      <i class="fas fa-trash"></i> Xóa
-                    </button>
-                  </td>
-                </tr>`
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
-    <!-- Add/Edit Department Modal -->
-    <div id="department-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 id="modal-title">Thêm Phòng Ban</h3>
-          <span class="close">&times;</span>
+    <div class="module-container">
+      <div class="module-header">
+        <h1><i class="fas fa-sitemap"></i> Quản Lý Phòng Ban</h1>
+        <div class="module-header-actions">
+          <button id="add-department-btn" class="btn btn-success">
+            <i class="fas fa-plus"></i> Thêm Phòng Ban
+          </button>
         </div>
-        <div class="modal-body">
-          <form id="department-form">
-            <input type="hidden" id="department-id">
-            <div class="form-group">
-              <label for="department-name">Tên Phòng Ban</label>
-              <input type="text" id="department-name" class="form-control" placeholder="Nhập tên phòng ban" required>
-            </div>
-            <div class="btn-group">
-              <button type="submit" class="btn btn-success">
-                <i class="fas fa-save"></i> <span id="save-btn-text">Lưu</span>
-              </button>
-              <button type="button" class="btn btn-secondary close-modal">
-                <i class="fas fa-times"></i> Hủy
-              </button>
-            </div>
-          </form>
+      </div>
+      
+      <div class="module-card">
+        <div class="module-card-header">
+          <h2><i class="fas fa-list"></i> Danh Sách Phòng Ban</h2>
+        </div>
+        <div class="module-card-body">
+          <div class="module-table-container">
+            <table class="module-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên Phòng Ban</th>
+                  <th>Số Nhân Viên</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${getAllDepartments()
+                  .map(
+                    (d) => `
+                    <tr>
+                      <td>${d.id}</td>
+                      <td>${d.name}</td>
+                      <td>0</td>
+                      <td class="module-table-actions">
+                        <button data-id="${d.id}" class="btn btn-sm btn-warning edit-btn">
+                          <i class="fas fa-edit"></i> Sửa
+                        </button>
+                        <button data-id="${d.id}" class="btn btn-sm btn-danger delete-btn">
+                          <i class="fas fa-trash"></i> Xóa
+                        </button>
+                      </td>
+                    </tr>`
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Add/Edit Department Modal -->
+      <div id="department-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modal-title">Thêm Phòng Ban</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form id="department-form" class="module-form">
+              <input type="hidden" id="department-id">
+              <div class="module-form-group">
+                <label for="department-name">Tên Phòng Ban</label>
+                <input type="text" id="department-name" class="module-form-control" placeholder="Nhập tên phòng ban" required>
+              </div>
+              <div class="module-btn-group">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-save"></i> <span id="save-btn-text">Lưu</span>
+                </button>
+                <button type="button" class="btn btn-secondary close-modal">
+                  <i class="fas fa-times"></i> Hủy
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

@@ -5,53 +5,72 @@ import * as Position from "./PositionModule.js";
 
 export function render(container) {
   container.innerHTML = `
-    <div class="page-header">
-      <h2>Tìm Kiếm Nhân Viên</h2>
-      <p>Tìm kiếm và lọc nhân viên theo các tiêu chí khác nhau</p>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <h3>Bộ Lọc Tìm Kiếm</h3>
+    <div class="module-container">
+      <div class="module-header">
+        <h1><i class="fas fa-search"></i> Tìm Kiếm Nhân Viên</h1>
       </div>
-      <div class="card-body">
-        <form id="searchForm">
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="searchName">Tên Nhân Viên</label>
-              <input type="text" id="searchName" class="form-control" placeholder="Nhập tên hoặc từ khóa">
+      
+      <div class="module-subheader">
+        <p>Tìm kiếm và lọc nhân viên theo các tiêu chí khác nhau</p>
+      </div>
+      
+      <div class="module-card">
+        <div class="module-card-header">
+          <h2><i class="fas fa-filter"></i> Bộ Lọc Tìm Kiếm</h2>
+        </div>
+        <div class="module-card-body">
+          <form id="searchForm" class="module-form">
+            <div class="module-form-row">
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="searchName">Tên Nhân Viên</label>
+                  <input type="text" id="searchName" class="module-form-control" placeholder="Nhập tên hoặc từ khóa">
+                </div>
+              </div>
+              
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="searchDepartment">Phòng Ban</label>
+                  <select id="searchDepartment" class="module-form-control">
+                    <option value="">Tất Cả Phòng Ban</option>
+                    ${Department.getAllDepartments()
+                      .map((d) => `<option value="${d.id}">${d.name}</option>`)
+                      .join("")}
+                  </select>
+                </div>
+              </div>
             </div>
             
-            <div class="form-group col-md-6">
-              <label for="searchDepartment">Phòng Ban</label>
-              <select id="searchDepartment" class="form-control">
-                <option value="">Tất Cả Phòng Ban</option>
-                ${Department.getAllDepartments()
-                  .map((d) => `<option value="${d.id}">${d.name}</option>`)
-                  .join("")}
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group col-md-6">
-              <label for="minSalary">Lương Tối Thiểu</label>
-              <input type="number" id="minSalary" class="form-control" placeholder="Nhập mức lương tối thiểu">
+            <div class="module-form-row">
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="minSalary">Lương Tối Thiểu</label>
+                  <input type="number" id="minSalary" class="module-form-control" placeholder="Nhập mức lương tối thiểu">
+                </div>
+              </div>
+              
+              <div class="module-form-col">
+                <div class="module-form-group">
+                  <label for="maxSalary">Lương Tối Đa</label>
+                  <input type="number" id="maxSalary" class="module-form-control" placeholder="Nhập mức lương tối đa">
+                </div>
+              </div>
             </div>
             
-            <div class="form-group col-md-6">
-              <label for="maxSalary">Lương Tối Đa</label>
-              <input type="number" id="maxSalary" class="form-control" placeholder="Nhập mức lương tối đa">
+            <div class="module-btn-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Tìm Kiếm
+              </button>
+              <button type="button" id="clearSearch" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Xóa Bộ Lọc
+              </button>
             </div>
-          </div>
-          
-          <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
-          <button type="button" id="clearSearch" class="btn btn-secondary">Xóa Bộ Lọc</button>
-        </form>
+          </form>
+        </div>
       </div>
+      
+      <div id="searchResults" class="mt-4"></div>
     </div>
-    
-    <div id="searchResults" class="mt-4"></div>
   `;
 
   const form = container.querySelector("#searchForm");
@@ -95,9 +114,12 @@ function displayResults(employees, container) {
 
   if (employees.length === 0) {
     resultsContainer.innerHTML = `
-      <div class="alert alert-info">
-        <h4>Không Tìm Thấy Kết Quả</h4>
-        <p>Không có nhân viên nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
+      <div class="module-alert module-alert-info">
+        <i class="fas fa-info-circle"></i>
+        <div class="module-alert-content">
+          <h4>Không Tìm Thấy Kết Quả</h4>
+          <p>Không có nhân viên nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
+        </div>
       </div>
     `;
     return;
@@ -109,44 +131,49 @@ function displayResults(employees, container) {
     employees.reduce((sum, emp) => sum + emp.salary, 0) / totalEmployees;
 
   resultsContainer.innerHTML = `
-    <div class="row mb-4">
-      <div class="col-md-4">
-        <div class="card bg-primary text-white">
-          <div class="card-body">
-            <h5>Tổng Số Nhân Viên</h5>
-            <h2>${totalEmployees}</h2>
-          </div>
+    <div class="stats-container mb-4">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-info">
+          <h4>${totalEmployees}</h4>
+          <p>Tổng Số Nhân Viên</p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card bg-success text-white">
-          <div class="card-body">
-            <h5>Lương Trung Bình</h5>
-            <h2>${formatCurrency(avgSalary)}</h2>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <i class="fas fa-money-bill-wave"></i>
+        </div>
+        <div class="stat-info">
+          <h4>${formatCurrency(avgSalary)}</h4>
+          <p>Lương Trung Bình</p>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="card bg-info text-white">
-          <div class="card-body">
-            <h5>Lương Cao Nhất</h5>
-            <h2>${formatCurrency(
-              employees[employees.length - 1]?.salary || 0
-            )}</h2>
-          </div>
+      <div class="stat-card">
+        <div class="stat-icon purple">
+          <i class="fas fa-coins"></i>
+        </div>
+        <div class="stat-info">
+          <h4>${formatCurrency(
+            employees[employees.length - 1]?.salary || 0
+          )}</h4>
+          <p>Lương Cao Nhất</p>
         </div>
       </div>
     </div>
     
-    <div class="card">
-      <div class="card-header">
-        <h3>Kết Quả Tìm Kiếm</h3>
-        <span class="badge badge-primary">${employees.length} nhân viên</span>
+    <div class="module-card">
+      <div class="module-card-header">
+        <h2><i class="fas fa-list"></i> Kết Quả Tìm Kiếm</h2>
+        <span class="module-badge module-badge-primary">${
+          employees.length
+        } nhân viên</span>
       </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead class="thead-dark">
+      <div class="module-card-body">
+        <div class="module-table-container">
+          <table class="module-table">
+            <thead>
               <tr>
                 <th>Mã NV</th>
                 <th>Họ Tên</th>

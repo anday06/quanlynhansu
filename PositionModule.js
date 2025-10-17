@@ -64,90 +64,94 @@ function savePositions(positions) {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="page-header">
-      <h1><i class="fas fa-briefcase"></i> Quản Lý Chức Vụ</h1>
-      <div class="page-header-actions">
-        <button id="add-position-btn" class="btn btn-success">
-          <i class="fas fa-plus"></i> Thêm Chức Vụ
-        </button>
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header">
-        <h3><i class="fas fa-list"></i> Danh Sách Chức Vụ</h3>
-      </div>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tên Chức Vụ</th>
-              <th>Mô Tả</th>
-              <th>Lương Cơ Bản</th>
-              <th>Thao Tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${getAllPositions()
-              .map(
-                (p) => `
-                <tr>
-                  <td>${p.id}</td>
-                  <td>${p.title}</td>
-                  <td>${p.description}</td>
-                  <td>${formatCurrency(p.salaryBase)}</td>
-                  <td class="table-actions">
-                    <button data-id="${
-                      p.id
-                    }" class="btn btn-sm btn-warning edit-btn">
-                      <i class="fas fa-edit"></i> Sửa
-                    </button>
-                    <button data-id="${
-                      p.id
-                    }" class="btn btn-sm btn-danger delete-btn">
-                      <i class="fas fa-trash"></i> Xóa
-                    </button>
-                  </td>
-                </tr>`
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    
-    <!-- Add/Edit Position Modal -->
-    <div id="position-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 id="modal-title">Thêm Chức Vụ</h3>
-          <span class="close">&times;</span>
+    <div class="module-container">
+      <div class="module-header">
+        <h1><i class="fas fa-briefcase"></i> Quản Lý Chức Vụ</h1>
+        <div class="module-header-actions">
+          <button id="add-position-btn" class="btn btn-success">
+            <i class="fas fa-plus"></i> Thêm Chức Vụ
+          </button>
         </div>
-        <div class="modal-body">
-          <form id="position-form">
-            <input type="hidden" id="position-id">
-            <div class="form-group">
-              <label for="position-title">Tên Chức Vụ</label>
-              <input type="text" id="position-title" class="form-control" placeholder="Nhập tên chức vụ" required>
-            </div>
-            <div class="form-group">
-              <label for="position-description">Mô Tả</label>
-              <textarea id="position-description" class="form-control" rows="3" placeholder="Nhập mô tả chức vụ"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="position-salary">Lương Cơ Bản</label>
-              <input type="number" id="position-salary" class="form-control" placeholder="Nhập lương cơ bản" min="0">
-            </div>
-            <div class="btn-group">
-              <button type="submit" class="btn btn-success">
-                <i class="fas fa-save"></i> <span id="save-btn-text">Lưu</span>
-              </button>
-              <button type="button" class="btn btn-secondary close-modal">
-                <i class="fas fa-times"></i> Hủy
-              </button>
-            </div>
-          </form>
+      </div>
+      
+      <div class="module-card">
+        <div class="module-card-header">
+          <h2><i class="fas fa-list"></i> Danh Sách Chức Vụ</h2>
+        </div>
+        <div class="module-card-body">
+          <div class="module-table-container">
+            <table class="module-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tên Chức Vụ</th>
+                  <th>Mô Tả</th>
+                  <th>Lương Cơ Bản</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${getAllPositions()
+                  .map(
+                    (p) => `
+                    <tr>
+                      <td>${p.id}</td>
+                      <td>${p.title}</td>
+                      <td>${p.description}</td>
+                      <td>${formatCurrency(p.salaryBase)}</td>
+                      <td class="module-table-actions">
+                        <button data-id="${
+                          p.id
+                        }" class="btn btn-sm btn-warning edit-btn">
+                          <i class="fas fa-edit"></i> Sửa
+                        </button>
+                        <button data-id="${
+                          p.id
+                        }" class="btn btn-sm btn-danger delete-btn">
+                          <i class="fas fa-trash"></i> Xóa
+                        </button>
+                      </td>
+                    </tr>`
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Add/Edit Position Modal -->
+      <div id="position-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modal-title">Thêm Chức Vụ</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <form id="position-form" class="module-form">
+              <input type="hidden" id="position-id">
+              <div class="module-form-group">
+                <label for="position-title">Tên Chức Vụ</label>
+                <input type="text" id="position-title" class="module-form-control" placeholder="Nhập tên chức vụ" required>
+              </div>
+              <div class="module-form-group">
+                <label for="position-description">Mô Tả</label>
+                <textarea id="position-description" class="module-form-control" rows="3" placeholder="Nhập mô tả chức vụ"></textarea>
+              </div>
+              <div class="module-form-group">
+                <label for="position-salary">Lương Cơ Bản</label>
+                <input type="number" id="position-salary" class="module-form-control" placeholder="Nhập lương cơ bản" min="0">
+              </div>
+              <div class="module-btn-group">
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-save"></i> <span id="save-btn-text">Lưu</span>
+                </button>
+                <button type="button" class="btn btn-secondary close-modal">
+                  <i class="fas fa-times"></i> Hủy
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

@@ -17,7 +17,8 @@ export async function register(username, password) {
   await simulateDelay();
   let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
   if (users.find((u) => u.username === username)) {
-    throw new Error("User exists");
+    alert("User exists");
+    return;
   }
   users.push({ username, password: hasher(password) });
   localStorage.setItem(USERS_KEY, JSON.stringify(users));

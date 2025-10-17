@@ -49,124 +49,136 @@ function saveLeaves(leaves) {
 
 export function render(container) {
   container.innerHTML = `
-    <div class="page-header">
-      <h1><i class="fas fa-calendar-alt"></i> Quản Lý Nghỉ Phép</h1>
-      <p>Quản lý yêu cầu nghỉ phép và ngày nghỉ còn lại của nhân viên</p>
-    </div>
-    
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-plus-circle"></i> Yêu Cầu Nghỉ Phép</h3>
-          </div>
-          <div class="card-body">
-            <form id="requestForm">
-              <div class="form-group">
-                <label for="leaveEmpId">Mã Nhân Viên</label>
-                <input type="number" id="leaveEmpId" class="form-control" placeholder="Nhập mã nhân viên" required>
-              </div>
-              
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="startDate">Ngày Bắt Đầu</label>
-                  <input type="date" id="startDate" class="form-control" required>
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="endDate">Ngày Kết Thúc</label>
-                  <input type="date" id="endDate" class="form-control" required>
-                </div>
-              </div>
-              
-              <div class="form-group">
-                <label for="type">Loại Nghỉ Phép</label>
-                <select id="type" class="form-control">
-                  <option value="annual">Nghỉ Phép Năm</option>
-                  <option value="sick">Nghỉ Ốm</option>
-                  <option value="personal">Nghỉ Cá Nhân</option>
-                  <option value="maternity">Nghỉ Sinh Sản</option>
-                </select>
-              </div>
-              
-              <button type="submit" class="btn btn-success">
-                <i class="fas fa-paper-plane"></i> Gửi Yêu Cầu
-              </button>
-            </form>
-          </div>
-        </div>
+    <div class="module-container">
+      <div class="module-header">
+        <h1><i class="fas fa-calendar-alt"></i> Quản Lý Nghỉ Phép</h1>
       </div>
       
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header">
-            <h3><i class="fas fa-balance-scale"></i> Kiểm Tra Số Ngày Nghỉ</h3>
+      <div class="module-subheader">
+        <p>Quản lý yêu cầu nghỉ phép và ngày nghỉ còn lại của nhân viên</p>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="module-card">
+            <div class="module-card-header">
+              <h2><i class="fas fa-plus-circle"></i> Yêu Cầu Nghỉ Phép</h2>
+            </div>
+            <div class="module-card-body">
+              <form id="requestForm" class="module-form">
+                <div class="module-form-group">
+                  <label for="leaveEmpId">Mã Nhân Viên</label>
+                  <input type="number" id="leaveEmpId" class="module-form-control" placeholder="Nhập mã nhân viên" required>
+                </div>
+                
+                <div class="module-form-row">
+                  <div class="module-form-col">
+                    <div class="module-form-group">
+                      <label for="startDate">Ngày Bắt Đầu</label>
+                      <input type="date" id="startDate" class="module-form-control" required>
+                    </div>
+                  </div>
+                  <div class="module-form-col">
+                    <div class="module-form-group">
+                      <label for="endDate">Ngày Kết Thúc</label>
+                      <input type="date" id="endDate" class="module-form-control" required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="module-form-group">
+                  <label for="type">Loại Nghỉ Phép</label>
+                  <select id="type" class="module-form-control">
+                    <option value="annual">Nghỉ Phép Năm</option>
+                    <option value="sick">Nghỉ Ốm</option>
+                    <option value="personal">Nghỉ Cá Nhân</option>
+                    <option value="maternity">Nghỉ Sinh Sản</option>
+                  </select>
+                </div>
+                
+                <button type="submit" class="btn btn-success">
+                  <i class="fas fa-paper-plane"></i> Gửi Yêu Cầu
+                </button>
+              </form>
+            </div>
           </div>
-          <div class="card-body">
-            <form id="balanceForm">
-              <div class="form-group">
-                <label for="balanceEmpId">Mã Nhân Viên</label>
-                <input type="number" id="balanceEmpId" class="form-control" placeholder="Nhập mã nhân viên" required>
-              </div>
-              <button type="submit" class="btn btn-info">
-                <i class="fas fa-search"></i> Kiểm Tra
-              </button>
-            </form>
-            
-            <div id="balanceResult" class="mt-3" style="display: none;">
-              <div class="alert alert-info">
-                <h5>Số Ngày Nghỉ Còn Lại: <span id="balanceValue"></span> ngày</h5>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="module-card">
+            <div class="module-card-header">
+              <h2><i class="fas fa-balance-scale"></i> Kiểm Tra Số Ngày Nghỉ</h2>
+            </div>
+            <div class="module-card-body">
+              <form id="balanceForm" class="module-form">
+                <div class="module-form-group">
+                  <label for="balanceEmpId">Mã Nhân Viên</label>
+                  <input type="number" id="balanceEmpId" class="module-form-control" placeholder="Nhập mã nhân viên" required>
+                </div>
+                <button type="submit" class="btn btn-info">
+                  <i class="fas fa-search"></i> Kiểm Tra
+                </button>
+              </form>
+              
+              <div id="balanceResult" class="mt-3" style="display: none;">
+                <div class="module-alert module-alert-info">
+                  <i class="fas fa-info-circle"></i>
+                  <div class="module-alert-content">
+                    <h5>Số Ngày Nghỉ Còn Lại: <span id="balanceValue"></span> ngày</h5>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <div class="card mt-4">
-      <div class="card-header">
-        <h3><i class="fas fa-list"></i> Danh Sách Yêu Cầu Nghỉ Phép</h3>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th>Mã Yêu Cầu</th>
-                <th>Mã Nhân Viên</th>
-                <th>Ngày Bắt Đầu</th>
-                <th>Ngày Kết Thúc</th>
-                <th>Loại</th>
-                <th>Trạng Thái</th>
-                <th>Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody id="leavesTable">
-              ${getLeaves()
-                .map(
-                  (l) =>
-                    `<tr>
-                      <td>${l.id}</td>
-                      <td>${l.employeeId}</td>
-                      <td>${formatDate(l.startDate)}</td>
-                      <td>${formatDate(l.endDate)}</td>
-                      <td>${getLeaveTypeText(l.type)}</td>
-                      <td><span class="badge badge-${getStatusClass(
-                        l.status
-                      )}">${getStatusText(l.status)}</span></td>
-                      <td>
-                        ${
-                          l.status === "pending"
-                            ? `<button data-id="${l.id}" class="btn btn-sm btn-success approve-btn">
-                            <i class="fas fa-check"></i> Duyệt
-                          </button>`
-                            : "<span>-</span>"
-                        }
-                      </td>
-                    </tr>`
-                )
-                .join("")}
-            </tbody>
-          </table>
+      
+      <div class="module-card mt-4">
+        <div class="module-card-header">
+          <h2><i class="fas fa-list"></i> Danh Sách Yêu Cầu Nghỉ Phép</h2>
+        </div>
+        <div class="module-card-body">
+          <div class="module-table-container">
+            <table class="module-table">
+              <thead>
+                <tr>
+                  <th>Mã Yêu Cầu</th>
+                  <th>Mã Nhân Viên</th>
+                  <th>Ngày Bắt Đầu</th>
+                  <th>Ngày Kết Thúc</th>
+                  <th>Loại</th>
+                  <th>Trạng Thái</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="leavesTable">
+                ${getLeaves()
+                  .map(
+                    (l) =>
+                      `<tr>
+                        <td>${l.id}</td>
+                        <td>${l.employeeId}</td>
+                        <td>${formatDate(l.startDate)}</td>
+                        <td>${formatDate(l.endDate)}</td>
+                        <td>${getLeaveTypeText(l.type)}</td>
+                        <td><span class="module-badge module-badge-${getStatusClass(
+                          l.status
+                        )}">${getStatusText(l.status)}</span></td>
+                        <td class="module-table-actions">
+                          ${
+                            l.status === "pending"
+                              ? `<button data-id="${l.id}" class="btn btn-sm btn-success approve-btn">
+                              <i class="fas fa-check"></i> Duyệt
+                            </button>`
+                              : "<span>-</span>"
+                          }
+                        </td>
+                      </tr>`
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -201,11 +213,8 @@ export function render(container) {
   container.querySelectorAll(".approve-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.target.closest(".approve-btn").dataset.id);
-      if (confirm("Bạn có chắc chắn muốn duyệt yêu cầu nghỉ phép này?")) {
-        approveLeave(id);
-        showAlert("Yêu cầu nghỉ phép đã được duyệt", "success");
-        render(container);
-      }
+      approveLeave(id);
+      render(container);
     });
   });
 }
@@ -246,23 +255,31 @@ function getStatusClass(status) {
 function showAlert(message, type) {
   // Create alert element
   const alert = document.createElement("div");
-  alert.className = `alert alert-${type} alert-dismissible fade show`;
-  alert.role = "alert";
+  alert.className = `module-alert module-alert-${type}`;
   alert.innerHTML = `
-    ${message}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <i class="fas fa-${
+      type === "success" ? "check-circle" : "exclamation-circle"
+    }"></i>
+    <div class="module-alert-content">
+      <p>${message}</p>
+    </div>
+    <button class="module-alert-close">&times;</button>
   `;
 
-  // Insert alert at the top of container
-  const container = document.querySelector(".page-header").nextElementSibling;
-  container.parentNode.insertBefore(alert, container);
+  // Insert alert at the top of the container
+  const container = document.querySelector(".module-container");
+  container.insertBefore(alert, container.firstChild.nextSibling);
 
-  // Auto remove after 3 seconds
+  // Add close event
+  const closeBtn = alert.querySelector(".module-alert-close");
+  closeBtn.addEventListener("click", () => {
+    alert.remove();
+  });
+
+  // Auto remove after 5 seconds
   setTimeout(() => {
     if (alert.parentNode) {
-      alert.parentNode.removeChild(alert);
+      alert.remove();
     }
-  }, 3000);
+  }, 5000);
 }
