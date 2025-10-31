@@ -1,53 +1,126 @@
 // LeaveModule.js
-const LEAVES_KEY = "leaves";
-const BALANCE_DEFAULT = 20;
+import apiClient from "./apiClient.js";
 
-export function init() {
-  if (!localStorage.getItem(LEAVES_KEY)) {
-    saveLeaves([]);
+let leaveRecords = [];
+let leavePolicies = null;
+let isLoaded = false;
+
+export async function init() {
+  try {
+    console.log("Loading leave records from API...");
+    const response = await apiClient.request("/leaves");
+    console.log("Leave data received:", response);
+    // Đảm bảo luôn trả về mảng
+    leaveRecords = Array.isArray(response.data) ? response.data : [];
+    isLoaded = true;
+    console.log("Leave records loaded:", leaveRecords);
+  } catch (error) {
+    console.error("Failed to load leave records:", error);
+    // Cung cấp dữ liệu mặc định nếu không thể tải từ API
+    leaveRecords = [];
+    isLoaded = true;
+  }
+
+  // Load leave policies from API
+  try {
+    const policiesResponse = await apiClient.getLeavePolicies();
+    leavePolicies = Array.isArray(policiesResponse.data)
+      ? policiesResponse.data
+      : [];
+  } catch (error) {
+    console.error("Failed to load leave policies:", error);
+    // Fallback to default policies if API fails
+    leavePolicies = [
+      { type: "annual", name: "Nghỉ phép năm" },
+      { type: "sick", name: "Nghỉ ốm" },
+      { type: "personal", name: "Nghỉ cá nhân" },
+      { type: "maternity", name: "Nghỉ thai sản" },
+      { type: "paternity", name: "Nghỉ chăm con nhỏ" },
+    ];
   }
 }
 
-export function requestLeave(employeeId, startDate, endDate, type) {
-  const leaves = getLeaves();
-  const id = Math.max(...leaves.map((l) => l.id || 0), 0) + 1;
-  leaves.push({ id, employeeId, startDate, endDate, type, status: "pending" });
-  saveLeaves(leaves);
-}
+export async function requestLeave(employeeId, startDate, endDate, type) {
+  try {
+    const leaveData = {
+      employee_id: employeeId,
+      start_date: startDate,
+      end_date: endDate,
+      type: type,
+      status: "pending",
+    };
 
-export function approveLeave(leaveId) {
-  let leaves = getLeaves();
-  const leave = leaves.find((l) => l.id === leaveId);
-  if (leave) {
-    leave.status = "approved";
-    // Update balance (simplified, assume deduct days)
-    saveLeaves(leaves);
+    const response = await apiClient.request("/leaves", {
+      method: "POST",
+      body: JSON.stringify(leaveData),
+    });
+
+    // Reload leave records
+    await init();
+
+    return response;
+  } catch (error) {
+    console.error("Failed to request leave:", error);
+    throw new Error("Failed to request leave: " + error.message);
   }
 }
 
-export function getLeaveBalance(employeeId) {
-  // Simplified: default - approved days
-  const approved = getLeaves().filter(
-    (l) => l.employeeId === employeeId && l.status === "approved"
-  );
-  const daysUsed = approved.reduce(
-    (sum, l) =>
-      sum +
-      (new Date(l.endDate) - new Date(l.startDate)) / (1000 * 60 * 60 * 24),
-    0
-  );
-  return BALANCE_DEFAULT - daysUsed;
+export async function approveLeave(leaveId) {
+  try {
+    const updateData = {
+      status: "approved",
+    };
+
+    const response = await apiClient.request(`/leaves/${leaveId}/status`, {
+      method: "PUT",
+      body: JSON.stringify(updateData),
+    });
+
+    // Reload leave records
+    await init();
+
+    return response;
+  } catch (error) {
+    console.error("Failed to approve leave:", error);
+    throw new Error("Failed to approve leave: " + error.message);
+  }
 }
 
-function getLeaves() {
-  return JSON.parse(localStorage.getItem(LEAVES_KEY)) || [];
+export async function getLeaveBalance(employeeId) {
+  try {
+    const response = await apiClient.request(`/leaves/balance/${employeeId}`);
+    return response.data || { annual: 0, sick: 0 };
+  } catch (error) {
+    console.error("Failed to get leave balance:", error);
+    // Return default balance if API fails
+    return { annual: 20, sick: 10 };
+  }
 }
 
-function saveLeaves(leaves) {
-  localStorage.setItem(LEAVES_KEY, JSON.stringify(leaves));
-}
+export async function render(container) {
+  // Ensure leave records and policies are loaded
+  if (!isLoaded) {
+    // Show loading state while data is being fetched
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-header">
+          <h1><i class="fas fa-calendar-alt"></i> Quản Lý Nghỉ Phép</h1>
+        </div>
+        <div class="module-card">
+          <div class="module-card-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Đang tải...</span>
+            </div>
+            <p class="mt-2">Đang tải dữ liệu nghỉ phép...</p>
+          </div>
+        </div>
+      </div>
+    `;
 
-export function render(container) {
+    // Wait for data to load
+    await init();
+  }
+
   container.innerHTML = `
     <div class="module-container">
       <div class="module-header">
@@ -89,10 +162,12 @@ export function render(container) {
                 <div class="module-form-group">
                   <label for="type">Loại Nghỉ Phép</label>
                   <select id="type" class="module-form-control">
-                    <option value="annual">Nghỉ Phép Năm</option>
-                    <option value="sick">Nghỉ Ốm</option>
-                    <option value="personal">Nghỉ Cá Nhân</option>
-                    <option value="maternity">Nghỉ Sinh Sản</option>
+                    ${leavePolicies
+                      .map(
+                        (policy) =>
+                          `<option value="${policy.type}">${policy.name}</option>`
+                      )
+                      .join("")}
                   </select>
                 </div>
                 
@@ -152,14 +227,14 @@ export function render(container) {
                 </tr>
               </thead>
               <tbody id="leavesTable">
-                ${getLeaves()
+                ${leaveRecords
                   .map(
                     (l) =>
                       `<tr>
                         <td>${l.id}</td>
-                        <td>${l.employeeId}</td>
-                        <td>${formatDate(l.startDate)}</td>
-                        <td>${formatDate(l.endDate)}</td>
+                        <td>${l.employee_id}</td>
+                        <td>${formatDate(l.start_date)}</td>
+                        <td>${formatDate(l.end_date)}</td>
                         <td>${getLeaveTypeText(l.type)}</td>
                         <td><span class="module-badge module-badge-${getStatusClass(
                           l.status
@@ -190,31 +265,54 @@ export function render(container) {
   document.getElementById("endDate").value = today;
 
   // Add event listeners
-  container.querySelector("#requestForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const id = parseInt(document.getElementById("leaveEmpId").value);
-    const start = document.getElementById("startDate").value;
-    const end = document.getElementById("endDate").value;
-    const type = document.getElementById("type").value;
-    requestLeave(id, start, end, type);
-    showAlert("Yêu cầu nghỉ phép đã được gửi", "success");
-    render(container);
-  });
+  container
+    .querySelector("#requestForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = parseInt(document.getElementById("leaveEmpId").value);
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      const type = document.getElementById("type").value;
 
-  container.querySelector("#balanceForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const id = parseInt(document.getElementById("balanceEmpId").value);
-    const balance = getLeaveBalance(id);
-    document.getElementById("balanceValue").textContent = balance;
-    document.getElementById("balanceResult").style.display = "block";
-  });
+      try {
+        await requestLeave(id, start, end, type);
+        showAlert("Yêu cầu nghỉ phép đã được gửi", "success");
+        await render(container);
+      } catch (error) {
+        showAlert("Gửi yêu cầu thất bại: " + error.message, "danger");
+      }
+    });
+
+  container
+    .querySelector("#balanceForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = parseInt(document.getElementById("balanceEmpId").value);
+
+      try {
+        const balance = await getLeaveBalance(id);
+        document.getElementById("balanceValue").textContent =
+          JSON.stringify(balance);
+        document.getElementById("balanceResult").style.display = "block";
+      } catch (error) {
+        showAlert(
+          "Lấy thông tin số ngày nghỉ thất bại: " + error.message,
+          "danger"
+        );
+      }
+    });
 
   // Approve leave buttons
   container.querySelectorAll(".approve-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", async (e) => {
       const id = parseInt(e.target.closest(".approve-btn").dataset.id);
-      approveLeave(id);
-      render(container);
+      try {
+        await approveLeave(id);
+        showAlert("Duyệt yêu cầu thành công", "success");
+        await render(container);
+      } catch (error) {
+        showAlert("Duyệt yêu cầu thất bại: " + error.message, "danger");
+      }
     });
   });
 }
@@ -225,11 +323,21 @@ function formatDate(dateString) {
 }
 
 function getLeaveTypeText(type) {
+  // Use the leave policies data to get the proper name
+  if (leavePolicies) {
+    const policy = leavePolicies.find((p) => p.type === type);
+    if (policy) {
+      return policy.name;
+    }
+  }
+
+  // Fallback to hardcoded translations
   const types = {
     annual: "Nghỉ Phép Năm",
     sick: "Nghỉ Ốm",
     personal: "Nghỉ Cá Nhân",
-    maternity: "Nghỉ Sinh Sản",
+    maternity: "Nghỉ Thai Sản",
+    paternity: "Nghỉ Chăm Con Nhỏ",
   };
   return types[type] || type;
 }
@@ -263,23 +371,16 @@ function showAlert(message, type) {
     <div class="module-alert-content">
       <p>${message}</p>
     </div>
-    <button class="module-alert-close">&times;</button>
   `;
 
   // Insert alert at the top of the container
   const container = document.querySelector(".module-container");
   container.insertBefore(alert, container.firstChild.nextSibling);
 
-  // Add close event
-  const closeBtn = alert.querySelector(".module-alert-close");
-  closeBtn.addEventListener("click", () => {
-    alert.remove();
-  });
-
-  // Auto remove after 5 seconds
+  // Remove alert after 3 seconds
   setTimeout(() => {
     if (alert.parentNode) {
       alert.remove();
     }
-  }, 5000);
+  }, 3000);
 }

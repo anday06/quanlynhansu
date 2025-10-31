@@ -1,5 +1,5 @@
 // DeleteEmployeeModule.js
-import * as EmployeeDb from "./EmployeeDbModule.js";
+import apiClient from "./apiClient.js";
 import * as Department from "./DepartmentModule.js";
 import * as Position from "./PositionModule.js";
 
@@ -62,49 +62,66 @@ export function render(container) {
   `;
 
   const form = container.querySelector("#deleteForm");
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const id = parseInt(document.getElementById("deleteId").value);
-    const emp = EmployeeDb.getEmployeeById(id);
-    if (!emp) {
-      showAlert("Không tìm thấy nhân viên", "error");
-      return;
+
+    try {
+      const emp = await apiClient.getEmployee(id);
+      if (!emp) {
+        showAlert("Không tìm thấy nhân viên", "error");
+        return;
+      }
+
+      // Display employee info
+      document.getElementById("infoId").textContent = emp.id;
+      document.getElementById("infoName").textContent = emp.name;
+      document.getElementById("infoDepartment").textContent = getDepartmentName(
+        emp.department_id
+      );
+      document.getElementById("infoPosition").textContent = getPositionName(
+        emp.position_id
+      );
+      document.getElementById("infoSalary").textContent = formatCurrency(
+        emp.salary
+      );
+      document.getElementById("infoHireDate").textContent = formatDate(
+        emp.hire_date
+      );
+
+      document.getElementById("employeeInfo").style.display = "block";
+
+      // Scroll to employee info
+      document
+        .getElementById("employeeInfo")
+        .scrollIntoView({ behavior: "smooth" });
+    } catch (error) {
+      showAlert("Lỗi khi tìm nhân viên: " + error.message, "error");
     }
-
-    // Display employee info
-    document.getElementById("infoId").textContent = emp.id;
-    document.getElementById("infoName").textContent = emp.name;
-    document.getElementById("infoDepartment").textContent = getDepartmentName(
-      emp.departmentId
-    );
-    document.getElementById("infoPosition").textContent = getPositionName(
-      emp.positionId
-    );
-    document.getElementById("infoSalary").textContent = formatCurrency(
-      emp.salary
-    );
-    document.getElementById("infoHireDate").textContent = formatDate(
-      emp.hireDate
-    );
-
-    document.getElementById("employeeInfo").style.display = "block";
-
-    // Scroll to employee info
-    document
-      .getElementById("employeeInfo")
-      .scrollIntoView({ behavior: "smooth" });
   });
 
   // Confirm delete button
-  container.addEventListener("click", (e) => {
+  container.addEventListener("click", async (e) => {
     if (e.target.id === "confirmDelete") {
       const id = parseInt(document.getElementById("deleteId").value);
-      const emp = EmployeeDb.getEmployeeById(id);
-      if (emp && confirm(`Bạn có chắc chắn muốn xóa nhân viên ${emp.name}?`)) {
-        EmployeeDb.deleteEmployee(id);
-        showAlert("Xóa nhân viên thành công", "success");
-        form.reset();
-        document.getElementById("employeeInfo").style.display = "none";
+
+      try {
+        const emp = await apiClient.getEmployee(id);
+        if (
+          emp &&
+          confirm(`Bạn có chắc chắn muốn xóa nhân viên ${emp.name}?`)
+        ) {
+          await apiClient.deleteEmployee(id);
+          showAlert("Xóa nhân viên thành công", "success");
+          form.reset();
+          document.getElementById("employeeInfo").style.display = "none";
+
+          // Refresh department and position data
+          Department.init();
+          Position.init();
+        }
+      } catch (error) {
+        showAlert("Xóa nhân viên thất bại: " + error.message, "error");
       }
     }
 
@@ -150,13 +167,13 @@ function showAlert(message, type) {
 // Helper functions to get department and position names
 function getDepartmentName(deptId) {
   const departments = Department.getAllDepartments();
-  const dept = departments.find((d) => d.id === deptId);
+  const dept = departments.find((d) => d.id === parseInt(deptId));
   return dept ? dept.name : "Không xác định";
 }
 
 function getPositionName(posId) {
   const positions = Position.getAllPositions();
-  const pos = positions.find((p) => p.id === posId);
+  const pos = positions.find((p) => p.id === parseInt(posId));
   return pos ? pos.title : "Không xác định";
 }
 

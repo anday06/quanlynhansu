@@ -1,51 +1,58 @@
 // AuthModule.js
-// Simple hash function using closure
-const createHasher = () => {
-  const hash = (str) =>
-    str
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0)
-      .toString(16);
-  return hash;
-};
-const hasher = createHasher();
+import apiClient from "./apiClient.js";
 
-const USERS_KEY = "users";
-const SESSION_KEY = "session";
-
-export async function register(username, password) {
-  await simulateDelay();
-  let users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-  if (users.find((u) => u.username === username)) {
-    alert("User exists");
-    return;
+export async function register(username, email, password) {
+  try {
+    const response = await apiClient.register({ username, email, password });
+    return response;
+  } catch (error) {
+    // Kiểm tra thông báo lỗi cụ thể từ API
+    if (error.message.includes("Username already exists")) {
+      throw new Error("Tên Người Dùng Đã Tồn Tại");
+    } else if (error.message.includes("Email already exists")) {
+      throw new Error("Email Đã Tồn Tại");
+    }
+    throw new Error(error.message);
   }
-  users.push({ username, password: hasher(password) });
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
 export async function login(username, password) {
-  await simulateDelay();
-  const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
-  const user = users.find(
-    (u) => u.username === username && u.password === hasher(password)
-  );
-  if (user) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify({ username }));
+  try {
+    const response = await apiClient.login({ username, password });
+
+    // Store token in localStorage
+    localStorage.setItem("authToken", response.token);
+    localStorage.setItem("user", JSON.stringify(response.user));
+
     return true;
+  } catch (error) {
+    throw new Error(error.message);
   }
-  return false;
 }
 
 export function logout() {
-  localStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("user");
+
+  // Call backend logout endpoint
+  apiClient.logout().catch(() => {
+    // Ignore errors in logout
+  });
 }
 
 export async function checkSession() {
-  await simulateDelay();
-  return !!localStorage.getItem(SESSION_KEY);
+  const token = localStorage.getItem("authToken");
+  if (!token) {
+    return false;
+  }
+
+  // In a real app, you would verify the token with the backend
+  // For now, we'll just check if it exists
+  return true;
 }
 
-function simulateDelay() {
-  return new Promise((resolve) => setTimeout(resolve, 500));
+// Get current user
+export function getCurrentUser() {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
 }

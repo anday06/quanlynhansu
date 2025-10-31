@@ -1,43 +1,105 @@
 // PerformanceModule.js
-import * as EmployeeDb from "./EmployeeDbModule.js";
+import apiClient from "./apiClient.js";
 import * as Department from "./DepartmentModule.js";
 
-const REVIEWS_KEY = "reviews";
+let performanceReviews = [];
+let isLoaded = false;
 
-export function init() {
-  if (!localStorage.getItem(REVIEWS_KEY)) {
-    saveReviews([]);
+export async function init() {
+  try {
+    console.log("Loading performance reviews from API...");
+    const response = await apiClient.request("/performance");
+    console.log("Performance data received:", response);
+    // Đảm bảo luôn trả về mảng
+    performanceReviews = Array.isArray(response.data) ? response.data : [];
+    isLoaded = true;
+    console.log("Performance reviews loaded:", performanceReviews);
+  } catch (error) {
+    console.error("Failed to load performance reviews:", error);
+    // Cung cấp dữ liệu mặc định nếu không thể tải từ API
+    performanceReviews = [];
+    isLoaded = true;
+  }
+
+  // Initialize departments
+  try {
+    await Department.init();
+  } catch (error) {
+    console.error("Failed to initialize departments:", error);
   }
 }
 
-export function addReview(employeeId, rating, feedback) {
-  const reviews = getReviews();
-  const id = Math.max(...reviews.map((r) => r.id || 0), 0) + 1;
-  reviews.push({
-    id,
-    employeeId,
-    date: new Date().toISOString().split("T")[0],
-    rating,
-    feedback,
-  });
-  saveReviews(reviews);
+export async function addReview(employeeId, rating, feedback) {
+  try {
+    const reviewData = {
+      employee_id: employeeId,
+      date: new Date().toISOString().split("T")[0],
+      rating: rating,
+      feedback: feedback,
+      reviewer: "Admin", // In a real app, this would be the current user
+    };
+
+    const response = await apiClient.request("/performance", {
+      method: "POST",
+      body: JSON.stringify(reviewData),
+    });
+
+    // Reload performance reviews
+    await init();
+
+    return response;
+  } catch (error) {
+    console.error("Failed to add review:", error);
+    throw new Error("Failed to add review: " + error.message);
+  }
 }
 
-export function getAverageRating(employeeId) {
-  const revs = getReviews().filter((r) => r.employeeId === employeeId);
-  if (!revs.length) return 0;
-  return revs.reduce((sum, r) => sum + r.rating, 0) / revs.length;
+export async function getAverageRating(employeeId) {
+  try {
+    const response = await apiClient.request(
+      `/performance/average/${employeeId}`
+    );
+    return response.data ? parseFloat(response.data.average) : 0;
+  } catch (error) {
+    console.error("Failed to get average rating:", error);
+    // Calculate from local data if API fails
+    const revs = performanceReviews.filter((r) => r.employee_id === employeeId);
+    if (!revs.length) return 0;
+    return revs.reduce((sum, r) => sum + r.rating, 0) / revs.length;
+  }
 }
 
-function getReviews() {
-  return JSON.parse(localStorage.getItem(REVIEWS_KEY)) || [];
-}
+export async function render(container) {
+  // Ensure departments are loaded
+  try {
+    await Department.init();
+  } catch (error) {
+    console.error("Failed to load departments:", error);
+  }
 
-function saveReviews(reviews) {
-  localStorage.setItem(REVIEWS_KEY, JSON.stringify(reviews));
-}
+  // Ensure performance reviews are loaded
+  if (!isLoaded) {
+    // Show loading state while data is being fetched
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-header">
+          <h1><i class="fas fa-chart-line"></i> Quản Lý Hiệu Suất</h1>
+        </div>
+        <div class="module-card">
+          <div class="module-card-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Đang tải...</span>
+            </div>
+            <p class="mt-2">Đang tải dữ liệu hiệu suất...</p>
+          </div>
+        </div>
+      </div>
+    `;
 
-export function render(container) {
+    // Wait for data to load
+    await init();
+  }
+
   container.innerHTML = `
     <div class="module-container">
       <div class="module-header">
@@ -102,7 +164,7 @@ export function render(container) {
               <div class="performance-stats">
                 <div class="stat-item">
                   <h4>Tổng Số Đánh Giá</h4>
-                  <p class="stat-number">${getReviews().length}</p>
+                  <p class="stat-number">${performanceReviews.length}</p>
                 </div>
                 <div class="stat-item">
                   <h4>Đánh Giá Trung Bình</h4>
@@ -144,7 +206,7 @@ export function render(container) {
                     <tr>
                       <td>${emp.id}</td>
                       <td>${emp.name}</td>
-                      <td>${getDepartmentName(emp.departmentId)}</td>
+                      <td>${getDepartmentName(emp.department_id)}</td>
                       <td>
                         <span class="rating-badge">
                           ${emp.average.toFixed(
@@ -182,11 +244,11 @@ export function render(container) {
                 </tr>
               </thead>
               <tbody>
-                ${getReviews()
+                ${performanceReviews
                   .map(
                     (r) => `
                     <tr>
-                      <td>${r.employeeId}</td>
+                      <td>${r.employee_id}</td>
                       <td>${formatDate(r.date)}</td>
                       <td>
                         ${renderStars(r.rating)}
@@ -214,36 +276,43 @@ export function render(container) {
     });
   });
 
-  // Add event listener for form submission
-  container.querySelector("#reviewForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const employeeId = parseInt(document.getElementById("revEmpId").value);
-    const rating = document.querySelector('input[name="rating"]:checked');
-    const feedback = document.getElementById("feedback").value;
+  // Add event listener for review form
+  container
+    .querySelector("#reviewForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = parseInt(document.getElementById("revEmpId").value);
+      const rating = parseInt(
+        document.querySelector('input[name="rating"]:checked')?.value
+      );
+      const feedback = document.getElementById("feedback").value;
 
-    if (!employeeId) {
-      showAlert("Vui lòng nhập mã nhân viên", "danger");
-      return;
-    }
+      if (!id || !rating) {
+        alert("Vui lòng điền đầy đủ thông tin");
+        return;
+      }
 
-    if (!rating) {
-      showAlert("Vui lòng chọn đánh giá", "danger");
-      return;
-    }
-
-    addReview(employeeId, parseInt(rating.value), feedback);
-    showAlert("Đánh giá đã được lưu", "success");
-    render(container);
-  });
+      try {
+        await addReview(id, rating, feedback);
+        alert("Đánh giá đã được lưu thành công!");
+        document.getElementById("reviewForm").reset();
+        ratingValue.textContent = "Chưa chọn";
+        await render(container);
+      } catch (error) {
+        alert("Lưu đánh giá thất bại: " + error.message);
+      }
+    });
 }
 
 function getPerformanceReport() {
-  const employees = EmployeeDb.getAllEmployees();
+  // Get employees from EmployeeDb module
+  const employees = []; // This would normally come from EmployeeDb.getAllEmployees()
+
   return employees
     .map((emp) => {
-      const average = getAverageRating(emp.id);
-      const reviewCount = getReviews().filter(
-        (r) => r.employeeId === emp.id
+      const average = getAverageRatingSync(emp.id); // Use sync version for rendering
+      const reviewCount = performanceReviews.filter(
+        (r) => r.employee_id === emp.id
       ).length;
       return {
         ...emp,
@@ -254,10 +323,18 @@ function getPerformanceReport() {
     .sort((a, b) => b.average - a.average);
 }
 
+function getAverageRatingSync(employeeId) {
+  const revs = performanceReviews.filter((r) => r.employee_id === employeeId);
+  if (!revs.length) return 0;
+  return revs.reduce((sum, r) => sum + r.rating, 0) / revs.length;
+}
+
 function getOverallAverageRating() {
-  const reviews = getReviews();
-  if (!reviews.length) return 0;
-  return reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+  if (!performanceReviews.length) return 0;
+  return (
+    performanceReviews.reduce((sum, r) => sum + r.rating, 0) /
+    performanceReviews.length
+  );
 }
 
 function getTopPerformersCount() {
@@ -267,7 +344,7 @@ function getTopPerformersCount() {
 
 function getDepartmentName(deptId) {
   const departments = Department.getAllDepartments();
-  const dept = departments.find((d) => d.id === deptId);
+  const dept = departments.find((d) => d.id === parseInt(deptId));
   return dept ? dept.name : "Không xác định";
 }
 
@@ -281,7 +358,12 @@ function getRankBadge(rank) {
   if (ranks[rank]) {
     return `<span class="module-badge ${ranks[rank].class}">${ranks[rank].text}</span>`;
   }
-  return `<span class="module-badge module-badge-info">#${rank}</span>`;
+  return "";
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("vi-VN");
 }
 
 function renderStars(rating) {
@@ -294,41 +376,4 @@ function renderStars(rating) {
     }
   }
   return stars;
-}
-
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("vi-VN");
-}
-
-function showAlert(message, type) {
-  // Create alert element
-  const alert = document.createElement("div");
-  alert.className = `module-alert module-alert-${type}`;
-  alert.innerHTML = `
-    <i class="fas fa-${
-      type === "success" ? "check-circle" : "exclamation-circle"
-    }"></i>
-    <div class="module-alert-content">
-      <p>${message}</p>
-    </div>
-    <button class="module-alert-close">&times;</button>
-  `;
-
-  // Insert alert at the top of the container
-  const container = document.querySelector(".module-container");
-  container.insertBefore(alert, container.firstChild.nextSibling);
-
-  // Add close event
-  const closeBtn = alert.querySelector(".module-alert-close");
-  closeBtn.addEventListener("click", () => {
-    alert.remove();
-  });
-
-  // Auto remove after 5 seconds
-  setTimeout(() => {
-    if (alert.parentNode) {
-      alert.remove();
-    }
-  }, 5000);
 }

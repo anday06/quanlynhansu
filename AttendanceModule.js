@@ -1,83 +1,116 @@
 // AttendanceModule.js
-const ATTENDANCE_KEY = "attendance";
+import apiClient from "./apiClient.js";
 
-export function init() {
-  if (!localStorage.getItem(ATTENDANCE_KEY)) {
-    saveAttendance([]);
+let attendanceRecords = [];
+let isLoaded = false;
+
+export async function init() {
+  try {
+    console.log("Loading attendance records from API...");
+    const response = await apiClient.request("/attendance");
+    console.log("Attendance data received:", response);
+    // Đảm bảo luôn trả về mảng
+    attendanceRecords = Array.isArray(response.data) ? response.data : [];
+    isLoaded = true;
+    console.log("Attendance records loaded:", attendanceRecords);
+  } catch (error) {
+    console.error("Failed to load attendance records:", error);
+    // Cung cấp dữ liệu mặc định nếu không thể tải từ API
+    attendanceRecords = [];
+    isLoaded = true;
   }
 }
 
-export function checkIn(employeeId) {
-  const logs = getAttendance();
-  const today = new Date().toISOString().split("T")[0];
+export async function checkIn(employeeId) {
+  try {
+    const checkInData = {
+      employee_id: employeeId,
+      date: new Date().toISOString().split("T")[0],
+      check_in: new Date().toTimeString().split(" ")[0],
+    };
 
-  // Check if already checked in today
-  const existingLog = logs.find(
-    (l) => l.date === today && l.employeeId === employeeId
-  );
-
-  if (existingLog && existingLog.checkIn) {
-    return false; // Already checked in
-  }
-
-  if (existingLog) {
-    // Update existing log
-    existingLog.checkIn = new Date().toISOString();
-  } else {
-    // Create new log
-    logs.push({
-      date: today,
-      employeeId,
-      checkIn: new Date().toISOString(),
-      checkOut: null,
+    const response = await apiClient.request("/attendance/check-in", {
+      method: "POST",
+      body: JSON.stringify(checkInData),
     });
+
+    // Reload attendance records
+    await init();
+
+    return response.status === "success";
+  } catch (error) {
+    console.error("Failed to check in:", error);
+    throw new Error("Failed to check in: " + error.message);
+  }
+}
+
+export async function checkOut(employeeId) {
+  try {
+    const checkOutData = {
+      employee_id: employeeId,
+      date: new Date().toISOString().split("T")[0],
+      check_out: new Date().toTimeString().split(" ")[0],
+    };
+
+    const response = await apiClient.request("/attendance/check-out", {
+      method: "POST",
+      body: JSON.stringify(checkOutData),
+    });
+
+    // Reload attendance records
+    await init();
+
+    return response.status === "success";
+  } catch (error) {
+    console.error("Failed to check out:", error);
+    throw new Error("Failed to check out: " + error.message);
+  }
+}
+
+export async function getAttendanceReport(employeeId, fromDate, toDate) {
+  try {
+    const reportData = {
+      employee_id: employeeId,
+      from_date: fromDate,
+      to_date: toDate,
+    };
+
+    const response = await apiClient.request("/attendance/report", {
+      method: "POST",
+      body: JSON.stringify(reportData),
+    });
+
+    return response.data || [];
+  } catch (error) {
+    console.error("Failed to get attendance report:", error);
+    throw new Error("Failed to get attendance report: " + error.message);
+  }
+}
+
+export async function render(container) {
+  // Wait for attendance records to be loaded if they're not already
+  if (!isLoaded) {
+    // Show loading state while data is being fetched
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-header">
+          <h1><i class="fas fa-calendar-check"></i> Chấm Công</h1>
+        </div>
+        <div class="module-card">
+          <div class="module-card-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Đang tải...</span>
+            </div>
+            <p class="mt-2">Đang tải dữ liệu chấm công...</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Wait for data to load
+    await init();
   }
 
-  saveAttendance(logs);
-  return true;
-}
-
-export function checkOut(employeeId) {
-  let logs = getAttendance();
-  const today = new Date().toISOString().split("T")[0];
-  const log = logs.find(
-    (l) => l.date === today && l.employeeId === employeeId && !l.checkOut
-  );
-  if (log) {
-    log.checkOut = new Date().toISOString();
-    saveAttendance(logs);
-    return true;
-  }
-  return false;
-}
-
-export function getAttendanceReport(employeeId, fromDate, toDate) {
-  const logs = getAttendance().filter(
-    (l) =>
-      l.employeeId === employeeId &&
-      l.date >= fromDate &&
-      l.date <= toDate &&
-      l.checkIn
-  );
-  return logs.map((log) => {
-    let hours = 0;
-    if (log.checkOut) {
-      hours =
-        (new Date(log.checkOut) - new Date(log.checkIn)) / (1000 * 60 * 60);
-    }
-    return { ...log, hours: hours.toFixed(2) };
-  });
-}
-
-function getAttendance() {
-  return JSON.parse(localStorage.getItem(ATTENDANCE_KEY)) || [];
-}
-
-function saveAttendance(logs) {
-  localStorage.setItem(ATTENDANCE_KEY, JSON.stringify(logs));
-}
-
-export function render(container) {
   const today = new Date().toISOString().split("T")[0];
 
   container.innerHTML = `
@@ -154,181 +187,114 @@ export function render(container) {
   `;
 
   // Add event listeners
-  container.querySelector("#checkIn").addEventListener("click", () => {
+  container.querySelector("#checkIn").addEventListener("click", async () => {
     const id = parseInt(document.getElementById("attEmpId").value);
     if (!id) {
-      showAlert("Vui lòng nhập mã nhân viên", "danger");
+      alert("Vui lòng nhập mã nhân viên");
       return;
     }
 
-    if (checkIn(id)) {
-      showAlert("Bạn Check-In thành công", "success");
-      document.getElementById("attEmpId").value = "";
-    } else {
-      showAlert("Bạn đã chấm công vào làm hôm nay rồi!", "warning");
+    try {
+      await checkIn(id);
+      alert("Check-in thành công!");
+    } catch (error) {
+      alert("Check-in thất bại: " + error.message);
     }
   });
 
-  container.querySelector("#checkOut").addEventListener("click", () => {
+  container.querySelector("#checkOut").addEventListener("click", async () => {
     const id = parseInt(document.getElementById("attEmpId").value);
     if (!id) {
-      showAlert("Vui lòng nhập mã nhân viên", "danger");
+      alert("Vui lòng nhập mã nhân viên");
       return;
     }
 
-    if (checkOut(id)) {
-      showAlert("Bạn Check-Out thành công", "success");
-      document.getElementById("attEmpId").value = "";
-    } else {
-      showAlert(
-        "Bạn chưa chấm công vào làm hoặc đã chấm công ra về rồi!",
-        "warning"
-      );
+    try {
+      await checkOut(id);
+      alert("Check-out thành công!");
+    } catch (error) {
+      alert("Check-out thất bại: " + error.message);
     }
   });
 
-  container.querySelector("#report-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const id = parseInt(document.getElementById("reportEmpId").value);
-    const from = document.getElementById("fromDate").value || "1900-01-01";
-    const to =
-      document.getElementById("toDate").value ||
-      new Date().toISOString().split("T")[0];
+  container
+    .querySelector("#report-form")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = parseInt(document.getElementById("reportEmpId").value);
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
 
-    if (!id) {
-      showAlert("Vui lòng nhập mã nhân viên", "danger");
-      return;
-    }
+      if (!id || !fromDate || !toDate) {
+        alert("Vui lòng điền đầy đủ thông tin");
+        return;
+      }
 
-    const report = getAttendanceReport(id, from, to);
-    displayReport(container.querySelector("#report-container"), report);
-  });
-}
+      try {
+        const report = await getAttendanceReport(id, fromDate, toDate);
 
-function displayReport(container, report) {
-  if (report.length === 0) {
-    container.innerHTML = `
-      <div class="module-alert module-alert-info">
-        <i class="fas fa-info-circle"></i>
-        <div class="module-alert-content">
-          <h4>Không Có Dữ Liệu</h4>
-          <p>Không tìm thấy dữ liệu chấm công cho nhân viên này trong khoảng thời gian đã chọn.</p>
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  const totalHours = report.reduce((sum, r) => sum + parseFloat(r.hours), 0);
-  const avgHours = totalHours / report.length;
-
-  container.innerHTML = `
-    <div class="stats-container mb-4">
-      <div class="stat-card">
-        <div class="stat-icon blue">
-          <i class="fas fa-clock"></i>
-        </div>
-        <div class="stat-info">
-          <h4>${report.length}</h4>
-          <p>Số Ngày Làm Việc</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon green">
-          <i class="fas fa-hourglass-half"></i>
-        </div>
-        <div class="stat-info">
-          <h4>${totalHours.toFixed(2)}</h4>
-          <p>Tổng Số Giờ</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon purple">
-          <i class="fas fa-chart-line"></i>
-        </div>
-        <div class="stat-info">
-          <h4>${avgHours.toFixed(2)}</h4>
-          <p>Giờ Trung Bình/Ngày</p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="module-card">
-      <div class="module-card-header">
-        <h2><i class="fas fa-list"></i> Chi Tiết Chấm Công</h2>
-      </div>
-      <div class="module-card-body">
-        <div class="module-table-container">
-          <table class="module-table">
-            <thead>
-              <tr>
-                <th>Ngày</th>
-                <th>Vào Làm</th>
-                <th>Ra Về</th>
-                <th>Số Giờ</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${report
-                .map(
-                  (r) => `
+        const reportHtml = `
+        <div class="module-card mt-4">
+          <div class="module-card-header">
+            <h2><i class="fas fa-file-alt"></i> Kết Quả Báo Cáo</h2>
+          </div>
+          <div class="module-card-body">
+            <div class="module-table-container">
+              <table class="module-table">
+                <thead>
                   <tr>
-                    <td>${formatDate(r.date)}</td>
-                    <td>${formatTime(r.checkIn)}</td>
-                    <td>${
-                      r.checkOut ? formatTime(r.checkOut) : "Chưa ra về"
-                    }</td>
-                    <td>${r.hours} giờ</td>
+                    <th>Ngày</th>
+                    <th>Giờ Vào</th>
+                    <th>Giờ Ra</th>
+                    <th>Số Giờ</th>
                   </tr>
-                `
-                )
-                .join("")}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  ${report
+                    .map(
+                      (record) => `
+                    <tr>
+                      <td>${record.date}</td>
+                      <td>${record.check_in || "Chưa có"}</td>
+                      <td>${record.check_out || "Chưa có"}</td>
+                      <td>${calculateHours(
+                        record.check_in,
+                        record.check_out
+                      )}</td>
+                    </tr>
+                  `
+                    )
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  `;
+      `;
+
+        document.getElementById("report-container").innerHTML = reportHtml;
+      } catch (error) {
+        document.getElementById("report-container").innerHTML = `
+        <div class="module-alert module-alert-danger">
+          <i class="fas fa-exclamation-circle"></i>
+          <div class="module-alert-content">
+            <p>Lỗi khi lấy báo cáo: ${error.message}</p>
+          </div>
+        </div>
+      `;
+      }
+    });
 }
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("vi-VN");
-}
+function calculateHours(checkIn, checkOut) {
+  if (!checkIn || !checkOut) return "0.00";
 
-function formatTime(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleTimeString("vi-VN");
-}
+  const [inHours, inMinutes] = checkIn.split(":").map(Number);
+  const [outHours, outMinutes] = checkOut.split(":").map(Number);
 
-function showAlert(message, type) {
-  // Create alert element
-  const alert = document.createElement("div");
-  alert.className = `module-alert module-alert-${type}`;
-  alert.innerHTML = `
-    <i class="fas fa-${
-      type === "success" ? "check-circle" : "exclamation-circle"
-    }"></i>
-    <div class="module-alert-content">
-      <p>${message}</p>
-    </div>
-    <button class="module-alert-close">&times;</button>
-  `;
+  const inTime = inHours * 60 + inMinutes;
+  const outTime = outHours * 60 + outMinutes;
 
-  // Insert alert at the top of the container
-  const container = document.querySelector(".module-container");
-  container.insertBefore(alert, container.firstChild.nextSibling);
-
-  // Add close event
-  const closeBtn = alert.querySelector(".module-alert-close");
-  closeBtn.addEventListener("click", () => {
-    alert.remove();
-  });
-
-  // Auto remove after 5 seconds
-  setTimeout(() => {
-    if (alert.parentNode) {
-      alert.remove();
-    }
-  }, 5000);
+  const hours = (outTime - inTime) / 60;
+  return hours.toFixed(2);
 }

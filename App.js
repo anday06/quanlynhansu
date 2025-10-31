@@ -29,13 +29,15 @@ const showRegisterLink = document.getElementById("show-register");
 const showLoginLink = document.getElementById("show-login");
 
 // Initialize databases
-EmployeeDb.init();
-Department.init();
-Position.init();
-Attendance.init();
-Leave.init();
-Performance.init();
-SalaryAdjustmentDb.init();
+async function initModules() {
+  await EmployeeDb.init();
+  await Department.init();
+  await Position.init();
+  await Attendance.init();
+  await Leave.init();
+  await Performance.init(); // This is now async
+  await SalaryAdjustmentDb.init();
+}
 
 // Routing map
 const routes = {
@@ -55,6 +57,9 @@ const routes = {
 };
 
 async function initApp() {
+  // Wait for all modules to be initialized
+  await initModules();
+
   const isLoggedIn = await Auth.checkSession();
   if (isLoggedIn) {
     showDashboard();
@@ -92,11 +97,15 @@ function showAuth() {
       e.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-      const success = await Auth.login(username, password);
-      if (success) {
-        showDashboard();
-      } else {
-        alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+      try {
+        const success = await Auth.login(username, password);
+        if (success) {
+          showDashboard();
+        } else {
+          alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+        }
+      } catch (error) {
+        alert("Đăng nhập thất bại: " + error.message);
       }
     });
   }
@@ -119,12 +128,19 @@ function showAuth() {
       }
 
       try {
-        await Auth.register(username, password);
+        await Auth.register(username, email, password);
         alert("Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.");
         // Switch to login form
         showLoginSection();
       } catch (error) {
-        alert("Đăng ký thất bại: " + error.message);
+        // Hiển thị thông báo lỗi phù hợp
+        if (error.message === "Tên Người Dùng Đã Tồn Tại") {
+          alert("Tên Người Dùng Đã Tồn Tại");
+        } else if (error.message === "Email Đã Tồn Tại") {
+          alert("Email Đã Tồn Tại");
+        } else {
+          alert("Đăng ký thất bại: " + error.message);
+        }
       }
     });
   }
@@ -174,7 +190,8 @@ function showDashboard() {
   // Set up menu item clicks
   const menuLinks = document.querySelectorAll(".sidebar-menu a[data-module]");
   menuLinks.forEach((link) => {
-    link.addEventListener("click", (e) => {
+    link.addEventListener("click", async (e) => {
+      // Make this async
       e.preventDefault();
 
       // Get the module from the link element
@@ -183,7 +200,22 @@ function showDashboard() {
       // Check if module exists in routes
       if (routes[module]) {
         mainContentArea.innerHTML = "";
-        routes[module](mainContentArea);
+        // Handle async render functions
+        if (
+          module === "addEmployee" ||
+          module === "searchEmployee" ||
+          module === "department" ||
+          module === "position" ||
+          module === "editEmployee" ||
+          module === "performance" ||
+          module === "attendance" ||
+          module === "leave" ||
+          module === "salaryAdjustment"
+        ) {
+          await routes[module](mainContentArea);
+        } else {
+          routes[module](mainContentArea);
+        }
 
         // Update page title
         const pageTitle = document.getElementById("page-title");

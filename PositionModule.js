@@ -1,77 +1,197 @@
 // PositionModule.js
-const POSITIONS_KEY = "positions";
+import apiClient from "./apiClient.js";
+
+let positions = [];
+let isLoaded = false;
 
 export function init() {
-  if (!localStorage.getItem(POSITIONS_KEY)) {
-    const defaults = [
+  return loadPositions();
+}
+
+async function loadPositions() {
+  try {
+    console.log("Loading positions...");
+    const data = await apiClient.getPositions();
+    console.log("Positions data received:", data);
+    // Đảm bảo luôn trả về mảng
+    positions = Array.isArray(data) ? data : [];
+    isLoaded = true;
+    console.log("Positions loaded:", positions);
+  } catch (error) {
+    console.error("Failed to load positions:", error);
+    // Cung cấp dữ liệu mặc định nếu không thể tải từ API
+    positions = [
       {
         id: 1,
-        title: "Giám Đốc",
-        description: "Quản lý toàn bộ hoạt động của công ty",
-        salaryBase: 60000,
+        title: "Manager",
+        description: "Quản lý phòng ban",
+        salary_base: 15000000,
       },
       {
         id: 2,
-        title: "Lập Trình Viên",
-        description: "Phát triển và bảo trì phần mềm",
-        salaryBase: 50000,
+        title: "Senior Staff",
+        description: "Nhân viên cấp cao",
+        salary_base: 12000000,
       },
+      { id: 3, title: "Staff", description: "Nhân viên", salary_base: 8000000 },
       {
-        id: 3,
-        title: "Chuyên Viên Phân Tích",
-        description: "Phân tích dữ liệu và đưa ra insights",
-        salaryBase: 55000,
+        id: 4,
+        title: "Intern",
+        description: "Thực tập sinh",
+        salary_base: 3000000,
       },
     ];
-    savePositions(defaults);
+    isLoaded = true;
   }
 }
 
 export function getAllPositions() {
-  return JSON.parse(localStorage.getItem(POSITIONS_KEY)) || [];
+  console.log("Getting all positions:", positions);
+  // Luôn trả về mảng hợp lệ
+  return Array.isArray(positions) ? positions : [];
 }
 
-export async function addPosition(title, desc, salaryBase) {
-  await simulateDelay();
-  const positions = getAllPositions();
-  const id = Math.max(...positions.map((p) => p.id), 0) + 1;
-  positions.push({
-    id,
-    title,
-    description: desc,
-    salaryBase: parseFloat(salaryBase) || 0,
-  });
-  savePositions(positions);
+export function isPositionsLoaded() {
+  return isLoaded;
 }
 
-export async function editPosition(id, updates) {
-  await simulateDelay();
-  let positions = getAllPositions();
-  positions = positions.map((p) => (p.id === id ? { ...p, ...updates } : p));
-  savePositions(positions);
+export function getPositionById(id) {
+  const poss = getAllPositions();
+  return poss.find((pos) => pos.id === parseInt(id));
+}
+
+export async function addPosition(positionData) {
+  try {
+    console.log("Adding position with data:", positionData);
+    const newPosition = await apiClient.createPosition(positionData);
+    console.log("New position created:", newPosition);
+    // Đảm bảo positions là mảng hợp lệ trước khi push
+    if (!Array.isArray(positions)) {
+      console.warn("Positions is not an array, initializing as empty array");
+      positions = [];
+    }
+    positions.push(newPosition);
+    console.log("Positions after push:", positions);
+    return newPosition;
+  } catch (error) {
+    console.error("Failed to add position:", error);
+    throw new Error("Failed to add position: " + error.message);
+  }
+}
+
+export async function updatePosition(id, positionData) {
+  try {
+    console.log("Updating position:", id, positionData);
+    const updatedPosition = await apiClient.updatePosition(id, positionData);
+    console.log("Updated position:", updatedPosition);
+    // Đảm bảo positions là mảng hợp lệ trước khi map
+    if (!Array.isArray(positions)) {
+      console.warn("Positions is not an array, initializing as empty array");
+      positions = [];
+    }
+    positions = positions.map((pos) =>
+      pos.id === parseInt(id) ? updatedPosition : pos
+    );
+    console.log("Positions after update:", positions);
+    return updatedPosition;
+  } catch (error) {
+    console.error("Failed to update position:", error);
+    throw new Error("Failed to update position: " + error.message);
+  }
 }
 
 export async function deletePosition(id) {
-  await simulateDelay();
-  let positions = getAllPositions();
-  positions = positions.filter((p) => p.id !== id);
-  savePositions(positions);
+  // Validate ID first
+  if (!id || isNaN(id)) {
+    throw new Error("Invalid position ID");
+  }
+
+  // Check if position exists in local array before attempting to delete
+  const positionExists =
+    Array.isArray(positions) &&
+    positions.some((pos) => pos.id === parseInt(id));
+  if (!positionExists) {
+    console.warn(
+      "Position not found in local array, may have been already deleted:",
+      id
+    );
+    // Remove from local array if exists (defensive programming)
+    if (Array.isArray(positions)) {
+      positions = positions.filter((pos) => pos.id !== parseInt(id));
+    }
+    return true; // Consider as success since it's already deleted
+  }
+
+  try {
+    console.log("Deleting position:", id);
+
+    await apiClient.deletePosition(id);
+
+    // Đảm bảo positions là mảng hợp lệ trước khi filter
+    if (!Array.isArray(positions)) {
+      console.warn("Positions is not an array, initializing as empty array");
+      positions = [];
+    }
+    positions = positions.filter((pos) => pos.id !== parseInt(id));
+    console.log("Positions after delete:", positions);
+    return true;
+  } catch (error) {
+    console.error("Failed to delete position:", error);
+
+    // If it's a 404 error, the position might have been already deleted
+    if (error.message && error.message.includes("not found")) {
+      // Remove from local array anyway
+      if (Array.isArray(positions)) {
+        positions = positions.filter((pos) => pos.id !== parseInt(id));
+      }
+      console.log(
+        "Position was already deleted, removed from local array:",
+        id
+      );
+      return true; // Consider as success
+    }
+
+    throw new Error("Failed to delete position: " + error.message);
+  }
 }
 
-function savePositions(positions) {
-  localStorage.setItem(POSITIONS_KEY, JSON.stringify(positions));
-}
+export async function render(container) {
+  // Wait for positions to be loaded if they're not already
+  if (!isLoaded) {
+    // Show loading state while data is being fetched
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-header">
+          <h1><i class="fas fa-briefcase"></i> Quản Lý Chức Vụ</h1>
+        </div>
+        <div class="module-card">
+          <div class="module-card-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Đang tải...</span>
+            </div>
+            <p class="mt-2">Đang tải dữ liệu chức vụ...</p>
+          </div>
+        </div>
+      </div>
+    `;
 
-export function render(container) {
+    // Wait for data to load
+    await loadPositions();
+  }
+
   container.innerHTML = `
     <div class="module-container">
       <div class="module-header">
         <h1><i class="fas fa-briefcase"></i> Quản Lý Chức Vụ</h1>
         <div class="module-header-actions">
-          <button id="add-position-btn" class="btn btn-success">
+          <button id="addPositionBtn" class="btn btn-primary">
             <i class="fas fa-plus"></i> Thêm Chức Vụ
           </button>
         </div>
+      </div>
+      
+      <div class="module-subheader">
+        <p>Quản lý các chức vụ trong công ty</p>
       </div>
       
       <div class="module-card">
@@ -83,68 +203,75 @@ export function render(container) {
             <table class="module-table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>STT</th>
                   <th>Tên Chức Vụ</th>
                   <th>Mô Tả</th>
                   <th>Lương Cơ Bản</th>
+                  <th>Ngày Tạo</th>
                   <th>Thao Tác</th>
                 </tr>
               </thead>
-              <tbody>
-                ${getAllPositions()
-                  .map(
-                    (p) => `
-                    <tr>
-                      <td>${p.id}</td>
-                      <td>${p.title}</td>
-                      <td>${p.description}</td>
-                      <td>${formatCurrency(p.salaryBase)}</td>
-                      <td class="module-table-actions">
-                        <button data-id="${
-                          p.id
-                        }" class="btn btn-sm btn-warning edit-btn">
-                          <i class="fas fa-edit"></i> Sửa
-                        </button>
-                        <button data-id="${
-                          p.id
-                        }" class="btn btn-sm btn-danger delete-btn">
-                          <i class="fas fa-trash"></i> Xóa
-                        </button>
-                      </td>
-                    </tr>`
-                  )
-                  .join("")}
+              <tbody id="positionTableBody">
+                ${
+                  positions && positions.length > 0
+                    ? positions
+                        .map(
+                          (pos, index) => `
+                  <tr data-id="${pos.id}">
+                    <td>${index + 1}</td>
+                    <td>${pos.title}</td>
+                    <td>${pos.description || ""}</td>
+                    <td>${formatCurrency(pos.salary_base || 0)}</td>
+                    <td>${formatDate(pos.created_at)}</td>
+                    <td class="module-table-actions">
+                      <button class="btn btn-sm btn-warning edit-btn" data-id="${
+                        pos.id
+                      }">
+                        <i class="fas fa-edit"></i> Sửa
+                      </button>
+                      <button class="btn btn-sm btn-danger delete-btn" data-id="${
+                        pos.id
+                      }">
+                        <i class="fas fa-trash"></i> Xóa
+                      </button>
+                    </td>
+                  </tr>
+                `
+                        )
+                        .join("")
+                    : "<tr><td colspan='6' class='text-center'>Không có dữ liệu</td></tr>"
+                }
               </tbody>
             </table>
           </div>
         </div>
       </div>
       
-      <!-- Add/Edit Position Modal -->
-      <div id="position-modal" class="modal" style="display: none;">
+      <!-- Position Modal -->
+      <div id="positionModal" class="modal" style="display: none;">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 id="modal-title">Thêm Chức Vụ</h3>
+            <h3 id="modalTitle">Thêm Chức Vụ</h3>
             <span class="close">&times;</span>
           </div>
           <div class="modal-body">
-            <form id="position-form" class="module-form">
-              <input type="hidden" id="position-id">
+            <form id="positionForm" class="module-form">
+              <input type="hidden" id="positionId">
               <div class="module-form-group">
-                <label for="position-title">Tên Chức Vụ</label>
-                <input type="text" id="position-title" class="module-form-control" placeholder="Nhập tên chức vụ" required>
+                <label for="positionTitle">Tên Chức Vụ</label>
+                <input type="text" id="positionTitle" class="module-form-control" placeholder="Nhập tên chức vụ" required>
               </div>
               <div class="module-form-group">
-                <label for="position-description">Mô Tả</label>
-                <textarea id="position-description" class="module-form-control" rows="3" placeholder="Nhập mô tả chức vụ"></textarea>
+                <label for="positionDescription">Mô Tả</label>
+                <textarea id="positionDescription" class="module-form-control" rows="3" placeholder="Nhập mô tả"></textarea>
               </div>
               <div class="module-form-group">
-                <label for="position-salary">Lương Cơ Bản</label>
-                <input type="number" id="position-salary" class="module-form-control" placeholder="Nhập lương cơ bản" min="0">
+                <label for="positionSalaryBase">Lương Cơ Bản</label>
+                <input type="number" id="positionSalaryBase" class="module-form-control" placeholder="Nhập lương cơ bản" min="0">
               </div>
               <div class="module-btn-group">
                 <button type="submit" class="btn btn-success">
-                  <i class="fas fa-save"></i> <span id="save-btn-text">Lưu</span>
+                  <i class="fas fa-save"></i> Lưu
                 </button>
                 <button type="button" class="btn btn-secondary close-modal">
                   <i class="fas fa-times"></i> Hủy
@@ -158,95 +285,168 @@ export function render(container) {
   `;
 
   // Add event listeners
-  container.querySelector("#add-position-btn").addEventListener("click", () => {
-    openModal("add");
+  document.getElementById("addPositionBtn").addEventListener("click", () => {
+    openPositionModal();
   });
 
-  container.querySelectorAll(".edit-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = parseInt(e.target.closest(".edit-btn").dataset.id);
-      const position = getAllPositions().find((p) => p.id === id);
-      if (position) {
-        openModal("edit", position);
+  container.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("edit-btn")) {
+      const id = e.target.dataset.id;
+      console.log("Edit button clicked, position ID:", id);
+
+      // Validate ID
+      if (!id || isNaN(id)) {
+        showAlert("ID chức vụ không hợp lệ", "danger");
+        return;
       }
-    });
-  });
 
-  container.querySelectorAll(".delete-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = parseInt(e.target.closest(".delete-btn").dataset.id);
+      try {
+        const pos = await apiClient.getPosition(id);
+        openPositionModal(pos);
+      } catch (error) {
+        // Handle 404 error specifically
+        if (
+          error.message &&
+          (error.message.includes("not found") || error.message.includes("404"))
+        ) {
+          showAlert("Chức vụ không tồn tại hoặc đã bị xóa", "warning");
+          // Refresh the module to sync with server
+          await render(container);
+        } else {
+          showAlert(
+            "Không thể tải thông tin chức vụ: " + error.message,
+            "danger"
+          );
+        }
+      }
+    } else if (e.target.classList.contains("delete-btn")) {
+      const id = e.target.dataset.id;
+      console.log("Delete button clicked, position ID:", id);
+
+      // Validate ID
+      if (!id || isNaN(id)) {
+        showAlert("ID chức vụ không hợp lệ", "danger");
+        return;
+      }
+
+      // Check if position exists in local array
+      const positionExists =
+        Array.isArray(positions) &&
+        positions.some((pos) => pos.id === parseInt(id));
+      if (!positionExists) {
+        showAlert("Chức vụ không tồn tại hoặc đã bị xóa", "warning");
+        // Refresh the module to sync with server
+        await render(container);
+        return;
+      }
+
       if (confirm("Bạn có chắc chắn muốn xóa chức vụ này?")) {
-        deletePosition(id);
-        render(container);
+        try {
+          await deletePosition(id);
+          showAlert("Xóa chức vụ thành công!", "success");
+          await render(container);
+        } catch (error) {
+          console.error("Delete position error:", error);
+          showAlert("Xóa chức vụ thất bại: " + error.message, "danger");
+
+          // Re-render to refresh the view
+          await render(container);
+        }
       }
-    });
+    }
   });
 
   // Modal event listeners
-  const modal = container.querySelector("#position-modal");
+  const modal = document.getElementById("positionModal");
   const closeModal = () => {
     modal.style.display = "none";
   };
 
-  container.querySelector(".close").addEventListener("click", closeModal);
-  container.querySelector(".close-modal").addEventListener("click", closeModal);
+  if (modal) {
+    modal.querySelector(".close").addEventListener("click", closeModal);
+    modal.querySelector(".close-modal").addEventListener("click", closeModal);
 
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-
-  container
-    .querySelector("#position-form")
-    .addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const id = document.getElementById("position-id").value;
-      const title = document.getElementById("position-title").value;
-      const description = document.getElementById("position-description").value;
-      const salaryBase = document.getElementById("position-salary").value;
-
-      if (id) {
-        await editPosition(parseInt(id), {
-          title,
-          description,
-          salaryBase: parseFloat(salaryBase) || 0,
-        });
-      } else {
-        await addPosition(title, description, salaryBase);
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeModal();
       }
-
-      closeModal();
-      render(container);
     });
+
+    modal
+      .querySelector("#positionForm")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("positionId").value;
+        const positionData = {
+          title: document.getElementById("positionTitle").value,
+          description: document.getElementById("positionDescription").value,
+          salary_base: document.getElementById("positionSalaryBase").value || 0,
+        };
+
+        try {
+          if (id) {
+            await updatePosition(id, positionData);
+            showAlert("Cập nhật chức vụ thành công!", "success");
+          } else {
+            await addPosition(positionData);
+            showAlert("Thêm chức vụ thành công!", "success");
+          }
+          closeModal();
+          await render(container);
+        } catch (error) {
+          showAlert("Lưu chức vụ thất bại: " + error.message, "danger");
+        }
+      });
+  }
 }
 
-function openModal(mode, position = null) {
-  const modal = document.getElementById("position-modal");
-  const title = document.getElementById("modal-title");
-  const saveBtnText = document.getElementById("save-btn-text");
-  const idInput = document.getElementById("position-id");
-  const titleInput = document.getElementById("position-title");
-  const descriptionInput = document.getElementById("position-description");
-  const salaryInput = document.getElementById("position-salary");
+function openPositionModal(position = null) {
+  const modal = document.getElementById("positionModal");
+  const form = document.getElementById("positionForm");
+  const title = document.getElementById("modalTitle");
 
-  if (mode === "add") {
-    title.textContent = "Thêm Chức Vụ";
-    saveBtnText.textContent = "Thêm";
-    idInput.value = "";
-    titleInput.value = "";
-    descriptionInput.value = "";
-    salaryInput.value = "";
-  } else {
+  if (position) {
+    // Edit mode
     title.textContent = "Sửa Chức Vụ";
-    saveBtnText.textContent = "Lưu";
-    idInput.value = position.id;
-    titleInput.value = position.title;
-    descriptionInput.value = position.description;
-    salaryInput.value = position.salaryBase;
+    document.getElementById("positionId").value = position.id;
+    document.getElementById("positionTitle").value = position.title;
+    document.getElementById("positionDescription").value =
+      position.description || "";
+    document.getElementById("positionSalaryBase").value =
+      position.salary_base || 0;
+  } else {
+    // Add mode
+    title.textContent = "Thêm Chức Vụ";
+    form.reset();
+    document.getElementById("positionId").value = "";
   }
 
   modal.style.display = "block";
+}
+
+function showAlert(message, type) {
+  // Create alert element
+  const alert = document.createElement("div");
+  alert.className = `module-alert module-alert-${type}`;
+  alert.innerHTML = `
+    <i class="fas fa-${
+      type === "success" ? "check-circle" : "exclamation-circle"
+    }"></i>
+    <div class="module-alert-content">
+      <p>${message}</p>
+    </div>
+  `;
+
+  // Insert alert at the top of the container
+  const container = document.querySelector(".module-container");
+  container.insertBefore(alert, container.firstChild.nextSibling);
+
+  // Remove alert after 3 seconds
+  setTimeout(() => {
+    if (alert.parentNode) {
+      alert.remove();
+    }
+  }, 3000);
 }
 
 function formatCurrency(amount) {
@@ -256,6 +456,8 @@ function formatCurrency(amount) {
   }).format(amount);
 }
 
-function simulateDelay() {
-  return new Promise((resolve) => setTimeout(resolve, 500));
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("vi-VN");
 }

@@ -1,9 +1,106 @@
 // SearchEmployeeModule.js
-import * as EmployeeDb from "./EmployeeDbModule.js";
+import apiClient from "./apiClient.js";
 import * as Department from "./DepartmentModule.js";
 import * as Position from "./PositionModule.js";
 
-export function render(container) {
+export async function render(container) {
+  console.log("Rendering SearchEmployeeModule");
+
+  // Always try to load fresh data
+  try {
+    // Show loading state while data is being fetched
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-header">
+          <h1><i class="fas fa-search"></i> Tìm Kiếm Nhân Viên</h1>
+        </div>
+        <div class="module-card">
+          <div class="module-card-body text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Đang tải...</span>
+            </div>
+            <p class="mt-2">Đang tải dữ liệu phòng ban và chức vụ...</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Force reload the data
+    console.log("Loading departments...");
+    await Department.init();
+    console.log("Loading positions...");
+    await Position.init();
+  } catch (error) {
+    console.error("Failed to load required data:", error);
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-alert module-alert-danger">
+          <i class="fas fa-exclamation-circle"></i>
+          <div class="module-alert-content">
+            <h4>Lỗi Tải Dữ Liệu</h4>
+            <p>Không thể tải dữ liệu phòng ban và chức vụ: ${error.message}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Get fresh data
+  const departments = Department.getAllDepartments();
+  const positions = Position.getAllPositions();
+
+  // Kiểm tra kỹ hơn dữ liệu
+  console.log("Search - Departments data:", departments);
+  console.log("Search - Positions data:", positions);
+  console.log("Search - Is departments array:", Array.isArray(departments));
+  console.log("Search - Is positions array:", Array.isArray(positions));
+  console.log(
+    "Search - Departments length:",
+    departments ? departments.length : "null"
+  );
+  console.log(
+    "Search - Positions length:",
+    positions ? positions.length : "null"
+  );
+
+  // Kiểm tra kỹ hơn dữ liệu
+  if (!Array.isArray(departments)) {
+    console.error("Departments is not an array:", departments);
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-alert module-alert-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div class="module-alert-content">
+            <h4>Dữ Liệu Không Hợp Lệ</h4>
+            <p>Dữ liệu phòng ban không hợp lệ. Vui lòng thử lại.</p>
+            <p>Departments type: ${typeof departments}</p>
+            <p>Departments value: ${JSON.stringify(departments)}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (!Array.isArray(positions)) {
+    console.error("Positions is not an array:", positions);
+    container.innerHTML = `
+      <div class="module-container">
+        <div class="module-alert module-alert-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div class="module-alert-content">
+            <h4>Dữ Liệu Không Hợp Lệ</h4>
+            <p>Dữ liệu chức vụ không hợp lệ. Vui lòng thử lại.</p>
+            <p>Positions type: ${typeof positions}</p>
+            <p>Positions value: ${JSON.stringify(positions)}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   container.innerHTML = `
     <div class="module-container">
       <div class="module-header">
@@ -33,9 +130,18 @@ export function render(container) {
                   <label for="searchDepartment">Phòng Ban</label>
                   <select id="searchDepartment" class="module-form-control">
                     <option value="">Tất Cả Phòng Ban</option>
-                    ${Department.getAllDepartments()
-                      .map((d) => `<option value="${d.id}">${d.name}</option>`)
-                      .join("")}
+                    ${
+                      departments.length > 0
+                        ? departments
+                            .map(
+                              (d, index) =>
+                                `<option value="${d.id}">[${index + 1}] ${
+                                  d.name
+                                }</option>`
+                            )
+                            .join("")
+                        : "<option value=''>Không có phòng ban</option>"
+                    }
                   </select>
                 </div>
               </div>
@@ -74,9 +180,9 @@ export function render(container) {
   `;
 
   const form = container.querySelector("#searchForm");
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    performSearch(container);
+    await performSearch(container);
   });
 
   // Clear search button
@@ -86,89 +192,148 @@ export function render(container) {
   });
 }
 
-function performSearch(container) {
-  const nameRegex = new RegExp(
-    document.getElementById("searchName").value || ".*",
-    "i"
-  );
-  const deptId =
-    parseInt(document.getElementById("searchDepartment").value) || null;
-  const minSal = parseFloat(document.getElementById("minSalary").value) || 0;
-  const maxSal =
-    parseFloat(document.getElementById("maxSalary").value) || Infinity;
+async function performSearch(container) {
+  const filters = {};
 
-  const filterFn = (emp) =>
-    nameRegex.test(emp.name) &&
-    (!deptId || emp.departmentId === deptId) &&
-    emp.salary >= minSal &&
-    emp.salary <= maxSal;
+  const name = document.getElementById("searchName").value;
+  const deptId = document.getElementById("searchDepartment").value;
+  const minSal = document.getElementById("minSalary").value;
+  const maxSal = document.getElementById("maxSalary").value;
 
-  let results = EmployeeDb.getAllEmployees().filter(filterFn);
-  results = EmployeeDb.sortBySalary(results);
+  if (name) filters.name = name;
+  if (deptId) filters.department_id = deptId;
+  if (minSal) filters.min_salary = minSal;
+  if (maxSal) filters.max_salary = maxSal;
 
-  displayResults(results, container);
+  try {
+    console.log("Performing search with filters:", filters);
+    let results = await apiClient.searchEmployees(filters);
+    console.log("Search results received:", results);
+    console.log("Is results array:", Array.isArray(results));
+    console.log("Results type:", typeof results);
+
+    // Kiểm tra kỹ hơn kết quả
+    if (results === undefined) {
+      throw new Error("Dữ liệu trả về không hợp lệ: Kết quả là undefined");
+    }
+
+    if (results === null) {
+      throw new Error("Dữ liệu trả về không hợp lệ: Kết quả là null");
+    }
+
+    // Đảm bảo results là mảng trước khi gọi sortBySalary
+    if (Array.isArray(results)) {
+      console.log("Sorting results by salary...");
+      results = sortBySalary(results);
+      console.log("Displaying results:", results);
+      displayResults(results, container);
+    } else {
+      console.error("Invalid search results format:", results);
+      console.error("Results constructor:", results.constructor.name);
+      throw new Error(
+        "Dữ liệu trả về không hợp lệ: Không phải là mảng. Kiểu dữ liệu: " +
+          typeof results
+      );
+    }
+  } catch (error) {
+    console.error("Search error:", error);
+    console.error("Search error stack:", error.stack);
+    document.getElementById("searchResults").innerHTML = `
+      <div class="module-alert module-alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        <div class="module-alert-content">
+          <h4>Lỗi Tìm Kiếm</h4>
+          <p>${error.message}</p>
+          <p>Chi tiết: ${error.stack || "No stack trace"}</p>
+        </div>
+      </div>
+    `;
+  }
 }
 
 function displayResults(employees, container) {
   const resultsContainer = document.getElementById("searchResults");
 
-  if (employees.length === 0) {
+  // Kiểm tra employees có phải là mảng hợp lệ không
+  if (!Array.isArray(employees)) {
     resultsContainer.innerHTML = `
-      <div class="module-alert module-alert-info">
-        <i class="fas fa-info-circle"></i>
+      <div class="module-alert module-alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
         <div class="module-alert-content">
-          <h4>Không Tìm Thấy Kết Quả</h4>
-          <p>Không có nhân viên nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
+          <h4>Lỗi Hiển Thị</h4>
+          <p>Dữ liệu nhân viên không hợp lệ.</p>
         </div>
       </div>
     `;
     return;
   }
 
-  // Create summary
-  const totalEmployees = employees.length;
-  const avgSalary =
-    employees.reduce((sum, emp) => sum + emp.salary, 0) / totalEmployees;
+  if (employees.length === 0) {
+    resultsContainer.innerHTML = `
+      <div class="module-alert module-alert-info">
+        <i class="fas fa-info-circle"></i>
+        <div class="module-alert-content">
+          <h4>Không Tìm Thấy</h4>
+          <p>Không tìm thấy nhân viên nào phù hợp với tiêu chí tìm kiếm.</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
 
-  resultsContainer.innerHTML = `
-    <div class="stats-container mb-4">
-      <div class="stat-card">
-        <div class="stat-icon blue">
-          <i class="fas fa-users"></i>
-        </div>
-        <div class="stat-info">
-          <h4>${totalEmployees}</h4>
-          <p>Tổng Số Nhân Viên</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon green">
-          <i class="fas fa-money-bill-wave"></i>
-        </div>
-        <div class="stat-info">
-          <h4>${formatCurrency(avgSalary)}</h4>
-          <p>Lương Trung Bình</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon purple">
-          <i class="fas fa-coins"></i>
-        </div>
-        <div class="stat-info">
-          <h4>${formatCurrency(
-            employees[employees.length - 1]?.salary || 0
-          )}</h4>
-          <p>Lương Cao Nhất</p>
-        </div>
-      </div>
-    </div>
-    
+  // Function to get department name
+  function getDepartmentName(deptId) {
+    const departments = Department.getAllDepartments();
+    // Kiểm tra departments có tồn tại và là mảng trước khi gọi find
+    if (Array.isArray(departments) && departments.length > 0) {
+      const dept = departments.find((d) => d.id === parseInt(deptId));
+      return dept ? dept.name : "Không xác định";
+    }
+    return "Không xác định";
+  }
+
+  // Function to get position name
+  function getPositionName(posId) {
+    const positions = Position.getAllPositions();
+    // Kiểm tra positions có tồn tại và là mảng trước khi gọi find
+    if (Array.isArray(positions) && positions.length > 0) {
+      const pos = positions.find((p) => p.id === parseInt(posId));
+      return pos ? pos.title : "Không xác định";
+    }
+    return "Không xác định";
+  }
+
+  // Function to get department STT
+  function getDepartmentSTT(deptId) {
+    const departments = Department.getAllDepartments();
+    // Kiểm tra departments có tồn tại và là mảng trước khi gọi find
+    if (Array.isArray(departments) && departments.length > 0) {
+      const index = departments.findIndex((d) => d.id === parseInt(deptId));
+      return index >= 0 ? index + 1 : "Không xác định";
+    }
+    return "Không xác định";
+  }
+
+  // Function to get position STT
+  function getPositionSTT(posId) {
+    const positions = Position.getAllPositions();
+    // Kiểm tra positions có tồn tại và là mảng trước khi gọi find
+    if (Array.isArray(positions) && positions.length > 0) {
+      const index = positions.findIndex((p) => p.id === parseInt(posId));
+      return index >= 0 ? index + 1 : "Không xác định";
+    }
+    return "Không xác định";
+  }
+
+  const tableHtml = `
     <div class="module-card">
       <div class="module-card-header">
         <h2><i class="fas fa-list"></i> Kết Quả Tìm Kiếm</h2>
-        <span class="module-badge module-badge-primary">${
-          employees.length
-        } nhân viên</span>
+        <div class="module-card-header-actions">
+          <span class="module-badge module-badge-info">${
+            employees.length
+          } nhân viên</span>
+        </div>
       </div>
       <div class="module-card-body">
         <div class="module-table-container">
@@ -179,8 +344,9 @@ function displayResults(employees, container) {
                 <th>Họ Tên</th>
                 <th>Phòng Ban</th>
                 <th>Chức Vụ</th>
-                <th>Lương Cơ Bản</th>
-                <th>Ngày Vào Làm</th>
+                <th>Lương</th>
+                <th>Ngày Bắt Đầu</th>
+                <th>Thao Tác</th>
               </tr>
             </thead>
             <tbody>
@@ -190,10 +356,21 @@ function displayResults(employees, container) {
                 <tr>
                   <td>${emp.id}</td>
                   <td>${emp.name}</td>
-                  <td>${getDepartmentName(emp.departmentId)}</td>
-                  <td>${getPositionName(emp.positionId)}</td>
+                  <td>[${getDepartmentSTT(
+                    emp.department_id
+                  )}] ${getDepartmentName(emp.department_id)}</td>
+                  <td>[${getPositionSTT(emp.position_id)}] ${getPositionName(
+                    emp.position_id
+                  )}</td>
                   <td>${formatCurrency(emp.salary)}</td>
-                  <td>${formatDate(emp.hireDate)}</td>
+                  <td>${formatDate(emp.hire_date)}</td>
+                  <td class="module-table-actions">
+                    <button class="btn btn-sm btn-info view-btn" data-id="${
+                      emp.id
+                    }">
+                      <i class="fas fa-eye"></i> Xem
+                    </button>
+                  </td>
                 </tr>
               `
                 )
@@ -204,18 +381,22 @@ function displayResults(employees, container) {
       </div>
     </div>
   `;
+
+  resultsContainer.innerHTML = tableHtml;
+
+  // Add event listeners for view buttons
+  resultsContainer.querySelectorAll(".view-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      // In a real app, you would show employee details here
+      alert(`Xem chi tiết nhân viên ID: ${id}`);
+    });
+  });
 }
 
-function getDepartmentName(deptId) {
-  const departments = Department.getAllDepartments();
-  const dept = departments.find((d) => d.id === deptId);
-  return dept ? dept.name : "Không xác định";
-}
-
-function getPositionName(posId) {
-  const positions = Position.getAllPositions();
-  const pos = positions.find((p) => p.id === posId);
-  return pos ? pos.title : "Không xác định";
+// Utility functions
+function sortBySalary(employees) {
+  return employees.sort((a, b) => b.salary - a.salary);
 }
 
 function formatCurrency(amount) {
@@ -226,6 +407,7 @@ function formatCurrency(amount) {
 }
 
 function formatDate(dateString) {
+  if (!dateString) return "";
   const date = new Date(dateString);
   return date.toLocaleDateString("vi-VN");
 }

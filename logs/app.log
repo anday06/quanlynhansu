@@ -1,0 +1,942 @@
+[2025-10-29 13:23:50] INFO: Generating dashboard summary 
+[2025-10-29 13:23:50] INFO: Fetching all employees 
+[2025-10-29 13:23:50] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 13:24:09] INFO: Generating dashboard summary 
+[2025-10-29 13:24:09] INFO: Fetching all employees 
+[2025-10-29 13:24:09] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 13:25:17] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 13:25:17] INFO: Employee found {"id":"1"}
+[2025-10-29 13:33:04] INFO: Generating dashboard summary 
+[2025-10-29 13:33:04] INFO: Fetching all employees 
+[2025-10-29 13:33:04] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 13:33:14] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 13:33:14] INFO: Employee found {"id":"1"}
+[2025-10-29 13:33:23] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 13:33:23] INFO: Employee found {"id":"1"}
+[2025-10-29 14:16:39] INFO: Generating dashboard summary 
+[2025-10-29 14:16:39] INFO: Fetching all employees 
+[2025-10-29 14:16:39] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:16:44] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 14:16:44] INFO: Search completed {"count":5}
+[2025-10-29 14:16:55] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 14:16:55] INFO: Employee found {"id":"1"}
+[2025-10-29 14:17:00] INFO: Generating dashboard summary 
+[2025-10-29 14:17:00] INFO: Fetching all employees 
+[2025-10-29 14:17:00] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:19:06] INFO: Generating dashboard summary 
+[2025-10-29 14:19:06] INFO: Generating dashboard summary 
+[2025-10-29 14:19:06] INFO: Fetching all employees 
+[2025-10-29 14:19:06] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:19:06] INFO: Fetching all employees 
+[2025-10-29 14:19:06] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:23:54] INFO: Generating dashboard summary 
+[2025-10-29 14:23:55] INFO: Fetching all employees 
+[2025-10-29 14:23:55] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:27:08] INFO: Generating dashboard summary 
+[2025-10-29 14:27:08] INFO: Generating dashboard summary 
+[2025-10-29 14:27:08] INFO: Fetching all employees 
+[2025-10-29 14:27:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:27:08] INFO: Fetching all employees 
+[2025-10-29 14:27:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:33:55] INFO: Generating dashboard summary 
+[2025-10-29 14:33:55] INFO: Fetching all employees 
+[2025-10-29 14:33:55] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:34:09] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 14:34:09] INFO: Employee found {"id":"1"}
+[2025-10-29 14:36:01] INFO: Generating dashboard summary 
+[2025-10-29 14:36:01] INFO: Fetching all employees 
+[2025-10-29 14:36:01] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:20] INFO: Generating dashboard summary 
+[2025-10-29 14:36:20] INFO: Fetching all employees 
+[2025-10-29 14:36:20] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:20] INFO: Generating dashboard summary 
+[2025-10-29 14:36:20] INFO: Fetching all employees 
+[2025-10-29 14:36:20] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:21] INFO: Generating dashboard summary 
+[2025-10-29 14:36:21] INFO: Fetching all employees 
+[2025-10-29 14:36:21] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:21] INFO: Generating dashboard summary 
+[2025-10-29 14:36:21] INFO: Fetching all employees 
+[2025-10-29 14:36:21] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:21] INFO: Generating dashboard summary 
+[2025-10-29 14:36:21] INFO: Fetching all employees 
+[2025-10-29 14:36:21] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:21] INFO: Generating dashboard summary 
+[2025-10-29 14:36:21] INFO: Fetching all employees 
+[2025-10-29 14:36:21] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:21] INFO: Generating dashboard summary 
+[2025-10-29 14:36:21] INFO: Fetching all employees 
+[2025-10-29 14:36:21] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:22] INFO: Generating dashboard summary 
+[2025-10-29 14:36:22] INFO: Fetching all employees 
+[2025-10-29 14:36:22] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:22] INFO: Generating dashboard summary 
+[2025-10-29 14:36:22] INFO: Fetching all employees 
+[2025-10-29 14:36:22] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:36:22] INFO: Generating dashboard summary 
+[2025-10-29 14:36:22] INFO: Fetching all employees 
+[2025-10-29 14:36:22] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:40:32] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 14:40:32] INFO: Search completed {"count":5}
+[2025-10-29 14:43:54] INFO: Generating dashboard summary 
+[2025-10-29 14:43:54] INFO: Fetching all employees 
+[2025-10-29 14:43:54] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:43:55] INFO: Generating dashboard summary 
+[2025-10-29 14:43:55] INFO: Fetching all employees 
+[2025-10-29 14:43:55] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:43:55] INFO: Generating dashboard summary 
+[2025-10-29 14:43:55] INFO: Fetching all employees 
+[2025-10-29 14:43:55] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:44:18] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 14:44:18] INFO: Employee found {"id":"1"}
+[2025-10-29 14:49:32] INFO: Generating dashboard summary 
+[2025-10-29 14:49:32] INFO: Fetching all employees 
+[2025-10-29 14:49:32] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:55:31] INFO: Generating dashboard summary 
+[2025-10-29 14:55:31] INFO: Fetching all employees 
+[2025-10-29 14:55:31] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:55:38] INFO: Generating dashboard summary 
+[2025-10-29 14:55:38] INFO: Fetching all employees 
+[2025-10-29 14:55:38] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:57:49] INFO: Generating dashboard summary 
+[2025-10-29 14:57:49] INFO: Fetching all employees 
+[2025-10-29 14:57:49] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 14:58:14] INFO: Generating dashboard summary 
+[2025-10-29 14:58:14] INFO: Fetching all employees 
+[2025-10-29 14:58:14] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:02:55] INFO: Generating dashboard summary 
+[2025-10-29 15:02:56] INFO: Fetching all employees 
+[2025-10-29 15:02:56] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:05] INFO: Generating dashboard summary 
+[2025-10-29 15:04:05] INFO: Fetching all employees 
+[2025-10-29 15:04:05] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:07] INFO: Generating dashboard summary 
+[2025-10-29 15:04:07] INFO: Fetching all employees 
+[2025-10-29 15:04:07] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:08] INFO: Generating dashboard summary 
+[2025-10-29 15:04:08] INFO: Fetching all employees 
+[2025-10-29 15:04:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:09] INFO: Generating dashboard summary 
+[2025-10-29 15:04:09] INFO: Fetching all employees 
+[2025-10-29 15:04:09] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:09] INFO: Generating dashboard summary 
+[2025-10-29 15:04:09] INFO: Fetching all employees 
+[2025-10-29 15:04:09] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:09] INFO: Generating dashboard summary 
+[2025-10-29 15:04:09] INFO: Fetching all employees 
+[2025-10-29 15:04:09] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:09] INFO: Generating dashboard summary 
+[2025-10-29 15:04:10] INFO: Fetching all employees 
+[2025-10-29 15:04:10] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:47] INFO: Generating dashboard summary 
+[2025-10-29 15:04:47] INFO: Fetching all employees 
+[2025-10-29 15:04:47] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:48] INFO: Generating dashboard summary 
+[2025-10-29 15:04:48] INFO: Fetching all employees 
+[2025-10-29 15:04:48] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:48] INFO: Generating dashboard summary 
+[2025-10-29 15:04:48] INFO: Fetching all employees 
+[2025-10-29 15:04:48] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:48] INFO: Generating dashboard summary 
+[2025-10-29 15:04:48] INFO: Fetching all employees 
+[2025-10-29 15:04:48] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:48] INFO: Generating dashboard summary 
+[2025-10-29 15:04:48] INFO: Fetching all employees 
+[2025-10-29 15:04:48] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:48] INFO: Generating dashboard summary 
+[2025-10-29 15:04:48] INFO: Fetching all employees 
+[2025-10-29 15:04:48] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:58] INFO: Generating dashboard summary 
+[2025-10-29 15:04:58] INFO: Fetching all employees 
+[2025-10-29 15:04:58] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:04:59] INFO: Generating dashboard summary 
+[2025-10-29 15:04:59] INFO: Fetching all employees 
+[2025-10-29 15:04:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:17:58] INFO: Generating dashboard summary 
+[2025-10-29 15:17:58] INFO: Fetching all employees 
+[2025-10-29 15:17:58] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:18:54] INFO: Fetching all salary records 
+[2025-10-29 15:18:54] INFO: Generating payroll summary 
+[2025-10-29 15:18:55] INFO: Fetching all salary adjustments 
+[2025-10-29 15:18:55] ERROR: Failed to fetch salary adjustments {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'hrm_system.salary_adjustments' doesn't exist"}
+[2025-10-29 15:18:55] INFO: Generating salary adjustment history summary 
+[2025-10-29 15:18:55] ERROR: Failed to generate salary adjustment history summary {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'hrm_system.salary_adjustments' doesn't exist"}
+[2025-10-29 15:18:55] INFO: Fetching all leave policies 
+[2025-10-29 15:18:55] ERROR: Failed to fetch leave policies {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'hrm_system.leave_policies' doesn't exist"}
+[2025-10-29 15:18:55] INFO: Fetching default leave policies 
+[2025-10-29 15:18:55] ERROR: Failed to fetch default leave policies {"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'hrm_system.leave_policies' doesn't exist"}
+[2025-10-29 15:18:55] INFO: Generating dashboard summary 
+[2025-10-29 15:18:55] INFO: Fetching all employees 
+[2025-10-29 15:18:55] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:18:55] INFO: Generating dashboard summary 
+[2025-10-29 15:18:55] INFO: Fetching all employees 
+[2025-10-29 15:18:55] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:20:27] INFO: Fetching all salary records 
+[2025-10-29 15:20:27] INFO: Generating payroll summary 
+[2025-10-29 15:20:27] INFO: Fetching all salary adjustments 
+[2025-10-29 15:20:27] INFO: Generating salary adjustment history summary 
+[2025-10-29 15:20:27] INFO: Fetching all leave policies 
+[2025-10-29 15:20:27] INFO: Fetching default leave policies 
+[2025-10-29 15:20:28] INFO: Generating dashboard summary 
+[2025-10-29 15:20:28] INFO: Fetching all employees 
+[2025-10-29 15:20:28] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:21:50] INFO: Generating dashboard summary 
+[2025-10-29 15:21:50] INFO: Fetching all employees 
+[2025-10-29 15:21:50] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:21:50] INFO: Generating dashboard summary 
+[2025-10-29 15:21:50] INFO: Fetching all employees 
+[2025-10-29 15:21:50] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:21:51] INFO: Generating dashboard summary 
+[2025-10-29 15:21:51] INFO: Fetching all employees 
+[2025-10-29 15:21:51] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:24:30] INFO: Generating dashboard summary 
+[2025-10-29 15:24:30] INFO: Fetching all employees 
+[2025-10-29 15:24:30] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:24:31] INFO: Generating dashboard summary 
+[2025-10-29 15:24:31] INFO: Fetching all employees 
+[2025-10-29 15:24:31] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:32:03] INFO: Generating dashboard summary 
+[2025-10-29 15:32:03] INFO: Fetching all employees 
+[2025-10-29 15:32:03] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:32:03] INFO: Generating dashboard summary 
+[2025-10-29 15:32:03] INFO: Fetching all employees 
+[2025-10-29 15:32:03] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:32:03] INFO: Generating dashboard summary 
+[2025-10-29 15:32:03] INFO: Fetching all employees 
+[2025-10-29 15:32:03] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:36:32] INFO: Generating dashboard summary 
+[2025-10-29 15:36:32] INFO: Fetching all employees 
+[2025-10-29 15:36:32] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:36:32] INFO: Generating dashboard summary 
+[2025-10-29 15:36:32] INFO: Fetching all employees 
+[2025-10-29 15:36:32] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:38:21] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 15:38:21] INFO: Employee found {"id":"1"}
+[2025-10-29 15:38:39] INFO: Generating dashboard summary 
+[2025-10-29 15:38:39] INFO: Fetching all employees 
+[2025-10-29 15:38:39] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:40:59] INFO: Generating dashboard summary 
+[2025-10-29 15:40:59] INFO: Fetching all employees 
+[2025-10-29 15:40:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:40:59] INFO: Generating dashboard summary 
+[2025-10-29 15:40:59] INFO: Fetching all employees 
+[2025-10-29 15:40:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:40:59] INFO: Generating dashboard summary 
+[2025-10-29 15:40:59] INFO: Fetching all employees 
+[2025-10-29 15:40:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:40:59] INFO: Generating dashboard summary 
+[2025-10-29 15:40:59] INFO: Fetching all employees 
+[2025-10-29 15:40:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:40:59] INFO: Generating dashboard summary 
+[2025-10-29 15:40:59] INFO: Fetching all employees 
+[2025-10-29 15:40:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:55:00] INFO: Generating dashboard summary 
+[2025-10-29 15:55:00] INFO: Fetching all employees 
+[2025-10-29 15:55:00] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:55:00] INFO: Generating dashboard summary 
+[2025-10-29 15:55:00] INFO: Fetching all employees 
+[2025-10-29 15:55:00] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:55:05] INFO: Generating dashboard summary 
+[2025-10-29 15:55:05] INFO: Fetching all employees 
+[2025-10-29 15:55:05] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:55:05] INFO: Generating dashboard summary 
+[2025-10-29 15:55:06] INFO: Generating dashboard summary 
+[2025-10-29 15:55:06] INFO: Fetching all employees 
+[2025-10-29 15:55:06] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:55:06] INFO: Generating dashboard summary 
+[2025-10-29 15:55:06] INFO: Fetching all employees 
+[2025-10-29 15:55:06] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:59:10] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 15:59:10] INFO: Search completed {"count":5}
+[2025-10-29 15:59:38] INFO: Generating dashboard summary 
+[2025-10-29 15:59:38] INFO: Fetching all employees 
+[2025-10-29 15:59:38] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 15:59:43] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 15:59:43] INFO: Employee found {"id":"1"}
+[2025-10-29 15:59:57] INFO: Updating employee {"id":"1"}
+[2025-10-29 15:59:57] INFO: Employee updated successfully {"id":"1"}
+[2025-10-29 16:00:02] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:00:02] INFO: Search completed {"count":5}
+[2025-10-29 16:01:14] INFO: Fetching all salary records 
+[2025-10-29 16:01:14] INFO: Generating payroll summary 
+[2025-10-29 16:01:15] INFO: Fetching all employees 
+[2025-10-29 16:01:15] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:01:15] INFO: Fetching all salary adjustments 
+[2025-10-29 16:01:16] INFO: Fetching all salary records 
+[2025-10-29 16:01:16] INFO: Generating payroll summary 
+[2025-10-29 16:07:11] INFO: Generating dashboard summary 
+[2025-10-29 16:07:11] INFO: Generating dashboard summary 
+[2025-10-29 16:07:12] INFO: Generating dashboard summary 
+[2025-10-29 16:07:12] INFO: Fetching all employees 
+[2025-10-29 16:07:12] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:08:17] INFO: Generating dashboard summary 
+[2025-10-29 16:08:17] INFO: Fetching all employees 
+[2025-10-29 16:08:17] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:15:58] INFO: Fetching all salary records 
+[2025-10-29 16:15:58] INFO: Generating payroll summary 
+[2025-10-29 16:16:07] INFO: Fetching all employees 
+[2025-10-29 16:16:07] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:16:07] INFO: Fetching all salary adjustments 
+[2025-10-29 16:16:39] INFO: Creating new salary adjustment 
+[2025-10-29 16:16:39] INFO: Salary adjustment created successfully {"id":"4"}
+[2025-10-29 16:16:40] INFO: Fetching all employees 
+[2025-10-29 16:16:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:16:40] INFO: Fetching all salary adjustments 
+[2025-10-29 16:16:51] INFO: Fetching all leave policies 
+[2025-10-29 16:17:47] INFO: Creating new employee {"name":"6"}
+[2025-10-29 16:17:47] INFO: Employee created successfully {"id":"6","name":"6"}
+[2025-10-29 16:17:51] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:51] INFO: Search completed {"count":6}
+[2025-10-29 16:17:55] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:55] INFO: Search completed {"count":6}
+[2025-10-29 16:17:55] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:55] INFO: Search completed {"count":6}
+[2025-10-29 16:17:56] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:56] INFO: Search completed {"count":6}
+[2025-10-29 16:17:56] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:56] INFO: Search completed {"count":6}
+[2025-10-29 16:17:56] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:56] INFO: Search completed {"count":6}
+[2025-10-29 16:17:57] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:57] INFO: Search completed {"count":6}
+[2025-10-29 16:17:57] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:17:57] INFO: Search completed {"count":6}
+[2025-10-29 16:18:01] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 16:18:01] INFO: Employee found {"id":"6"}
+[2025-10-29 16:18:12] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 16:18:12] INFO: Employee found {"id":"6"}
+[2025-10-29 16:18:16] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 16:18:16] INFO: Employee found {"id":"6"}
+[2025-10-29 16:18:16] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 16:18:16] INFO: Employee found {"id":"6"}
+[2025-10-29 16:18:20] INFO: Deleting employee {"id":"6"}
+[2025-10-29 16:18:20] INFO: Employee deleted successfully {"id":"6"}
+[2025-10-29 16:18:21] INFO: Deleting employee {"id":"6"}
+[2025-10-29 16:18:21] WARNING: Employee not found for deletion {"id":"6"}
+[2025-10-29 16:18:24] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 16:18:24] WARNING: Employee not found {"id":"6"}
+[2025-10-29 16:18:27] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 16:18:27] WARNING: Employee not found {"id":"6"}
+[2025-10-29 16:18:32] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 16:18:32] INFO: Employee found {"id":"2"}
+[2025-10-29 16:18:37] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:18:37] INFO: Search completed {"count":5}
+[2025-10-29 16:20:05] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:20:05] INFO: Search completed {"count":5}
+[2025-10-29 16:20:06] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:20:06] INFO: Search completed {"count":5}
+[2025-10-29 16:20:06] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:20:06] INFO: Search completed {"count":5}
+[2025-10-29 16:20:06] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:20:06] INFO: Search completed {"count":5}
+[2025-10-29 16:20:09] INFO: Generating dashboard summary 
+[2025-10-29 16:20:09] INFO: Fetching all employees 
+[2025-10-29 16:20:09] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:20:20] INFO: Generating dashboard summary 
+[2025-10-29 16:20:20] INFO: Fetching all employees 
+[2025-10-29 16:20:20] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:20:28] INFO: Generating dashboard summary 
+[2025-10-29 16:20:28] INFO: Fetching all employees 
+[2025-10-29 16:20:28] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:20:40] INFO: Generating dashboard summary 
+[2025-10-29 16:20:40] INFO: Fetching all employees 
+[2025-10-29 16:20:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:21:15] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:21:15] INFO: Search completed {"count":5}
+[2025-10-29 16:21:52] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:21:52] INFO: Search completed {"count":5}
+[2025-10-29 16:25:03] INFO: Generating dashboard summary 
+[2025-10-29 16:25:03] INFO: Fetching all employees 
+[2025-10-29 16:25:03] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:25:12] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:25:12] INFO: Search completed {"count":5}
+[2025-10-29 16:26:24] INFO: Generating dashboard summary 
+[2025-10-29 16:26:24] INFO: Fetching all employees 
+[2025-10-29 16:26:24] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:27:11] INFO: Generating dashboard summary 
+[2025-10-29 16:27:11] INFO: Fetching all employees 
+[2025-10-29 16:27:11] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:27:16] INFO: Generating dashboard summary 
+[2025-10-29 16:27:16] INFO: Fetching all employees 
+[2025-10-29 16:27:16] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:27:43] INFO: Generating dashboard summary 
+[2025-10-29 16:27:43] INFO: Fetching all employees 
+[2025-10-29 16:27:43] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:27:48] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:27:48] INFO: Search completed {"count":5}
+[2025-10-29 16:29:34] INFO: Generating dashboard summary 
+[2025-10-29 16:29:34] INFO: Fetching all employees 
+[2025-10-29 16:29:34] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:29:50] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:29:50] INFO: Search completed {"count":5}
+[2025-10-29 16:32:04] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search"}}
+[2025-10-29 16:32:04] INFO: Search completed {"count":5}
+[2025-10-29 16:32:04] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?name=John"}}
+[2025-10-29 16:32:04] INFO: Search completed {"count":5}
+[2025-10-29 16:34:08] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search"}}
+[2025-10-29 16:34:08] INFO: Search completed {"count":5}
+[2025-10-29 16:36:32] INFO: Generating dashboard summary 
+[2025-10-29 16:36:32] INFO: Fetching all employees 
+[2025-10-29 16:36:32] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:36:40] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:36:40] INFO: Search completed {"count":5}
+[2025-10-29 16:36:50] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 16:36:50] INFO: Employee found {"id":"1"}
+[2025-10-29 16:37:59] INFO: Updating employee {"id":"1"}
+[2025-10-29 16:37:59] INFO: Employee updated successfully {"id":"1"}
+[2025-10-29 16:38:02] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:38:02] INFO: Search completed {"count":5}
+[2025-10-29 16:38:08] INFO: Generating dashboard summary 
+[2025-10-29 16:38:08] INFO: Fetching all employees 
+[2025-10-29 16:38:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 16:38:40] INFO: Creating new employee {"name":"Ngo B\u00e1 Kh\u00e1"}
+[2025-10-29 16:38:40] INFO: Employee created successfully {"id":"7","name":"Ngo B\u00e1 Kh\u00e1"}
+[2025-10-29 16:38:42] INFO: Generating dashboard summary 
+[2025-10-29 16:38:42] INFO: Fetching all employees 
+[2025-10-29 16:38:42] INFO: Successfully fetched employees {"count":6}
+[2025-10-29 16:38:46] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 16:38:46] INFO: Search completed {"count":6}
+[2025-10-29 17:01:22] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-29 17:01:22] WARNING: Employee not found {"id":"6"}
+[2025-10-29 17:01:26] INFO: Fetching employee by ID {"id":"7"}
+[2025-10-29 17:01:26] INFO: Employee found {"id":"7"}
+[2025-10-29 17:01:30] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:01:30] INFO: Employee found {"id":"1"}
+[2025-10-29 17:01:32] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:01:32] INFO: Employee found {"id":"1"}
+[2025-10-29 17:01:33] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:01:33] INFO: Employee found {"id":"1"}
+[2025-10-29 17:01:33] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:01:33] INFO: Employee found {"id":"1"}
+[2025-10-29 17:01:35] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 17:01:35] INFO: Employee found {"id":"2"}
+[2025-10-29 17:01:36] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 17:01:36] INFO: Employee found {"id":"2"}
+[2025-10-29 17:01:42] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-29 17:01:42] INFO: Employee found {"id":"3"}
+[2025-10-29 17:01:43] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-29 17:01:43] INFO: Employee found {"id":"3"}
+[2025-10-29 17:01:45] INFO: Deleting employee {"id":"3"}
+[2025-10-29 17:01:45] INFO: Employee deleted successfully {"id":"3"}
+[2025-10-29 17:01:54] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-29 17:01:54] WARNING: Employee not found {"id":"3"}
+[2025-10-29 17:01:57] INFO: Fetching employee by ID {"id":"4"}
+[2025-10-29 17:01:57] INFO: Employee found {"id":"4"}
+[2025-10-29 17:02:21] INFO: Updating employee {"id":"4"}
+[2025-10-29 17:02:21] INFO: Employee updated successfully {"id":"4"}
+[2025-10-29 17:02:23] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:02:23] INFO: Search completed {"count":5}
+[2025-10-29 17:02:55] INFO: Fetching all salary records 
+[2025-10-29 17:02:55] INFO: Generating payroll summary 
+[2025-10-29 17:20:28] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:20:28] INFO: Employee found {"id":"1"}
+[2025-10-29 17:21:20] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 17:21:20] INFO: Employee found {"id":"2"}
+[2025-10-29 17:21:21] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 17:21:21] INFO: Employee found {"id":"2"}
+[2025-10-29 17:21:31] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-29 17:21:31] WARNING: Employee not found {"id":"3"}
+[2025-10-29 17:21:37] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:21:37] INFO: Search completed {"count":5}
+[2025-10-29 17:22:41] INFO: Creating new employee {"name":"Ho\u00e0ng Qu\u1ed1c Ngh\u1ecb"}
+[2025-10-29 17:22:41] INFO: Employee created successfully {"id":"8","name":"Ho\u00e0ng Qu\u1ed1c Ngh\u1ecb"}
+[2025-10-29 17:22:43] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:22:43] INFO: Search completed {"count":6}
+[2025-10-29 17:24:11] INFO: Generating dashboard summary 
+[2025-10-29 17:24:11] INFO: Fetching all employees 
+[2025-10-29 17:24:11] INFO: Successfully fetched employees {"count":6}
+[2025-10-29 17:24:11] INFO: Generating dashboard summary 
+[2025-10-29 17:24:11] INFO: Fetching all employees 
+[2025-10-29 17:24:11] INFO: Successfully fetched employees {"count":6}
+[2025-10-29 17:24:18] INFO: Fetching employee by ID {"id":"8"}
+[2025-10-29 17:24:18] INFO: Employee found {"id":"8"}
+[2025-10-29 17:24:38] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:24:38] INFO: Employee found {"id":"1"}
+[2025-10-29 17:25:19] INFO: Fetching employee by ID {"id":"8"}
+[2025-10-29 17:25:19] INFO: Employee found {"id":"8"}
+[2025-10-29 17:25:25] INFO: Fetching employee by ID {"id":"8"}
+[2025-10-29 17:25:25] INFO: Employee found {"id":"8"}
+[2025-10-29 17:25:26] INFO: Deleting employee {"id":"8"}
+[2025-10-29 17:25:26] INFO: Employee deleted successfully {"id":"8"}
+[2025-10-29 17:25:28] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:25:28] INFO: Search completed {"count":5}
+[2025-10-29 17:25:46] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 17:25:46] INFO: Employee found {"id":"2"}
+[2025-10-29 17:26:17] INFO: Updating employee {"id":"2"}
+[2025-10-29 17:26:17] INFO: Employee updated successfully {"id":"2"}
+[2025-10-29 17:26:19] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:26:19] INFO: Search completed {"count":5}
+[2025-10-29 17:26:45] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:26:45] INFO: Search completed {"count":5}
+[2025-10-29 17:26:50] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-29 17:26:50] INFO: Employee found {"id":"5"}
+[2025-10-29 17:27:08] INFO: Updating employee {"id":"5"}
+[2025-10-29 17:27:08] INFO: Employee updated successfully {"id":"5"}
+[2025-10-29 17:27:10] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:27:10] INFO: Search completed {"count":5}
+[2025-10-29 17:27:56] INFO: Generating dashboard summary 
+[2025-10-29 17:27:56] INFO: Fetching all employees 
+[2025-10-29 17:27:56] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:28:44] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:28:44] INFO: Employee found {"id":"1"}
+[2025-10-29 17:28:44] INFO: Fetching all employees 
+[2025-10-29 17:28:44] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:28:49] INFO: Generating dashboard summary 
+[2025-10-29 17:28:49] INFO: Fetching all employees 
+[2025-10-29 17:28:49] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:28:55] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:28:55] INFO: Search completed {"count":5}
+[2025-10-29 17:29:59] INFO: Generating dashboard summary 
+[2025-10-29 17:29:59] INFO: Fetching all employees 
+[2025-10-29 17:29:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:30:15] INFO: Generating dashboard summary 
+[2025-10-29 17:30:15] INFO: Fetching all employees 
+[2025-10-29 17:30:15] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:32:57] INFO: Generating dashboard summary 
+[2025-10-29 17:32:57] INFO: Fetching all employees 
+[2025-10-29 17:32:57] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:32:57] INFO: Generating dashboard summary 
+[2025-10-29 17:32:57] INFO: Fetching all employees 
+[2025-10-29 17:32:57] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:33:02] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:33:02] INFO: Search completed {"count":5}
+[2025-10-29 17:33:08] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-29 17:33:08] INFO: Employee found {"id":"1"}
+[2025-10-29 17:33:12] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-29 17:33:12] INFO: Employee found {"id":"2"}
+[2025-10-29 17:33:15] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-29 17:33:15] WARNING: Employee not found {"id":"3"}
+[2025-10-29 17:33:21] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-29 17:33:21] WARNING: Employee not found {"id":"3"}
+[2025-10-29 17:33:31] INFO: Fetching employee by ID {"id":"4"}
+[2025-10-29 17:33:31] INFO: Employee found {"id":"4"}
+[2025-10-29 17:33:56] INFO: Fetching all salary records 
+[2025-10-29 17:33:56] INFO: Generating payroll summary 
+[2025-10-29 17:34:08] INFO: Fetching all employees 
+[2025-10-29 17:34:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:34:08] INFO: Fetching all salary adjustments 
+[2025-10-29 17:35:07] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:35:07] INFO: Search completed {"count":5}
+[2025-10-29 17:38:14] INFO: Generating dashboard summary 
+[2025-10-29 17:38:14] INFO: Fetching all employees 
+[2025-10-29 17:38:14] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:38:14] INFO: Generating dashboard summary 
+[2025-10-29 17:38:14] INFO: Fetching all employees 
+[2025-10-29 17:38:14] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:38:14] INFO: Generating dashboard summary 
+[2025-10-29 17:38:14] INFO: Fetching all employees 
+[2025-10-29 17:38:14] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:39:07] INFO: Generating dashboard summary 
+[2025-10-29 17:39:07] INFO: Fetching all employees 
+[2025-10-29 17:39:07] INFO: Successfully fetched employees {"count":5}
+[2025-10-29 17:39:13] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-29 17:39:13] INFO: Search completed {"count":5}
+[2025-10-29 17:39:25] INFO: Generating dashboard summary 
+[2025-10-29 17:39:25] INFO: Fetching all employees 
+[2025-10-29 17:39:25] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 03:49:34] INFO: Generating dashboard summary 
+[2025-10-30 03:49:34] INFO: Fetching all employees 
+[2025-10-30 03:49:34] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 03:49:44] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-30 03:49:44] INFO: Employee found {"id":"1"}
+[2025-10-30 03:49:48] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-30 03:49:48] INFO: Employee found {"id":"2"}
+[2025-10-30 03:49:55] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-30 03:49:55] WARNING: Employee not found {"id":"3"}
+[2025-10-30 03:50:01] INFO: Fetching employee by ID {"id":"4"}
+[2025-10-30 03:50:01] INFO: Employee found {"id":"4"}
+[2025-10-30 03:50:06] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-30 03:50:06] INFO: Employee found {"id":"5"}
+[2025-10-30 03:50:07] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-30 03:50:07] INFO: Employee found {"id":"5"}
+[2025-10-30 03:50:09] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-30 03:50:09] INFO: Employee found {"id":"5"}
+[2025-10-30 03:50:12] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-30 03:50:12] INFO: Employee found {"id":"5"}
+[2025-10-30 03:50:13] INFO: Fetching employee by ID {"id":"6"}
+[2025-10-30 03:50:13] WARNING: Employee not found {"id":"6"}
+[2025-10-30 03:50:17] INFO: Fetching employee by ID {"id":"7"}
+[2025-10-30 03:50:17] INFO: Employee found {"id":"7"}
+[2025-10-30 03:50:20] INFO: Fetching employee by ID {"id":"7"}
+[2025-10-30 03:50:20] INFO: Employee found {"id":"7"}
+[2025-10-30 03:51:37] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:51:37] INFO: Search completed {"count":5}
+[2025-10-30 03:52:01] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:52:01] INFO: Search completed {"count":5}
+[2025-10-30 03:52:55] INFO: Fetching all salary records 
+[2025-10-30 03:52:55] INFO: Generating payroll summary 
+[2025-10-30 03:53:02] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:53:02] INFO: Search completed {"count":5}
+[2025-10-30 03:53:20] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-30 03:53:20] INFO: Employee found {"id":"1"}
+[2025-10-30 03:53:32] INFO: Updating employee {"id":"1"}
+[2025-10-30 03:53:32] INFO: Employee updated successfully {"id":"1"}
+[2025-10-30 03:53:34] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:53:34] INFO: Search completed {"count":5}
+[2025-10-30 03:53:47] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:53:47] INFO: Search completed {"count":5}
+[2025-10-30 03:54:01] INFO: Fetching employee by ID {"id":"4"}
+[2025-10-30 03:54:01] INFO: Employee found {"id":"4"}
+[2025-10-30 03:54:05] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:54:05] INFO: Search completed {"count":5}
+[2025-10-30 03:54:23] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:54:23] INFO: Search completed {"count":5}
+[2025-10-30 03:54:37] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 03:54:37] INFO: Search completed {"count":5}
+[2025-10-30 03:54:56] INFO: Fetching all leave policies 
+[2025-10-30 03:56:16] INFO: Fetching all leave policies 
+[2025-10-30 04:15:08] INFO: Generating dashboard summary 
+[2025-10-30 04:15:08] INFO: Fetching all employees 
+[2025-10-30 04:15:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:15:08] INFO: Generating dashboard summary 
+[2025-10-30 04:15:08] INFO: Fetching all employees 
+[2025-10-30 04:15:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:15:16] INFO: Fetching all leave policies 
+[2025-10-30 04:15:50] INFO: Fetching all leave policies 
+[2025-10-30 04:17:49] INFO: Fetching all leave policies 
+[2025-10-30 04:18:52] INFO: Fetching all leave policies 
+[2025-10-30 04:20:26] INFO: Generating dashboard summary 
+[2025-10-30 04:20:26] INFO: Fetching all employees 
+[2025-10-30 04:20:26] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:21:44] INFO: Generating dashboard summary 
+[2025-10-30 04:21:44] INFO: Fetching all employees 
+[2025-10-30 04:21:44] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:21:44] INFO: Generating dashboard summary 
+[2025-10-30 04:21:44] INFO: Fetching all employees 
+[2025-10-30 04:21:44] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:21:44] INFO: Generating dashboard summary 
+[2025-10-30 04:21:44] INFO: Fetching all employees 
+[2025-10-30 04:21:44] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:21:47] INFO: Fetching all leave policies 
+[2025-10-30 04:22:10] INFO: Fetching all leave policies 
+[2025-10-30 04:28:29] INFO: Generating dashboard summary 
+[2025-10-30 04:28:29] INFO: Fetching all employees 
+[2025-10-30 04:28:29] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:28:32] INFO: Fetching all leave policies 
+[2025-10-30 04:29:29] INFO: Generating dashboard summary 
+[2025-10-30 04:29:29] INFO: Fetching all employees 
+[2025-10-30 04:29:29] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:29:29] INFO: Generating dashboard summary 
+[2025-10-30 04:29:29] INFO: Fetching all employees 
+[2025-10-30 04:29:29] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:29:30] INFO: Generating dashboard summary 
+[2025-10-30 04:29:30] INFO: Fetching all employees 
+[2025-10-30 04:29:30] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:29:30] INFO: Generating dashboard summary 
+[2025-10-30 04:29:30] INFO: Fetching all employees 
+[2025-10-30 04:29:30] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:29:30] INFO: Generating dashboard summary 
+[2025-10-30 04:29:30] INFO: Fetching all employees 
+[2025-10-30 04:29:30] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:29:32] INFO: Fetching all leave policies 
+[2025-10-30 04:29:40] INFO: Fetching all leave policies 
+[2025-10-30 04:29:40] INFO: Generating dashboard summary 
+[2025-10-30 04:29:40] INFO: Fetching all employees 
+[2025-10-30 04:29:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:29:42] INFO: Fetching all leave policies 
+[2025-10-30 04:30:39] INFO: Fetching all leave policies 
+[2025-10-30 04:30:39] INFO: Generating dashboard summary 
+[2025-10-30 04:30:39] INFO: Fetching all employees 
+[2025-10-30 04:30:39] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:30:39] INFO: Fetching all leave policies 
+[2025-10-30 04:30:39] INFO: Generating dashboard summary 
+[2025-10-30 04:30:39] INFO: Fetching all employees 
+[2025-10-30 04:30:39] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:30:41] INFO: Fetching all leave policies 
+[2025-10-30 04:30:45] INFO: Fetching all leave policies 
+[2025-10-30 04:30:45] INFO: Generating dashboard summary 
+[2025-10-30 04:30:45] INFO: Fetching all employees 
+[2025-10-30 04:30:45] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:30:53] INFO: Fetching all salary records 
+[2025-10-30 04:30:53] INFO: Generating payroll summary 
+[2025-10-30 04:31:01] INFO: Fetching all leave policies 
+[2025-10-30 04:33:04] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 04:33:04] INFO: Search completed {"count":5}
+[2025-10-30 04:39:26] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 04:39:26] INFO: Search completed {"count":5}
+[2025-10-30 04:39:33] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-30 04:39:33] INFO: Employee found {"id":"2"}
+[2025-10-30 04:39:44] INFO: Updating employee {"id":"2"}
+[2025-10-30 04:39:44] INFO: Employee updated successfully {"id":"2"}
+[2025-10-30 04:39:47] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 04:39:47] INFO: Search completed {"count":5}
+[2025-10-30 04:39:55] INFO: Fetching employee by ID {"id":"7"}
+[2025-10-30 04:39:55] INFO: Employee found {"id":"7"}
+[2025-10-30 04:40:03] INFO: Updating employee {"id":"7"}
+[2025-10-30 04:40:03] INFO: Employee updated successfully {"id":"7"}
+[2025-10-30 04:40:06] INFO: Generating dashboard summary 
+[2025-10-30 04:40:06] INFO: Fetching all employees 
+[2025-10-30 04:40:06] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:40:10] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 04:40:10] INFO: Search completed {"count":5}
+[2025-10-30 04:40:20] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-30 04:40:20] INFO: Employee found {"id":"5"}
+[2025-10-30 04:40:27] INFO: Updating employee {"id":"5"}
+[2025-10-30 04:40:27] INFO: Employee updated successfully {"id":"5"}
+[2025-10-30 04:40:31] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-30 04:40:31] INFO: Search completed {"count":5}
+[2025-10-30 04:50:08] INFO: Fetching all leave policies 
+[2025-10-30 04:50:08] INFO: Generating dashboard summary 
+[2025-10-30 04:50:08] INFO: Fetching all employees 
+[2025-10-30 04:50:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:50:08] INFO: Fetching all leave policies 
+[2025-10-30 04:50:08] INFO: Generating dashboard summary 
+[2025-10-30 04:50:08] INFO: Fetching all employees 
+[2025-10-30 04:50:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:50:08] INFO: Fetching all leave policies 
+[2025-10-30 04:50:08] INFO: Generating dashboard summary 
+[2025-10-30 04:50:08] INFO: Fetching all employees 
+[2025-10-30 04:50:08] INFO: Successfully fetched employees {"count":5}
+[2025-10-30 04:50:25] INFO: Generating dashboard summary 
+[2025-10-30 04:50:25] INFO: Fetching all employees 
+[2025-10-30 04:50:25] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 16:06:58] INFO: Fetching all leave policies 
+[2025-10-31 16:08:12] INFO: Generating dashboard summary 
+[2025-10-31 16:08:12] INFO: Fetching all employees 
+[2025-10-31 16:08:12] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 16:08:27] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 16:08:27] INFO: Search completed {"count":5}
+[2025-10-31 16:08:43] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-31 16:08:43] INFO: Employee found {"id":"1"}
+[2025-10-31 16:09:13] INFO: Updating employee {"id":"1"}
+[2025-10-31 16:09:14] INFO: Employee updated successfully {"id":"1"}
+[2025-10-31 16:09:24] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 16:09:24] INFO: Search completed {"count":5}
+[2025-10-31 16:09:49] INFO: Generating dashboard summary 
+[2025-10-31 16:09:49] INFO: Fetching all employees 
+[2025-10-31 16:09:49] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 16:10:07] INFO: Fetching all salary records 
+[2025-10-31 16:10:07] INFO: Generating payroll summary 
+[2025-10-31 16:36:26] INFO: Fetching all leave policies 
+[2025-10-31 16:36:35] INFO: Fetching all leave policies 
+[2025-10-31 13:11:56] INFO: Fetching all employees 
+[2025-10-31 13:11:56] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:11:56] INFO: Fetching all attendance records 
+[2025-10-31 13:11:56] INFO: Successfully fetched attendance records {"count":0}
+[2025-10-31 13:11:56] INFO: Fetching all leave requests 
+[2025-10-31 13:11:56] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 13:11:56] INFO: Fetching all leave policies 
+[2025-10-31 13:11:56] INFO: Fetching all performance reviews 
+[2025-10-31 13:11:56] INFO: Successfully fetched performance reviews {"count":0}
+[2025-10-31 13:11:56] INFO: Fetching all salary adjustments 
+[2025-10-31 13:11:59] INFO: Generating dashboard summary 
+[2025-10-31 13:11:59] INFO: Fetching all employees 
+[2025-10-31 13:11:59] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:12:07] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:12:07] INFO: Search completed {"count":5}
+[2025-10-31 13:12:40] INFO: Fetching all salary records 
+[2025-10-31 13:12:40] INFO: Generating payroll summary 
+[2025-10-31 13:12:44] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:12:44] INFO: Search completed {"count":5}
+[2025-10-31 13:12:52] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-31 13:12:52] INFO: Employee found {"id":"1"}
+[2025-10-31 13:12:56] INFO: Fetching employee by ID {"id":"2"}
+[2025-10-31 13:12:56] INFO: Employee found {"id":"2"}
+[2025-10-31 13:13:01] INFO: Updating employee {"id":"2"}
+[2025-10-31 13:13:01] INFO: Employee updated successfully {"id":"2"}
+[2025-10-31 13:13:04] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:13:04] INFO: Search completed {"count":5}
+[2025-10-31 13:16:04] INFO: Fetching all employees 
+[2025-10-31 13:16:04] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:16:04] INFO: Fetching all attendance records 
+[2025-10-31 13:16:04] INFO: Successfully fetched attendance records {"count":0}
+[2025-10-31 13:16:04] INFO: Fetching all leave requests 
+[2025-10-31 13:16:04] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 13:16:04] INFO: Fetching all leave policies 
+[2025-10-31 13:16:04] INFO: Fetching all performance reviews 
+[2025-10-31 13:16:04] INFO: Successfully fetched performance reviews {"count":0}
+[2025-10-31 13:16:04] INFO: Fetching all salary adjustments 
+[2025-10-31 13:16:04] INFO: Generating dashboard summary 
+[2025-10-31 13:16:04] INFO: Fetching all employees 
+[2025-10-31 13:16:04] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:16:24] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:16:24] INFO: Search completed {"count":5}
+[2025-10-31 13:18:49] INFO: Fetching all employees 
+[2025-10-31 13:18:49] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:18:49] INFO: Fetching all attendance records 
+[2025-10-31 13:18:49] INFO: Successfully fetched attendance records {"count":0}
+[2025-10-31 13:18:49] INFO: Fetching all leave requests 
+[2025-10-31 13:18:49] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 13:18:49] INFO: Fetching all leave policies 
+[2025-10-31 13:18:50] INFO: Fetching all performance reviews 
+[2025-10-31 13:18:50] INFO: Successfully fetched performance reviews {"count":0}
+[2025-10-31 13:18:50] INFO: Fetching all salary adjustments 
+[2025-10-31 13:18:50] INFO: Generating dashboard summary 
+[2025-10-31 13:18:50] INFO: Fetching all employees 
+[2025-10-31 13:18:50] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:19:07] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:19:07] INFO: Search completed {"count":5}
+[2025-10-31 13:19:15] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-31 13:19:15] INFO: Employee found {"id":"1"}
+[2025-10-31 13:19:33] INFO: Updating employee {"id":"1"}
+[2025-10-31 13:19:33] INFO: Employee updated successfully {"id":"1"}
+[2025-10-31 13:19:38] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:19:38] INFO: Search completed {"count":5}
+[2025-10-31 13:19:53] INFO: Fetching employee by ID {"id":"1"}
+[2025-10-31 13:19:53] INFO: Employee found {"id":"1"}
+[2025-10-31 13:20:27] INFO: Generating dashboard summary 
+[2025-10-31 13:20:27] INFO: Fetching all employees 
+[2025-10-31 13:20:27] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:20:30] INFO: Generating dashboard summary 
+[2025-10-31 13:20:30] INFO: Fetching all employees 
+[2025-10-31 13:20:30] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:20:50] INFO: Generating dashboard summary 
+[2025-10-31 13:20:50] INFO: Fetching all employees 
+[2025-10-31 13:20:50] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:21:33] INFO: Generating dashboard summary 
+[2025-10-31 13:21:33] INFO: Fetching all employees 
+[2025-10-31 13:21:33] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 13:21:42] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:21:42] INFO: Search completed {"count":5}
+[2025-10-31 13:22:02] INFO: Fetching employee by ID {"id":"7"}
+[2025-10-31 13:22:02] INFO: Employee found {"id":"7"}
+[2025-10-31 13:22:19] INFO: Updating employee {"id":"7"}
+[2025-10-31 13:22:19] INFO: Employee updated successfully {"id":"7"}
+[2025-10-31 13:22:23] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:22:23] INFO: Search completed {"count":5}
+[2025-10-31 13:22:39] INFO: Fetching all salary records 
+[2025-10-31 13:22:39] INFO: Generating payroll summary 
+[2025-10-31 13:22:53] INFO: Processing employee check-in {"employee_id":1,"date":"2025-10-31"}
+[2025-10-31 13:22:53] INFO: Employee checked in successfully {"attendance_id":"1","employee_id":1}
+[2025-10-31 13:22:53] INFO: Fetching all attendance records 
+[2025-10-31 13:22:53] INFO: Successfully fetched attendance records {"count":1}
+[2025-10-31 13:23:03] INFO: Processing employee check-out {"employee_id":2,"date":"2025-10-31"}
+[2025-10-31 13:23:03] WARNING: Invalid argument in check-out {"error":"No check-in record found for this date"}
+[2025-10-31 13:23:12] INFO: Generating attendance report {"employee_id":1,"from_date":"2025-10-31","to_date":"2025-10-31"}
+[2025-10-31 13:23:12] INFO: Attendance report generated successfully {"employee_id":1,"record_count":1}
+[2025-10-31 13:23:20] INFO: Processing employee check-out {"employee_id":1,"date":"2025-10-31"}
+[2025-10-31 13:23:20] INFO: Employee checked out successfully {"employee_id":1}
+[2025-10-31 13:23:20] INFO: Fetching all attendance records 
+[2025-10-31 13:23:20] INFO: Successfully fetched attendance records {"count":1}
+[2025-10-31 13:23:26] INFO: Generating attendance report {"employee_id":1,"from_date":"2025-10-31","to_date":"2025-10-31"}
+[2025-10-31 13:23:26] INFO: Attendance report generated successfully {"employee_id":1,"record_count":1}
+[2025-10-31 13:23:44] INFO: Generating attendance report {"employee_id":2,"from_date":"2025-10-31","to_date":"2025-10-31"}
+[2025-10-31 13:23:44] INFO: Attendance report generated successfully {"employee_id":2,"record_count":0}
+[2025-10-31 13:23:46] INFO: Generating attendance report {"employee_id":2,"from_date":"2025-10-31","to_date":"2025-10-31"}
+[2025-10-31 13:23:46] INFO: Attendance report generated successfully {"employee_id":2,"record_count":0}
+[2025-10-31 13:23:50] INFO: Processing employee check-in {"employee_id":2,"date":"2025-10-31"}
+[2025-10-31 13:23:50] INFO: Employee checked in successfully {"attendance_id":"2","employee_id":2}
+[2025-10-31 13:23:50] INFO: Fetching all attendance records 
+[2025-10-31 13:23:50] INFO: Successfully fetched attendance records {"count":2}
+[2025-10-31 13:25:33] INFO: Processing employee check-out {"employee_id":2,"date":"2025-10-31"}
+[2025-10-31 13:25:33] INFO: Employee checked out successfully {"employee_id":2}
+[2025-10-31 13:25:33] INFO: Fetching all attendance records 
+[2025-10-31 13:25:33] INFO: Successfully fetched attendance records {"count":2}
+[2025-10-31 13:25:36] INFO: Generating attendance report {"employee_id":2,"from_date":"2025-10-31","to_date":"2025-10-31"}
+[2025-10-31 13:25:36] INFO: Attendance report generated successfully {"employee_id":2,"record_count":1}
+[2025-10-31 13:25:48] INFO: Fetching leave balance for employee {"employee_id":"1"}
+[2025-10-31 13:25:48] INFO: Leave balance fetched successfully {"employee_id":"1"}
+[2025-10-31 13:25:52] INFO: Fetching all leave policies 
+[2025-10-31 13:28:32] INFO: Creating new performance review {"employee_id":1}
+[2025-10-31 13:28:32] INFO: Performance review created successfully {"review_id":"1","employee_id":1}
+[2025-10-31 13:28:32] INFO: Fetching all performance reviews 
+[2025-10-31 13:28:32] INFO: Successfully fetched performance reviews {"count":1}
+[2025-10-31 13:28:48] INFO: Fetching all salary records 
+[2025-10-31 13:28:48] INFO: Generating payroll summary 
+[2025-10-31 13:29:14] INFO: Fetching employee by ID {"id":"3"}
+[2025-10-31 13:29:14] INFO: Employee found {"id":"3"}
+[2025-10-31 13:29:33] INFO: Updating employee {"id":"3"}
+[2025-10-31 13:29:33] INFO: Employee updated successfully {"id":"3"}
+[2025-10-31 13:29:34] INFO: Fetching all salary records 
+[2025-10-31 13:29:34] INFO: Generating payroll summary 
+[2025-10-31 13:30:26] INFO: Creating new performance review {"employee_id":2}
+[2025-10-31 13:30:26] INFO: Performance review created successfully {"review_id":"2","employee_id":2}
+[2025-10-31 13:30:26] INFO: Fetching all performance reviews 
+[2025-10-31 13:30:26] INFO: Successfully fetched performance reviews {"count":2}
+[2025-10-31 13:30:42] INFO: Generating attendance report {"employee_id":1,"from_date":"2025-10-31","to_date":"2025-10-31"}
+[2025-10-31 13:30:42] INFO: Attendance report generated successfully {"employee_id":1,"record_count":1}
+[2025-10-31 13:30:44] INFO: Generating dashboard summary 
+[2025-10-31 13:30:44] INFO: Fetching all employees 
+[2025-10-31 13:30:44] INFO: Successfully fetched employees {"count":6}
+[2025-10-31 13:31:01] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:31:01] INFO: Search completed {"count":6}
+[2025-10-31 13:31:06] INFO: Generating dashboard summary 
+[2025-10-31 13:31:06] INFO: Fetching all employees 
+[2025-10-31 13:31:06] INFO: Successfully fetched employees {"count":6}
+[2025-10-31 13:38:39] INFO: Generating dashboard summary 
+[2025-10-31 13:38:39] INFO: Fetching all employees 
+[2025-10-31 13:38:39] INFO: Successfully fetched employees {"count":6}
+[2025-10-31 13:39:14] INFO: Fetching all employees 
+[2025-10-31 13:39:14] INFO: Successfully fetched employees {"count":6}
+[2025-10-31 13:39:14] INFO: Fetching all attendance records 
+[2025-10-31 13:39:14] INFO: Successfully fetched attendance records {"count":2}
+[2025-10-31 13:39:14] INFO: Fetching all leave requests 
+[2025-10-31 13:39:14] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 13:39:14] INFO: Fetching all leave policies 
+[2025-10-31 13:39:14] INFO: Fetching all performance reviews 
+[2025-10-31 13:39:14] INFO: Successfully fetched performance reviews {"count":2}
+[2025-10-31 13:39:14] INFO: Fetching all salary adjustments 
+[2025-10-31 13:39:14] INFO: Generating dashboard summary 
+[2025-10-31 13:39:14] INFO: Fetching all employees 
+[2025-10-31 13:39:14] INFO: Successfully fetched employees {"count":6}
+[2025-10-31 13:42:39] INFO: Fetching all salary records 
+[2025-10-31 13:42:39] INFO: Generating payroll summary 
+[2025-10-31 13:42:44] INFO: Fetching all leave policies 
+[2025-10-31 13:43:08] INFO: Generating dashboard summary 
+[2025-10-31 13:43:08] INFO: Fetching all employees 
+[2025-10-31 13:43:08] INFO: Successfully fetched employees {"count":6}
+[2025-10-31 13:43:14] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:43:14] INFO: Search completed {"count":6}
+[2025-10-31 13:43:20] INFO: Fetching employee by ID {"id":"5"}
+[2025-10-31 13:43:20] INFO: Employee found {"id":"5"}
+[2025-10-31 13:43:26] INFO: Updating employee {"id":"5"}
+[2025-10-31 13:43:26] INFO: Employee updated successfully {"id":"5"}
+[2025-10-31 13:43:28] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 13:43:28] INFO: Search completed {"count":6}
+[2025-10-31 15:12:33] INFO: Generating dashboard summary 
+[2025-10-31 15:12:33] INFO: Fetching all employees 
+[2025-10-31 15:12:33] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:12:40] INFO: Generating dashboard summary 
+[2025-10-31 15:12:40] INFO: Generating dashboard summary 
+[2025-10-31 15:12:40] INFO: Fetching all employees 
+[2025-10-31 15:12:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:12:40] INFO: Fetching all employees 
+[2025-10-31 15:12:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:12:51] INFO: Fetching all leave policies 
+[2025-10-31 15:12:51] INFO: Fetching all leave policies 
+[2025-10-31 15:12:54] INFO: Generating dashboard summary 
+[2025-10-31 15:12:54] INFO: Generating dashboard summary 
+[2025-10-31 15:12:54] INFO: Fetching all employees 
+[2025-10-31 15:12:54] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:12:54] INFO: Fetching all employees 
+[2025-10-31 15:12:54] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:13:46] INFO: Fetching all employees 
+[2025-10-31 15:13:46] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:13:46] INFO: Fetching all attendance records 
+[2025-10-31 15:13:46] INFO: Successfully fetched attendance records {"count":0}
+[2025-10-31 15:13:46] INFO: Fetching all leave requests 
+[2025-10-31 15:13:46] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 15:13:46] INFO: Fetching all leave policies 
+[2025-10-31 15:13:46] INFO: Fetching all performance reviews 
+[2025-10-31 15:13:46] INFO: Successfully fetched performance reviews {"count":0}
+[2025-10-31 15:13:46] INFO: Fetching all salary adjustments 
+[2025-10-31 15:13:46] INFO: Generating dashboard summary 
+[2025-10-31 15:13:46] INFO: Fetching all employees 
+[2025-10-31 15:13:46] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:13:53] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-10-31 15:13:53] INFO: Search completed {"count":5}
+[2025-10-31 15:13:58] INFO: Fetching all salary records 
+[2025-10-31 15:13:58] INFO: Generating payroll summary 
+[2025-10-31 15:13:58] INFO: Fetching all employees 
+[2025-10-31 15:13:58] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:13:58] INFO: Fetching all salary adjustments 
+[2025-10-31 15:14:01] INFO: Fetching all leave policies 
+[2025-10-31 15:14:16] INFO: Generating dashboard summary 
+[2025-10-31 15:14:16] INFO: Fetching all employees 
+[2025-10-31 15:14:16] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:14:40] INFO: Fetching all employees 
+[2025-10-31 15:14:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:14:40] INFO: Fetching all attendance records 
+[2025-10-31 15:14:40] INFO: Successfully fetched attendance records {"count":0}
+[2025-10-31 15:14:40] INFO: Fetching all leave requests 
+[2025-10-31 15:14:40] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 15:14:40] INFO: Fetching all leave policies 
+[2025-10-31 15:14:40] INFO: Fetching all performance reviews 
+[2025-10-31 15:14:40] INFO: Successfully fetched performance reviews {"count":0}
+[2025-10-31 15:14:40] INFO: Fetching all salary adjustments 
+[2025-10-31 15:14:40] INFO: Generating dashboard summary 
+[2025-10-31 15:14:40] INFO: Fetching all employees 
+[2025-10-31 15:14:40] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:14:43] INFO: Generating dashboard summary 
+[2025-10-31 15:14:43] INFO: Fetching all employees 
+[2025-10-31 15:14:43] INFO: Successfully fetched employees {"count":5}

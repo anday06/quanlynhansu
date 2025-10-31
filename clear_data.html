@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clear Data</title>
+  </head>
+  <body>
+    <h1>Clear LocalStorage Data</h1>
+    <button onclick="clearData()">Clear Data and Reload</button>
+
+    <script>
+      function clearData() {
+        // Clear all localStorage items
+        localStorage.clear();
+
+        // Reload the page to reinitialize with correct data
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>
