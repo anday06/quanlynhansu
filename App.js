@@ -1,7 +1,7 @@
 // app.js
 import * as Auth from "./AuthModule.js";
 import * as EmployeeDb from "./EmployeeDbModule.js";
-import * as AddEmployee from "./addEmployeeModule.js";
+import * as AddEmployee from "./AddEmployeeModule.js";
 import * as EditEmployee from "./EditEmployeeModule.js";
 import * as DeleteEmployee from "./DeleteEmployeeModule.js";
 import * as SearchEmployee from "./SearchEmployeeModule.js";
