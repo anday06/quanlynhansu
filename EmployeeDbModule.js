@@ -83,8 +83,10 @@ export function isEmployeesLoaded() {
 }
 
 export function getEmployeeById(id) {
+  // Handle case where id might be a string
+  const employeeId = typeof id === "string" ? parseInt(id) : id;
   const emps = getAllEmployees();
-  return emps.find((emp) => emp.id === parseInt(id));
+  return emps.find((emp) => emp.id === employeeId);
 }
 
 export async function addEmployee(employeeData) {

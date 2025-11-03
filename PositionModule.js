@@ -57,7 +57,9 @@ export function isPositionsLoaded() {
 
 export function getPositionById(id) {
   const poss = getAllPositions();
-  return poss.find((pos) => pos.id === parseInt(id));
+  // Handle case where id might be a string
+  const positionId = typeof id === "string" ? parseInt(id) : id;
+  return poss.find((pos) => pos.id === positionId);
 }
 
 export async function addPosition(positionData) {

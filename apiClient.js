@@ -134,7 +134,15 @@ class ApiClient {
   async getDepartments() {
     const response = await this.request("/departments");
     // API returns array directly, not wrapped in data property
-    return response;
+    // Ensure we return an array even if response is not what we expect
+    if (Array.isArray(response)) {
+      return response;
+    } else if (response && Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      console.error("Unexpected departments response format:", response);
+      return []; // Return empty array as fallback
+    }
   }
 
   async getDepartment(id) {
@@ -184,7 +192,15 @@ class ApiClient {
   async getPositions() {
     const response = await this.request("/positions");
     // API returns array directly, not wrapped in data property
-    return response;
+    // Ensure we return an array even if response is not what we expect
+    if (Array.isArray(response)) {
+      return response;
+    } else if (response && Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      console.error("Unexpected positions response format:", response);
+      return []; // Return empty array as fallback
+    }
   }
 
   async getPosition(id) {

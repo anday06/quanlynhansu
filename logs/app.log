@@ -940,3 +940,48 @@
 [2025-10-31 15:14:43] INFO: Generating dashboard summary 
 [2025-10-31 15:14:43] INFO: Fetching all employees 
 [2025-10-31 15:14:43] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:39:33] INFO: Fetching all employees 
+[2025-10-31 15:39:33] INFO: Successfully fetched employees {"count":5}
+[2025-10-31 15:39:33] INFO: Fetching all attendance records 
+[2025-10-31 15:39:33] INFO: Successfully fetched attendance records {"count":0}
+[2025-10-31 15:39:34] INFO: Fetching all leave requests 
+[2025-10-31 15:39:34] INFO: Successfully fetched leave requests {"count":0}
+[2025-10-31 15:39:34] INFO: Fetching all leave policies 
+[2025-10-31 15:39:34] INFO: Fetching all performance reviews 
+[2025-10-31 15:39:34] INFO: Successfully fetched performance reviews {"count":0}
+[2025-10-31 15:39:34] INFO: Fetching all salary adjustments 
+[2025-10-31 15:39:36] INFO: Generating dashboard summary 
+[2025-10-31 15:39:36] INFO: Fetching all employees 
+[2025-10-31 15:39:36] INFO: Successfully fetched employees {"count":5}
+[2025-11-03 08:58:10] INFO: Fetching all employees 
+[2025-11-03 08:58:10] INFO: Successfully fetched employees {"count":5}
+[2025-11-03 08:58:10] INFO: Fetching all attendance records 
+[2025-11-03 08:58:10] INFO: Successfully fetched attendance records {"count":0}
+[2025-11-03 08:58:10] INFO: Fetching all leave requests 
+[2025-11-03 08:58:10] INFO: Successfully fetched leave requests {"count":0}
+[2025-11-03 08:58:10] INFO: Fetching all leave policies 
+[2025-11-03 08:58:11] INFO: Fetching all performance reviews 
+[2025-11-03 08:58:11] INFO: Successfully fetched performance reviews {"count":0}
+[2025-11-03 08:58:11] INFO: Fetching all salary adjustments 
+[2025-11-03 08:58:11] INFO: Generating dashboard summary 
+[2025-11-03 08:58:11] INFO: Fetching all employees 
+[2025-11-03 08:58:11] INFO: Successfully fetched employees {"count":5}
+[2025-11-03 08:58:14] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-11-03 08:58:14] INFO: Search completed {"count":5}
+[2025-11-03 08:59:47] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-11-03 08:59:47] INFO: Search completed {"count":5}
+[2025-11-03 09:20:46] INFO: Fetching all employees 
+[2025-11-03 09:20:46] INFO: Successfully fetched employees {"count":5}
+[2025-11-03 09:20:46] INFO: Fetching all attendance records 
+[2025-11-03 09:20:46] INFO: Successfully fetched attendance records {"count":0}
+[2025-11-03 09:20:46] INFO: Fetching all leave requests 
+[2025-11-03 09:20:46] INFO: Successfully fetched leave requests {"count":0}
+[2025-11-03 09:20:46] INFO: Fetching all leave policies 
+[2025-11-03 09:20:46] INFO: Fetching all performance reviews 
+[2025-11-03 09:20:46] INFO: Successfully fetched performance reviews {"count":0}
+[2025-11-03 09:20:46] INFO: Fetching all salary adjustments 
+[2025-11-03 09:20:46] INFO: Generating dashboard summary 
+[2025-11-03 09:20:46] INFO: Fetching all employees 
+[2025-11-03 09:20:46] INFO: Successfully fetched employees {"count":5}
+[2025-11-03 09:20:50] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-11-03 09:20:50] INFO: Search completed {"count":5}

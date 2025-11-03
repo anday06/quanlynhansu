@@ -59,7 +59,9 @@ export function isDepartmentsLoaded() {
 
 export function getDepartmentById(id) {
   const depts = getAllDepartments();
-  return depts.find((dept) => dept.id === parseInt(id));
+  // Handle case where id might be a string
+  const departmentId = typeof id === "string" ? parseInt(id) : id;
+  return depts.find((dept) => dept.id === departmentId);
 }
 
 export async function addDepartment(departmentData) {

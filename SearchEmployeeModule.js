@@ -283,10 +283,12 @@ function displayResults(employees, container) {
 
   // Function to get department name
   function getDepartmentName(deptId) {
+    // Handle case where deptId might be a string
+    const departmentId = typeof deptId === "string" ? parseInt(deptId) : deptId;
     const departments = Department.getAllDepartments();
     // Kiểm tra departments có tồn tại và là mảng trước khi gọi find
     if (Array.isArray(departments) && departments.length > 0) {
-      const dept = departments.find((d) => d.id === parseInt(deptId));
+      const dept = departments.find((d) => d.id === departmentId);
       return dept ? dept.name : "Không xác định";
     }
     return "Không xác định";
@@ -294,10 +296,12 @@ function displayResults(employees, container) {
 
   // Function to get position name
   function getPositionName(posId) {
+    // Handle case where posId might be a string
+    const positionId = typeof posId === "string" ? parseInt(posId) : posId;
     const positions = Position.getAllPositions();
     // Kiểm tra positions có tồn tại và là mảng trước khi gọi find
     if (Array.isArray(positions) && positions.length > 0) {
-      const pos = positions.find((p) => p.id === parseInt(posId));
+      const pos = positions.find((p) => p.id === positionId);
       return pos ? pos.title : "Không xác định";
     }
     return "Không xác định";
@@ -305,10 +309,12 @@ function displayResults(employees, container) {
 
   // Function to get department STT
   function getDepartmentSTT(deptId) {
+    // Handle case where deptId might be a string
+    const departmentId = typeof deptId === "string" ? parseInt(deptId) : deptId;
     const departments = Department.getAllDepartments();
     // Kiểm tra departments có tồn tại và là mảng trước khi gọi find
     if (Array.isArray(departments) && departments.length > 0) {
-      const index = departments.findIndex((d) => d.id === parseInt(deptId));
+      const index = departments.findIndex((d) => d.id === departmentId);
       return index >= 0 ? index + 1 : "Không xác định";
     }
     return "Không xác định";
@@ -316,10 +322,12 @@ function displayResults(employees, container) {
 
   // Function to get position STT
   function getPositionSTT(posId) {
+    // Handle case where posId might be a string
+    const positionId = typeof posId === "string" ? parseInt(posId) : posId;
     const positions = Position.getAllPositions();
     // Kiểm tra positions có tồn tại và là mảng trước khi gọi find
     if (Array.isArray(positions) && positions.length > 0) {
-      const index = positions.findIndex((p) => p.id === parseInt(posId));
+      const index = positions.findIndex((p) => p.id === positionId);
       return index >= 0 ? index + 1 : "Không xác định";
     }
     return "Không xác định";

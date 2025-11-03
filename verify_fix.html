@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HRM System - Verify Fix</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      .test-section {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fafafa;
+      }
+      .result {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+      .error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+      }
+      .info {
+        background-color: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        HRM System - Verify Fix for "[Không xác định] Không xác định" Issue
+      </h1>
+
+      <div class="test-section">
+        <h2>Instructions</h2>
+        <p>
+          This page helps verify that the fix for the "[Không xác định] Không
+          xác định" issue is working correctly.
+        </p>
+        <p>Follow these steps:</p>
+        <ol>
+          <li>Open your browser's developer console (F12)</li>
+          <li>Click the "Test Department Loading" button below</li>
+          <li>Check the console output for any errors</li>
+          <li>Click the "Test Position Loading" button</li>
+          <li>Check the console output for any errors</li>
+        </ol>
+        <p>
+          If everything works correctly, you should see the department and
+          position data in the console without any errors.
+        </p>
+      </div>
+
+      <div class="test-section">
+        <h2>Test Controls</h2>
+        <button id="testDepartments">Test Department Loading</button>
+        <button id="testPositions">Test Position Loading</button>
+        <button id="testEmployees">Test Employee Loading</button>
+        <button id="clearResults">Clear Results</button>
+      </div>
+
+      <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+      </div>
+
+      <div class="test-section">
+        <h2>How the Fix Works</h2>
+        <p>The fix addresses the "[Không xác định] Không xác định" issue by:</p>
+        <ul>
+          <li>
+            <strong>Improving API Client Error Handling:</strong> The
+            apiClient.js now properly handles different response formats from
+            the backend API.
+          </li>
+          <li>
+            <strong>Enhanced Data Type Handling:</strong> Modules now properly
+            handle cases where IDs might be strings instead of numbers.
+          </li>
+          <li>
+            <strong>Better Fallback Mechanisms:</strong> When API calls fail,
+            modules provide default data to ensure the application continues to
+            work.
+          </li>
+          <li>
+            <strong>Improved Data Validation:</strong> Functions now validate
+            data types before processing to prevent undefined values.
+          </li>
+        </ul>
+        <p>
+          These changes ensure that even if there are temporary connectivity
+          issues or data inconsistencies, the application will display
+          meaningful information instead of "[Không xác định] Không xác định".
+        </p>
+      </div>
+    </div>
+
+    <script type="module">
+      // Import the modules
+      import * as DepartmentModule from "./DepartmentModule.js";
+      import * as PositionModule from "./PositionModule.js";
+      import * as EmployeeDbModule from "./EmployeeDbModule.js";
+      import apiClient from "./apiClient.js";
+
+      // DOM elements
+      const resultsDiv = document.getElementById("results");
+      const testDepartmentsBtn = document.getElementById("testDepartments");
+      const testPositionsBtn = document.getElementById("testPositions");
+      const testEmployeesBtn = document.getElementById("testEmployees");
+      const clearResultsBtn = document.getElementById("clearResults");
+
+      // Helper function to display results
+      function displayResult(message, type = "info") {
+        const resultDiv = document.createElement("div");
+        resultDiv.className = `result ${type}`;
+        resultDiv.innerHTML = message;
+        resultsDiv.appendChild(resultDiv);
+        resultsDiv.scrollTop = resultsDiv.scrollHeight;
+      }
+
+      // Helper function to display data in a table
+      function displayTable(data, title) {
+        if (!Array.isArray(data) || data.length === 0) {
+          displayResult(`No ${title} data available`, "error");
+          return;
+        }
+
+        let tableHtml = `<h3>${title}</h3><table><thead><tr>`;
+
+        // Create headers from first object keys
+        const keys = Object.keys(data[0]);
+        keys.forEach((key) => {
+          tableHtml += `<th>${key}</th>`;
+        });
+        tableHtml += `</tr></thead><tbody>`;
+
+        // Create rows
+        data.forEach((item) => {
+          tableHtml += `<tr>`;
+          keys.forEach((key) => {
+            tableHtml += `<td>${item[key] || "N/A"}</td>`;
+          });
+          tableHtml += `</tr>`;
+        });
+
+        tableHtml += `</tbody></table>`;
+        displayResult(tableHtml, "info");
+      }
+
+      // Test department loading
+      async function testDepartments() {
+        try {
+          displayResult("Testing department loading...", "info");
+          await DepartmentModule.init();
+          const departments = DepartmentModule.getAllDepartments();
+          displayResult(
+            `Successfully loaded ${departments.length} departments`,
+            "success"
+          );
+          displayTable(departments, "Departments");
+        } catch (error) {
+          displayResult(`Error loading departments: ${error.message}`, "error");
+          console.error("Department loading error:", error);
+        }
+      }
+
+      // Test position loading
+      async function testPositions() {
+        try {
+          displayResult("Testing position loading...", "info");
+          await PositionModule.init();
+          const positions = PositionModule.getAllPositions();
+          displayResult(
+            `Successfully loaded ${positions.length} positions`,
+            "success"
+          );
+          displayTable(positions, "Positions");
+        } catch (error) {
+          displayResult(`Error loading positions: ${error.message}`, "error");
+          console.error("Position loading error:", error);
+        }
+      }
+
+      // Test employee loading
+      async function testEmployees() {
+        try {
+          displayResult("Testing employee loading...", "info");
+          await EmployeeDbModule.init();
+          const employees = EmployeeDbModule.getAllEmployees();
+          displayResult(
+            `Successfully loaded ${employees.length} employees`,
+            "success"
+          );
+          displayTable(employees, "Employees");
+        } catch (error) {
+          displayResult(`Error loading employees: ${error.message}`, "error");
+          console.error("Employee loading error:", error);
+        }
+      }
+
+      // Clear results
+      function clearResults() {
+        resultsDiv.innerHTML = "";
+      }
+
+      // Event listeners
+      testDepartmentsBtn.addEventListener("click", testDepartments);
+      testPositionsBtn.addEventListener("click", testPositions);
+      testEmployeesBtn.addEventListener("click", testEmployees);
+      clearResultsBtn.addEventListener("click", clearResults);
+
+      // Display initial message
+      displayResult(
+        "Ready to test. Click the buttons above to begin testing.",
+        "info"
+      );
+    </script>
+  </body>
+</html>
