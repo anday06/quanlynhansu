@@ -59,14 +59,21 @@ class ApiClient {
       } else {
         // If not JSON, it's probably an HTML error page
         const text = await response.text();
-        throw new Error(
-          `Server returned ${response.status}: ${text.substring(0, 100)}...`
-        );
+        // Check if it's an error page
+        if (response.status >= 400) {
+          throw new Error(
+            `Server returned ${response.status}: ${text.substring(0, 100)}...`
+          );
+        }
+        // For non-error non-JSON responses, return as text
+        return text;
       }
     } catch (error) {
       // Handle network errors
       if (error instanceof TypeError && error.message === "Failed to fetch") {
-        throw new Error("Network error: Unable to connect to server");
+        throw new Error(
+          "Network error: Unable to connect to server. Please check your internet connection and ensure the server is running."
+        );
       }
       throw error;
     }
@@ -74,29 +81,64 @@ class ApiClient {
 
   // Employee API methods
   async getEmployees() {
-    const response = await this.request("/employees");
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request("/employees");
+      // Handle different response formats
+      if (Array.isArray(response)) {
+        return response; // Direct array response
+      } else if (response && Array.isArray(response.data)) {
+        return response.data; // Wrapped in data property
+      } else if (response && response.data === undefined) {
+        console.warn("Received undefined data from employees API");
+        return []; // Return empty array as fallback
+      } else {
+        console.error("Unexpected employees response format:", response);
+        return []; // Return empty array as fallback
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      throw error;
+    }
   }
 
   async getEmployee(id) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid employee ID");
     }
-    const response = await this.request(`/employees/${id}`);
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request(`/employees/${id}`);
+      // Handle different response formats
+      if (response && response.data !== undefined) {
+        return response.data; // Wrapped in data property
+      } else if (response) {
+        return response; // Direct response
+      } else {
+        throw new Error("Employee not found");
+      }
+    } catch (error) {
+      console.error(`Error fetching employee ${id}:`, error);
+      throw error;
+    }
   }
 
   async createEmployee(employeeData) {
     // Validate employee data before sending
     this.validateEmployeeData(employeeData, true);
-    const response = await this.request("/employees", {
-      method: "POST",
-      body: JSON.stringify(employeeData),
-    });
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request("/employees", {
+        method: "POST",
+        body: JSON.stringify(employeeData),
+      });
+      // Handle different response formats
+      if (response && response.data !== undefined) {
+        return response.data; // Wrapped in data property
+      } else {
+        return response; // Direct response
+      }
+    } catch (error) {
+      console.error("Error creating employee:", error);
+      throw error;
+    }
   }
 
   async updateEmployee(id, employeeData) {
@@ -105,43 +147,77 @@ class ApiClient {
     }
     // Validate employee data before sending
     this.validateEmployeeData(employeeData, false);
-    const response = await this.request(`/employees/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(employeeData),
-    });
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request(`/employees/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(employeeData),
+      });
+      // Handle different response formats
+      if (response && response.data !== undefined) {
+        return response.data; // Wrapped in data property
+      } else {
+        return response; // Direct response
+      }
+    } catch (error) {
+      console.error(`Error updating employee ${id}:`, error);
+      throw error;
+    }
   }
 
   async deleteEmployee(id) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid employee ID");
     }
-    const response = await this.request(`/employees/${id}`, {
-      method: "DELETE",
-    });
-    return response;
+    try {
+      const response = await this.request(`/employees/${id}`, {
+        method: "DELETE",
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error deleting employee ${id}:`, error);
+      throw error;
+    }
   }
 
   async searchEmployees(filters) {
-    const queryParams = new URLSearchParams(filters).toString();
-    const response = await this.request(`/employees/search?${queryParams}`);
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const queryParams = new URLSearchParams(filters).toString();
+      const response = await this.request(`/employees/search?${queryParams}`);
+      // Handle different response formats
+      if (Array.isArray(response)) {
+        return response; // Direct array response
+      } else if (response && Array.isArray(response.data)) {
+        return response.data; // Wrapped in data property
+      } else {
+        console.error("Unexpected search response format:", response);
+        return []; // Return empty array as fallback
+      }
+    } catch (error) {
+      console.error("Error searching employees:", error);
+      throw error;
+    }
   }
 
   // Department API methods
   async getDepartments() {
-    const response = await this.request("/departments");
-    // API returns array directly, not wrapped in data property
-    // Ensure we return an array even if response is not what we expect
-    if (Array.isArray(response)) {
-      return response;
-    } else if (response && Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      console.error("Unexpected departments response format:", response);
-      return []; // Return empty array as fallback
+    try {
+      const response = await this.request("/departments");
+      // Handle different response formats
+      if (Array.isArray(response)) {
+        return response; // Direct array response
+      } else if (response && Array.isArray(response.data)) {
+        return response.data; // Wrapped in data property
+      } else if (response && response.data === undefined) {
+        console.warn("Received undefined data from departments API");
+        return []; // Return empty array as fallback
+      } else {
+        console.error("Unexpected departments response format:", response);
+        return []; // Return empty array as fallback
+      }
+    } catch (error) {
+      console.error("Error fetching departments:", error);
+      // Return empty array as fallback to prevent app crash
+      return [];
     }
   }
 
@@ -149,57 +225,82 @@ class ApiClient {
     if (!id || isNaN(id)) {
       throw new Error("Invalid department ID");
     }
-    const response = await this.request(`/departments/${id}`);
-    // API returns object directly, not wrapped in data property
-    return response;
+    try {
+      const response = await this.request(`/departments/${id}`);
+      return response;
+    } catch (error) {
+      console.error(`Error fetching department ${id}:`, error);
+      throw error;
+    }
   }
 
   async createDepartment(departmentData) {
     if (!departmentData.name) {
       throw new Error("Department name is required");
     }
-    const response = await this.request("/departments", {
-      method: "POST",
-      body: JSON.stringify(departmentData),
-    });
-    // API returns object directly, not wrapped in data property
-    return response;
+    try {
+      const response = await this.request("/departments", {
+        method: "POST",
+        body: JSON.stringify(departmentData),
+      });
+      return response;
+    } catch (error) {
+      console.error("Error creating department:", error);
+      throw error;
+    }
   }
 
   async updateDepartment(id, departmentData) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid department ID");
     }
-    const response = await this.request(`/departments/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(departmentData),
-    });
-    // API returns object directly, not wrapped in data property
-    return response;
+    try {
+      const response = await this.request(`/departments/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(departmentData),
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error updating department ${id}:`, error);
+      throw error;
+    }
   }
 
   async deleteDepartment(id) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid department ID");
     }
-    const response = await this.request(`/departments/${id}`, {
-      method: "DELETE",
-    });
-    return response;
+    try {
+      const response = await this.request(`/departments/${id}`, {
+        method: "DELETE",
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error deleting department ${id}:`, error);
+      throw error;
+    }
   }
 
   // Position API methods
   async getPositions() {
-    const response = await this.request("/positions");
-    // API returns array directly, not wrapped in data property
-    // Ensure we return an array even if response is not what we expect
-    if (Array.isArray(response)) {
-      return response;
-    } else if (response && Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      console.error("Unexpected positions response format:", response);
-      return []; // Return empty array as fallback
+    try {
+      const response = await this.request("/positions");
+      // Handle different response formats
+      if (Array.isArray(response)) {
+        return response; // Direct array response
+      } else if (response && Array.isArray(response.data)) {
+        return response.data; // Wrapped in data property
+      } else if (response && response.data === undefined) {
+        console.warn("Received undefined data from positions API");
+        return []; // Return empty array as fallback
+      } else {
+        console.error("Unexpected positions response format:", response);
+        return []; // Return empty array as fallback
+      }
+    } catch (error) {
+      console.error("Error fetching positions:", error);
+      // Return empty array as fallback to prevent app crash
+      return [];
     }
   }
 
@@ -207,114 +308,194 @@ class ApiClient {
     if (!id || isNaN(id)) {
       throw new Error("Invalid position ID");
     }
-    const response = await this.request(`/positions/${id}`);
-    // API returns object directly, not wrapped in data property
-    return response;
+    try {
+      const response = await this.request(`/positions/${id}`);
+      return response;
+    } catch (error) {
+      console.error(`Error fetching position ${id}:`, error);
+      throw error;
+    }
   }
 
   async createPosition(positionData) {
     if (!positionData.title) {
       throw new Error("Position title is required");
     }
-    const response = await this.request("/positions", {
-      method: "POST",
-      body: JSON.stringify(positionData),
-    });
-    // API returns object directly, not wrapped in data property
-    return response;
+    try {
+      const response = await this.request("/positions", {
+        method: "POST",
+        body: JSON.stringify(positionData),
+      });
+      return response;
+    } catch (error) {
+      console.error("Error creating position:", error);
+      throw error;
+    }
   }
 
   async updatePosition(id, positionData) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid position ID");
     }
-    const response = await this.request(`/positions/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(positionData),
-    });
-    // API returns object directly, not wrapped in data property
-    return response;
+    try {
+      const response = await this.request(`/positions/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(positionData),
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error updating position ${id}:`, error);
+      throw error;
+    }
   }
 
   async deletePosition(id) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid position ID");
     }
-    const response = await this.request(`/positions/${id}`, {
-      method: "DELETE",
-    });
-    return response;
+    try {
+      const response = await this.request(`/positions/${id}`, {
+        method: "DELETE",
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error deleting position ${id}:`, error);
+      throw error;
+    }
   }
 
   // Leave Policy API methods
   async getLeavePolicies() {
-    const response = await this.request("/leave-policies");
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request("/leave-policies");
+      // Handle different response formats
+      if (Array.isArray(response)) {
+        return response; // Direct array response
+      } else if (response && Array.isArray(response.data)) {
+        return response.data; // Wrapped in data property
+      } else if (response && response.data === undefined) {
+        console.warn("Received undefined data from leave policies API");
+        return []; // Return empty array as fallback
+      } else {
+        console.error("Unexpected leave policies response format:", response);
+        return []; // Return empty array as fallback
+      }
+    } catch (error) {
+      console.error("Error fetching leave policies:", error);
+      // Return empty array as fallback to prevent app crash
+      return [];
+    }
   }
 
   async getLeavePolicy(id) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid leave policy ID");
     }
-    const response = await this.request(`/leave-policies/${id}`);
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request(`/leave-policies/${id}`);
+      // Handle different response formats
+      if (response && response.data !== undefined) {
+        return response.data; // Wrapped in data property
+      } else {
+        return response; // Direct response
+      }
+    } catch (error) {
+      console.error(`Error fetching leave policy ${id}:`, error);
+      throw error;
+    }
   }
 
   async createLeavePolicy(policyData) {
-    const response = await this.request("/leave-policies", {
-      method: "POST",
-      body: JSON.stringify(policyData),
-    });
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request("/leave-policies", {
+        method: "POST",
+        body: JSON.stringify(policyData),
+      });
+      // Handle different response formats
+      if (response && response.data !== undefined) {
+        return response.data; // Wrapped in data property
+      } else {
+        return response; // Direct response
+      }
+    } catch (error) {
+      console.error("Error creating leave policy:", error);
+      throw error;
+    }
   }
 
   async updateLeavePolicy(id, policyData) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid leave policy ID");
     }
-    const response = await this.request(`/leave-policies/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(policyData),
-    });
-    // API returns object with data property, need to extract it
-    return response.data;
+    try {
+      const response = await this.request(`/leave-policies/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(policyData),
+      });
+      // Handle different response formats
+      if (response && response.data !== undefined) {
+        return response.data; // Wrapped in data property
+      } else {
+        return response; // Direct response
+      }
+    } catch (error) {
+      console.error(`Error updating leave policy ${id}:`, error);
+      throw error;
+    }
   }
 
   async deleteLeavePolicy(id) {
     if (!id || isNaN(id)) {
       throw new Error("Invalid leave policy ID");
     }
-    const response = await this.request(`/leave-policies/${id}`, {
-      method: "DELETE",
-    });
-    return response;
+    try {
+      const response = await this.request(`/leave-policies/${id}`, {
+        method: "DELETE",
+      });
+      return response;
+    } catch (error) {
+      console.error(`Error deleting leave policy ${id}:`, error);
+      throw error;
+    }
   }
 
   // Auth API methods
   async register(userData) {
-    const response = await this.request("/auth/register", {
-      method: "POST",
-      body: JSON.stringify(userData),
-    });
-    return response;
+    try {
+      const response = await this.request("/auth/register", {
+        method: "POST",
+        body: JSON.stringify(userData),
+      });
+      return response;
+    } catch (error) {
+      console.error("Error registering user:", error);
+      throw error;
+    }
   }
 
   async login(credentials) {
-    const response = await this.request("/auth/login", {
-      method: "POST",
-      body: JSON.stringify(credentials),
-    });
-    return response;
+    try {
+      const response = await this.request("/auth/login", {
+        method: "POST",
+        body: JSON.stringify(credentials),
+      });
+      return response;
+    } catch (error) {
+      console.error("Error logging in:", error);
+      throw error;
+    }
   }
 
   async logout() {
-    const response = await this.request("/auth/logout", {
-      method: "POST",
-    });
-    return response;
+    try {
+      const response = await this.request("/auth/logout", {
+        method: "POST",
+      });
+      return response;
+    } catch (error) {
+      console.error("Error logging out:", error);
+      throw error;
+    }
   }
 
   /**
