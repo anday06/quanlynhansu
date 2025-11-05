@@ -32,6 +32,6 @@ jobs:
             set ftp:ssl-protect-data true;
             # If the server uses a self-signed certificate set ssl:verify-certificate no;
             # set ssl:verify-certificate no;
-            open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST;
+            open ftp://$FTP_USERNAME:$FTP_PASSWORD@$FTP_HOST;
             mirror --reverse --delete --verbose ./ $FTP_REMOTE_PATH;
           "
