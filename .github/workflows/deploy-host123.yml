@@ -1,0 +1,37 @@
+name: Deploy to Host123
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy-host123:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Deploy via FTPS to Host123
+        env:
+          FTP_HOST: ${{ secrets.HOST123_FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.HOST123_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.HOST123_FTP_PASSWORD }}
+          FTP_REMOTE_PATH: ${{ secrets.HOST123_FTP_REMOTE_PATH }}
+        run: |
+          echo "Starting deployment to $FTP_HOST -> $FTP_REMOTE_PATH"
+          # Use lftp to mirror repository to remote. This uses FTPS (SSL) by default.
+          lftp -c "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            # If the server uses a self-signed certificate set ssl:verify-certificate no;
+            # set ssl:verify-certificate no;
+            open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST;
+            mirror --reverse --delete --verbose ./ $FTP_REMOTE_PATH;
+          "
