@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          # need full history to compute changed files between commits
+          fetch-depth: 0
 
       - name: Install lftp
         run: |
@@ -35,19 +38,71 @@ jobs:
               --exclude-glob .git --exclude-glob .github --exclude-glob backend/config.php ./ $FTP_REMOTE_PATH;
           "
 
-      - name: Deploy via FTPS to Host123 (upload changed/new files only)
+      - name: Deploy via FTPS to Host123 (upload changed/added files only)
         env:
           FTP_HOST: ${{ secrets.HOST123_FTP_HOST }}
           FTP_USERNAME: ${{ secrets.HOST123_FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.HOST123_FTP_PASSWORD }}
           FTP_REMOTE_PATH: ${{ secrets.HOST123_FTP_REMOTE_PATH }}
         run: |
-          echo "Starting deployment (only changed/new files) to $FTP_HOST -> $FTP_REMOTE_PATH"
-          lftp -c "
-            set ftp:ssl-force true;
-            set ftp:ssl-protect-data true;
-            open ftp://$FTP_USERNAME:$FTP_PASSWORD@$FTP_HOST;
-            # Upload only files that are newer or missing on remote. Do NOT delete remote files.
-            mirror --reverse --only-newer --verbose \
-              --exclude-glob .git --exclude-glob .github --exclude-glob backend/config.php ./ $FTP_REMOTE_PATH;
-          "
+          echo "Starting targeted deployment to $FTP_HOST -> $FTP_REMOTE_PATH"
+
+          # Determine changed files between the pushed commits
+          # GITHUB_EVENT_BEFORE is the previous commit SHA; if it's all-zero (new branch) fall back to compare against empty tree
+          BEFORE=${{ github.event.before }}
+          AFTER=${{ github.sha }}
+
+          echo "Before: $BEFORE";
+          echo "After:  $AFTER";
+
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            # New branch or initial push: upload all files except excluded
+            echo "Initial push detected; uploading all files (except excludes)"
+            CHANGED_FILES=$(git ls-files)
+          else
+            CHANGED_FILES=$(git diff --name-only $BEFORE $AFTER)
+          fi
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No changed files detected. Nothing to upload."
+            exit 0
+          fi
+
+          echo "Files to upload:"
+          echo "$CHANGED_FILES"
+
+          # Iterate and upload each file (skip deleted files). Create remote directories as needed.
+          for file in $CHANGED_FILES; do
+            # Skip excluded patterns
+            case "$file" in
+              .git/*|.github/*|backend/config.php)
+                echo "Skipping excluded file: $file";
+                continue;
+                ;;
+            esac
+
+            # If file was deleted in this commit, skip it
+            if [ ! -f "$file" ]; then
+              echo "Skipping deleted or non-regular file: $file";
+              continue;
+            fi
+
+            dirpath=$(dirname "$file")
+            if [ "$dirpath" = "." ]; then
+              remote_dir="$FTP_REMOTE_PATH"
+            else
+              remote_dir="$FTP_REMOTE_PATH/$dirpath"
+            fi
+
+            echo "Uploading $file -> $remote_dir/"
+
+            # Use lftp to create directory and upload the file
+            lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_HOST" -e "
+              set ftp:ssl-force true;
+              set ftp:ssl-protect-data true;
+              mkdir -p $remote_dir;
+              cd $remote_dir;
+              put -E -O . ../$file || put -O . ../$file;
+              bye
+            "
+          done
