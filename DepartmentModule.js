@@ -13,8 +13,13 @@ async function loadDepartments() {
     console.log("Loading departments...");
     const data = await apiClient.getDepartments();
     console.log("Departments data received:", data);
-    // Đảm bảo luôn trả về mảng
-    departments = Array.isArray(data) ? data : [];
+    // Đảm bảo luôn trả về mảng và chuẩn hoá id sang number để tránh so sánh string vs number
+    departments = Array.isArray(data)
+      ? data.map((d) => ({
+          ...d,
+          id: d.id !== undefined && d.id !== null ? parseInt(d.id) : d.id,
+        }))
+      : [];
     isLoaded = true;
     console.log("Departments loaded:", departments);
   } catch (error) {
@@ -61,7 +66,11 @@ export function getDepartmentById(id) {
   const depts = getAllDepartments();
   // Handle case where id might be a string
   const departmentId = typeof id === "string" ? parseInt(id) : id;
-  return depts.find((dept) => dept.id === departmentId);
+  return depts.find((dept) => {
+    // Normalize dept.id for safe comparison
+    const deptId = typeof dept.id === "string" ? parseInt(dept.id) : dept.id;
+    return deptId === departmentId;
+  });
 }
 
 export async function addDepartment(departmentData) {

@@ -2,27 +2,24 @@
 // Database configuration
 define('DB_HOST', 'localhost');
 define('DB_PORT', 3306);
-define('DB_NAME', 'jcsucupp_hanhne');
-define('DB_USER', 'jcsucupp_hanhne');
-define('DB_PASS', 'CAdfeaNQmYnccwPn4hJE');
+define('DB_NAME', 'hrm_system');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 
 // JWT Secret for authentication
 define('JWT_SECRET', 'hrm_system_secret_key_2025');
 
 // Application settings
-define('APP_ENV', 'production'); // development, production
-define('LOG_QUERIES', false);
-define('DEBUG_MODE', false);
+define('APP_ENV', 'development'); // development, production
+define('LOG_QUERIES', true);
+define('DEBUG_MODE', true);
 
 // Security settings
 define('ALLOWED_ORIGINS', [
     'http://localhost',
     'http://localhost:8000',
     'http://127.0.0.1',
-    'http://127.0.0.1:8000',
-    // Add your hosting domain here
-    'https://your-domain.123host.vn',
-    'http://your-domain.123host.vn'
+    'http://127.0.0.1:8000'
 ]);
 
 // Create PDO connection
@@ -33,18 +30,35 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
         PDO::ATTR_PERSISTENT => true, // Persistent connections
-        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
     ]);
     
     // Set timezone
     $pdo->exec("SET time_zone = '+07:00'");
-    
-    // Ensure proper charset
-    $pdo->exec("SET CHARACTER SET utf8mb4");
-    $pdo->exec("SET SESSION collation_connection = 'utf8mb4_unicode_ci'");
 } catch (PDOException $e) {
+    // Log the error for server-side debugging
     error_log("Database connection failed: " . $e->getMessage());
-    die("Connection failed: " . $e->getMessage());
+
+    // Return a JSON error when called from HTTP requests instead of plain text
+    if (php_sapi_name() !== 'cli') {
+        if (!headers_sent()) {
+            header('Content-Type: application/json', true, 500);
+            // Allow CORS during development (only if origin allowed)
+            if (defined('ALLOWED_ORIGINS')) {
+                foreach (ALLOWED_ORIGINS as $origin) {
+                    header('Access-Control-Allow-Origin: ' . $origin);
+                    break;
+                }
+            }
+        }
+        echo json_encode([
+            'error' => 'Database connection failed',
+            'message' => $e->getMessage()
+        ]);
+        exit;
+    }
+
+    // If running in CLI, rethrow or exit with error
+    throw $e;
 }
 
 // Security headers

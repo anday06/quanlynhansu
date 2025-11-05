@@ -1000,3 +1000,33 @@
 [2025-11-05 08:03:28] INFO: Successfully fetched employees {"count":5}
 [2025-11-05 08:03:31] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
 [2025-11-05 08:03:31] INFO: Search completed {"count":5}
+[2025-11-05 09:58:46] INFO: Fetching all employees 
+[2025-11-05 09:58:46] INFO: Successfully fetched employees {"count":5}
+[2025-11-05 09:58:46] INFO: Fetching all attendance records 
+[2025-11-05 09:58:46] INFO: Successfully fetched attendance records {"count":0}
+[2025-11-05 09:58:47] INFO: Fetching all leave requests 
+[2025-11-05 09:58:47] INFO: Successfully fetched leave requests {"count":0}
+[2025-11-05 09:58:47] INFO: Fetching all leave policies 
+[2025-11-05 09:58:47] INFO: Fetching all performance reviews 
+[2025-11-05 09:58:47] INFO: Successfully fetched performance reviews {"count":0}
+[2025-11-05 09:58:47] INFO: Fetching all salary adjustments 
+[2025-11-05 09:58:47] INFO: Generating dashboard summary 
+[2025-11-05 09:58:47] INFO: Fetching all employees 
+[2025-11-05 09:58:47] INFO: Successfully fetched employees {"count":5}
+[2025-11-05 09:58:53] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-11-05 09:58:53] INFO: Search completed {"count":5}
+[2025-11-05 10:16:13] INFO: Fetching all employees 
+[2025-11-05 10:16:13] INFO: Successfully fetched employees {"count":5}
+[2025-11-05 10:16:13] INFO: Fetching all attendance records 
+[2025-11-05 10:16:13] INFO: Successfully fetched attendance records {"count":0}
+[2025-11-05 10:16:13] INFO: Fetching all leave requests 
+[2025-11-05 10:16:13] INFO: Successfully fetched leave requests {"count":0}
+[2025-11-05 10:16:13] INFO: Fetching all leave policies 
+[2025-11-05 10:16:13] INFO: Fetching all performance reviews 
+[2025-11-05 10:16:13] INFO: Successfully fetched performance reviews {"count":0}
+[2025-11-05 10:16:13] INFO: Fetching all salary adjustments 
+[2025-11-05 10:16:13] INFO: Generating dashboard summary 
+[2025-11-05 10:16:13] INFO: Fetching all employees 
+[2025-11-05 10:16:13] INFO: Successfully fetched employees {"count":5}
+[2025-11-05 10:16:18] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-11-05 10:16:18] INFO: Search completed {"count":5}

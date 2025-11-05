@@ -13,8 +13,17 @@ async function loadPositions() {
     console.log("Loading positions...");
     const data = await apiClient.getPositions();
     console.log("Positions data received:", data);
-    // Đảm bảo luôn trả về mảng
-    positions = Array.isArray(data) ? data : [];
+    // Đảm bảo luôn trả về mảng và chuẩn hoá id sang number để tránh so sánh string vs number
+    positions = Array.isArray(data)
+      ? data.map((p) => ({
+          ...p,
+          id: p.id !== undefined && p.id !== null ? parseInt(p.id) : p.id,
+          salary_base:
+            p.salary_base !== undefined && p.salary_base !== null
+              ? parseFloat(p.salary_base)
+              : p.salary_base,
+        }))
+      : [];
     isLoaded = true;
     console.log("Positions loaded:", positions);
   } catch (error) {
@@ -59,7 +68,10 @@ export function getPositionById(id) {
   const poss = getAllPositions();
   // Handle case where id might be a string
   const positionId = typeof id === "string" ? parseInt(id) : id;
-  return poss.find((pos) => pos.id === positionId);
+  return poss.find((pos) => {
+    const posId = typeof pos.id === "string" ? parseInt(pos.id) : pos.id;
+    return posId === positionId;
+  });
 }
 
 export async function addPosition(positionData) {
