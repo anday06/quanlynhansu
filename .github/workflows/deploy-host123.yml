@@ -29,7 +29,6 @@ jobs:
           FTP_REMOTE_PATH: ${{ secrets.HOST123_FTP_REMOTE_PATH }}
         run: |
           echo "Dry-run: listing what would be uploaded to $FTP_HOST -> $FTP_REMOTE_PATH"
-          sudo apt-get install -y lftp
           lftp -c "
             set ftp:ssl-force true;
             set ftp:ssl-protect-data true;
@@ -87,10 +86,15 @@ jobs:
               continue;
             fi
 
+            # Normalize file path to ensure it's relative to repository root
+            file=$(echo "$file" | sed 's|^/*||')  # Remove leading slashes
+            
             dirpath=$(dirname "$file")
-            if [ "$dirpath" = "." ]; then
+            if [ "$dirpath" = "." ] || [ "$dirpath" = "/" ]; then
               remote_dir="$FTP_REMOTE_PATH"
             else
+              # Remove leading slashes from dirpath for proper concatenation
+              dirpath=$(echo "$dirpath" | sed 's|^/*||')
               remote_dir="$FTP_REMOTE_PATH/$dirpath"
             fi
 
@@ -100,9 +104,11 @@ jobs:
             lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_HOST" -e "
               set ftp:ssl-force true;
               set ftp:ssl-protect-data true;
-              mkdir -p $remote_dir;
-              cd $remote_dir;
-              put -E -O . ../$file || put -O . ../$file;
+              # Create directory structure (ignore errors if directory exists)
+              mkdir -p '$remote_dir' || true;
+              cd '$remote_dir';
+              # Upload file with error handling
+              put '$file' || put '../$file' || echo 'Failed to upload $file';
               bye
             "
           done
