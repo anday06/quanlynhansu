@@ -18,20 +18,36 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lftp
 
-      - name: Deploy via FTPS to Host123
+      - name: Preview upload (dry-run)
         env:
           FTP_HOST: ${{ secrets.HOST123_FTP_HOST }}
           FTP_USERNAME: ${{ secrets.HOST123_FTP_USERNAME }}
           FTP_PASSWORD: ${{ secrets.HOST123_FTP_PASSWORD }}
           FTP_REMOTE_PATH: ${{ secrets.HOST123_FTP_REMOTE_PATH }}
         run: |
-          echo "Starting deployment to $FTP_HOST -> $FTP_REMOTE_PATH"
-          # Use lftp to mirror repository to remote. This uses FTPS (SSL) by default.
+          echo "Dry-run: listing what would be uploaded to $FTP_HOST -> $FTP_REMOTE_PATH"
+          sudo apt-get install -y lftp
           lftp -c "
             set ftp:ssl-force true;
             set ftp:ssl-protect-data true;
-            # If the server uses a self-signed certificate set ssl:verify-certificate no;
-            # set ssl:verify-certificate no;
             open ftp://$FTP_USERNAME:$FTP_PASSWORD@$FTP_HOST;
-            mirror --reverse --delete --verbose ./ $FTP_REMOTE_PATH;
+            mirror --reverse --only-newer --verbose --dry-run \
+              --exclude-glob .git --exclude-glob .github --exclude-glob backend/config.php ./ $FTP_REMOTE_PATH;
+          "
+
+      - name: Deploy via FTPS to Host123 (upload changed/new files only)
+        env:
+          FTP_HOST: ${{ secrets.HOST123_FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.HOST123_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.HOST123_FTP_PASSWORD }}
+          FTP_REMOTE_PATH: ${{ secrets.HOST123_FTP_REMOTE_PATH }}
+        run: |
+          echo "Starting deployment (only changed/new files) to $FTP_HOST -> $FTP_REMOTE_PATH"
+          lftp -c "
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
+            open ftp://$FTP_USERNAME:$FTP_PASSWORD@$FTP_HOST;
+            # Upload only files that are newer or missing on remote. Do NOT delete remote files.
+            mirror --reverse --only-newer --verbose \
+              --exclude-glob .git --exclude-glob .github --exclude-glob backend/config.php ./ $FTP_REMOTE_PATH;
           "
