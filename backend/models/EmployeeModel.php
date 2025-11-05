@@ -50,7 +50,7 @@ class EmployeeModel {
             throw new InvalidArgumentException("Invalid employee ID");
         }
         
-        $sql = "SELECT * FROM employees WHERE id = ?";
+        $sql = "SELECT * FROM employees WHERE id = ? LEFT JOIN departments ON employees.department_id = departments.id LEFT JOIN positions ON employees.position_id = positions.id";
         return $this->db->fetchOne($sql, [$id]);
     }
 
