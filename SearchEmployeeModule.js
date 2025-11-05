@@ -286,9 +286,26 @@ function displayResults(employees, container) {
     // Handle case where deptId might be a string
     const departmentId = typeof deptId === "string" ? parseInt(deptId) : deptId;
     const departments = Department.getAllDepartments();
+    // Debug: log departments list when not found (helps diagnose hosting issues)
+    if (!Array.isArray(departments)) {
+      console.warn(
+        "getDepartmentName - departments is not an array:",
+        departments
+      );
+    }
     // Kiểm tra departments có tồn tại và là mảng trước khi gọi find
     if (Array.isArray(departments) && departments.length > 0) {
-      const dept = departments.find((d) => d.id === departmentId);
+      // Try strict numeric match first
+      let dept = departments.find((d) => d.id === departmentId);
+      // Fallback: try loose string comparison in case types differ
+      if (!dept) {
+        dept = departments.find((d) => String(d.id) === String(departmentId));
+      }
+      if (!dept) {
+        console.warn("Department not found for id", departmentId, {
+          departmentsSample: departments.slice(0, 10),
+        });
+      }
       return dept ? dept.name : "Không xác định";
     }
     return "Không xác định";
@@ -299,9 +316,22 @@ function displayResults(employees, container) {
     // Handle case where posId might be a string
     const positionId = typeof posId === "string" ? parseInt(posId) : posId;
     const positions = Position.getAllPositions();
+    if (!Array.isArray(positions)) {
+      console.warn("getPositionName - positions is not an array:", positions);
+    }
     // Kiểm tra positions có tồn tại và là mảng trước khi gọi find
     if (Array.isArray(positions) && positions.length > 0) {
-      const pos = positions.find((p) => p.id === positionId);
+      // Try strict numeric match first
+      let pos = positions.find((p) => p.id === positionId);
+      // Fallback: try loose string comparison in case types differ
+      if (!pos) {
+        pos = positions.find((p) => String(p.id) === String(positionId));
+      }
+      if (!pos) {
+        console.warn("Position not found for id", positionId, {
+          positionsSample: positions.slice(0, 10),
+        });
+      }
       return pos ? pos.title : "Không xác định";
     }
     return "Không xác định";
