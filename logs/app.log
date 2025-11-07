@@ -1045,3 +1045,31 @@
 [2025-11-05 10:39:04] INFO: Successfully fetched employees {"count":5}
 [2025-11-05 10:39:13] INFO: Fetching employee by ID {"id":"1"}
 [2025-11-05 10:39:13] INFO: Employee found {"id":"1"}
+[2025-11-07 08:04:47] INFO: Fetching all employees 
+[2025-11-07 08:04:47] INFO: Successfully fetched employees {"count":5}
+[2025-11-07 08:04:47] INFO: Fetching all attendance records 
+[2025-11-07 08:04:47] INFO: Successfully fetched attendance records {"count":0}
+[2025-11-07 08:04:47] INFO: Fetching all leave requests 
+[2025-11-07 08:04:47] INFO: Successfully fetched leave requests {"count":0}
+[2025-11-07 08:04:47] INFO: Fetching all leave policies 
+[2025-11-07 08:04:47] INFO: Fetching all performance reviews 
+[2025-11-07 08:04:47] INFO: Successfully fetched performance reviews {"count":0}
+[2025-11-07 08:04:47] INFO: Fetching all salary adjustments 
+[2025-11-07 08:04:47] INFO: Generating dashboard summary 
+[2025-11-07 08:04:47] INFO: Fetching all employees 
+[2025-11-07 08:04:47] INFO: Successfully fetched employees {"count":5}
+[2025-11-07 08:04:51] INFO: Searching employees {"filters":{"endpoint":"\/employees\/search?"}}
+[2025-11-07 08:04:51] INFO: Search completed {"count":5}
+[2025-11-07 08:09:41] INFO: Fetching all employees 
+[2025-11-07 08:09:41] INFO: Successfully fetched employees {"count":5}
+[2025-11-07 08:09:41] INFO: Fetching all attendance records 
+[2025-11-07 08:09:41] INFO: Successfully fetched attendance records {"count":0}
+[2025-11-07 08:09:41] INFO: Fetching all leave requests 
+[2025-11-07 08:09:41] INFO: Successfully fetched leave requests {"count":0}
+[2025-11-07 08:09:41] INFO: Fetching all leave policies 
+[2025-11-07 08:09:41] INFO: Fetching all performance reviews 
+[2025-11-07 08:09:41] INFO: Successfully fetched performance reviews {"count":0}
+[2025-11-07 08:09:41] INFO: Fetching all salary adjustments 
+[2025-11-07 08:09:41] INFO: Generating dashboard summary 
+[2025-11-07 08:09:41] INFO: Fetching all employees 
+[2025-11-07 08:09:41] INFO: Successfully fetched employees {"count":5}

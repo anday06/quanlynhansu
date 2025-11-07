@@ -50,7 +50,12 @@ class EmployeeModel {
             throw new InvalidArgumentException("Invalid employee ID");
         }
         
-        $sql = "SELECT * FROM employees WHERE id = ? LEFT JOIN departments ON employees.department_id = departments.id LEFT JOIN positions ON employees.position_id = positions.id";
+        // Fixed SQL query - corrected JOIN syntax
+        $sql = "SELECT e.*, d.name as department_name, p.title as position_title 
+                FROM employees e 
+                LEFT JOIN departments d ON e.department_id = d.id 
+                LEFT JOIN positions p ON e.position_id = p.id 
+                WHERE e.id = ?";
         return $this->db->fetchOne($sql, [$id]);
     }
 
@@ -141,30 +146,35 @@ class EmployeeModel {
      * @return array Array of matching employee records
      */
     public function search($filters = []) {
-        $sql = "SELECT * FROM employees WHERE 1=1";
+        // Fixed SQL query - added JOIN to get department and position names
+        $sql = "SELECT e.*, d.name as department_name, p.title as position_title 
+                FROM employees e 
+                LEFT JOIN departments d ON e.department_id = d.id 
+                LEFT JOIN positions p ON e.position_id = p.id 
+                WHERE 1=1";
         $params = [];
 
         if (!empty($filters['name'])) {
-            $sql .= " AND name LIKE ?";
+            $sql .= " AND e.name LIKE ?";
             $params[] = '%' . $filters['name'] . '%';
         }
 
         if (!empty($filters['department_id']) && is_numeric($filters['department_id'])) {
-            $sql .= " AND department_id = ?";
+            $sql .= " AND e.department_id = ?";
             $params[] = $filters['department_id'];
         }
 
         if (!empty($filters['min_salary']) && is_numeric($filters['min_salary'])) {
-            $sql .= " AND salary >= ?";
+            $sql .= " AND e.salary >= ?";
             $params[] = $filters['min_salary'];
         }
 
         if (!empty($filters['max_salary']) && is_numeric($filters['max_salary'])) {
-            $sql .= " AND salary <= ?";
+            $sql .= " AND e.salary <= ?";
             $params[] = $filters['max_salary'];
         }
 
-        $sql .= " ORDER BY salary DESC";
+        $sql .= " ORDER BY e.salary DESC";
         return $this->db->fetchAll($sql, $params);
     }
     
